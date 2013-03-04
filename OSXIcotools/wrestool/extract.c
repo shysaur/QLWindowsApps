@@ -246,13 +246,13 @@ extract_group_icon_cursor_resource(WinLibrary *fi, WinResource *wr, char *lang,
       
 		/* find the corresponding icon resource */
 		snprintf(name, sizeof(name)/sizeof(char), "-%d", icondir->entries[c].res_id);
-		fwr = find_resource(fi, (is_icon ? "-3" : "-1"), name, lang, &level);
+		fwr = find_resource(fi, (is_icon ? "-3" : "-1"), name, "", &level);
+    //The empty string tells find_resource to ignore the value of the language id. Some EXEs have GROUP_ICONS
+    //with a different language ID than the ICONs themselves.
 		if (fwr == NULL) {
 			warn(_("%s: could not find `%s' in `%s' resource."),
 			 	fi->name, &name[1], (is_icon ? "group_icon" : "group_cursor"));
-			//return NULL;
-      skipped++;
-      continue;
+			return NULL;
 		}
 
 		if (get_resource_entry(fi, fwr, &iconsize) != NULL) {
@@ -297,13 +297,11 @@ extract_group_icon_cursor_resource(WinLibrary *fi, WinResource *wr, char *lang,
   
 		/* find the corresponding icon resource */
 		snprintf(name, sizeof(name)/sizeof(char), "-%d", icondir->entries[c].res_id);
-		fwr = find_resource(fi, (is_icon ? "-3" : "-1"), name, lang, &level);
+		fwr = find_resource(fi, (is_icon ? "-3" : "-1"), name, "", &level);
 		if (fwr == NULL) {
 			warn(_("%s: could not find `%s' in `%s' resource."),
 			 	fi->name, &name[1], (is_icon ? "group_icon" : "group_cursor"));
-			//return NULL;
-      skipped++;
-      continue;
+			return NULL;
 		}
 
 		/* get data and size of that resource */
@@ -334,7 +332,8 @@ extract_group_icon_cursor_resource(WinLibrary *fi, WinResource *wr, char *lang,
 
 		/* transfer resource into file memory */
 		if (is_icon) {
-			memcpy(&memory[offset], data, icondir->entries[c].bytes_in_res);
+			//memcpy(&memory[offset], data, icondir->entries[c].bytes_in_res);
+      memcpy(&memory[offset], data, size);  //Better to trust the resource itself. Fixes crash with ISCC.exe
 		} else {
 			fileicondir->entries[c-skipped].hotspot_x = ((uint16_t *) data)[0];
 			fileicondir->entries[c-skipped].hotspot_y = ((uint16_t *) data)[1];

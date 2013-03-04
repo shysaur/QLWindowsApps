@@ -144,6 +144,8 @@ get_resource_id_quoted (WinResource *wr)
 /*static*/ bool
 compare_resource_id (WinResource *wr, char *id)
 {
+  if (*id == 0) return true; //Empty string is wildcard for disabling comparison
+  
 	if (wr->numeric_id) {
 		int32_t cmp1, cmp2;
 		if (id[0] == '+')

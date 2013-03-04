@@ -25,15 +25,40 @@
 #include "common/common.h"
 
 
+static NSData *
+get_resource_data (WinLibrary *fi, char *type, char *name, char *lang)
+{
+  int level;
+	int size;
+	bool free_it;
+	void *memory;
+  
+  if (type == NULL) type = "";
+  if (name == NULL) name = "";
+  if (lang == NULL) lang = "";
+  WinResource* wr = find_resource(fi, type, name, lang, &level);
+  if (wr == NULL) return NULL;
+  memory = extract_resource(fi, wr, &size, &free_it, type, lang, false);
+  if (memory == NULL) return (NSData *)-1;
+  NSData *icoData = [[NSData alloc] initWithBytes:memory length:size];
+  if (free_it) free(memory);
+  
+  return icoData;
+}
+
+
+
+#ifdef OLD
+
 NSData *
 extract_resources_nsdata (WinLibrary *fi, WinResource *wr,
-                            WinResource *type_wr, WinResource *name_wr,
-                            WinResource *lang_wr)
+                          WinResource *type_wr, WinResource *name_wr,
+                          WinResource *lang_wr)
 {
 	int size;
 	bool free_it;
 	void *memory;
-
+  
 	memory = extract_resource(fi, wr, &size, &free_it, type_wr->id, (lang_wr == NULL ? NULL : lang_wr->id), false);
   if (memory == NULL) return (NSData *)-1;
   NSData *icoData = [[NSData alloc] initWithBytes:memory length:size];
@@ -42,11 +67,10 @@ extract_resources_nsdata (WinLibrary *fi, WinResource *wr,
 	return icoData;
 }
 
-
 /* version of do_resources_recurs that stops when it finds the first non-directory matching item */
 
 static NSData *
-get_default_resource (WinLibrary *fi, WinResource *base, WinResource *type_wr,
+get_default_resource_old (WinLibrary *fi, WinResource *base, WinResource *type_wr,
                           WinResource *name_wr, WinResource *lang_wr,
 						  char *type, char *name, char *lang)
 {
@@ -67,7 +91,7 @@ get_default_resource (WinLibrary *fi, WinResource *base, WinResource *type_wr,
 		/* go deeper unless there is something that does NOT match */
 		if (LEVEL_MATCHES(type) && LEVEL_MATCHES(name) && LEVEL_MATCHES(lang)) {
 			if (wr->is_directory) {
-				void *temp = get_default_resource (fi, wr+c, type_wr, name_wr, lang_wr, type, name, lang);
+				void *temp = get_default_resource_old (fi, wr+c, type_wr, name_wr, lang_wr, type, name, lang);
         if (temp != NULL) {
           free(wr);
           return temp;
@@ -88,6 +112,7 @@ get_default_resource (WinLibrary *fi, WinResource *base, WinResource *type_wr,
   return NO;
 }
 
+#endif
 
 /* nsdata_default_icon:
  *   Extracts default (first) matching resource as a NSData object
@@ -96,7 +121,7 @@ get_default_resource (WinLibrary *fi, WinResource *base, WinResource *type_wr,
 NSData *
 nsdata_default_resource (WinLibrary *fi, char *type, char *name, char *lang, extract_error *err)
 {
-  WinResource *type_wr;
+  /*WinResource *type_wr;
 	WinResource *name_wr;
 	WinResource *lang_wr;
 
@@ -105,7 +130,8 @@ nsdata_default_resource (WinLibrary *fi, char *type, char *name, char *lang, ext
 	lang_wr = type_wr + 2;
 	memset(type_wr, 0, sizeof(WinResource)*3);
   
-  NSData *temp = get_default_resource(fi, NULL, type_wr, name_wr, lang_wr, type, name, lang);
+  NSData *temp = get_default_resource(fi, NULL, type_wr, name_wr, lang_wr, type, name, lang);*/
+  NSData *temp = get_resource_data(fi, type, name, lang);
   
   *err = EXTR_NOERR;
   if (temp == (NSData *)-1)  //someday i'll change this
@@ -115,7 +141,7 @@ nsdata_default_resource (WinLibrary *fi, char *type, char *name, char *lang, ext
   else
     [temp autorelease];
 
-	free(type_wr);
+	//free(type_wr);
   return temp;
 }
 
