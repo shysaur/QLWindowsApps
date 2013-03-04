@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0114514916611D770096CD65 /* PreviewStyleSL.css in Resources */ = {isa = PBXBuildFile; fileRef = 0114514816611D770096CD65 /* PreviewStyleSL.css */; };
-		0114517A166122340096CD65 /* MicrosoftBinaries.qlgenerator in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8D576316048677EA00EA77CD /* MicrosoftBinaries.qlgenerator */; };
+		0114517A166122340096CD65 /* QLWindowsApps.qlgenerator in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8D576316048677EA00EA77CD /* QLWindowsApps.qlgenerator */; };
 		011D85CA1643EBAE008A2601 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 011D85C91643EBAE008A2601 /* Cocoa.framework */; };
 		011D85F11643F5B7008A2601 /* MicrosoftBinaries_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 011D85F01643F5B7008A2601 /* MicrosoftBinaries_Prefix.pch */; };
 		014A65521664081800A175EA /* PreviewStyleML.css in Resources */ = {isa = PBXBuildFile; fileRef = 014A65511664081800A175EA /* PreviewStyleML.css */; };
@@ -30,7 +30,7 @@
 			dstPath = "~/Library/QuickLook/";
 			dstSubfolderSpec = 0;
 			files = (
-				0114517A166122340096CD65 /* MicrosoftBinaries.qlgenerator in CopyFiles */,
+				0114517A166122340096CD65 /* QLWindowsApps.qlgenerator in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -47,7 +47,7 @@
 		0AA1909FFE8422F4C02AAC07 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = /System/Library/Frameworks/CoreFoundation.framework; sourceTree = "<absolute>"; };
 		2C05A19B06CAA52B00D84F6F /* GeneratePreviewForURL.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeneratePreviewForURL.m; sourceTree = "<group>"; };
 		61E3BCFA0870B4F2002186A0 /* GenerateThumbnailForURL.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = GenerateThumbnailForURL.m; sourceTree = "<group>"; };
-		8D576316048677EA00EA77CD /* MicrosoftBinaries.qlgenerator */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MicrosoftBinaries.qlgenerator; sourceTree = BUILT_PRODUCTS_DIR; };
+		8D576316048677EA00EA77CD /* QLWindowsApps.qlgenerator */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = QLWindowsApps.qlgenerator; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D576317048677EA00EA77CD /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		C86B05260671AA6E00DD9006 /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = /System/Library/Frameworks/CoreServices.framework; sourceTree = "<absolute>"; };
 		F28CFBFC0A3EC0AF000ABFF5 /* ApplicationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApplicationServices.framework; path = /System/Library/Frameworks/ApplicationServices.framework; sourceTree = "<absolute>"; };
@@ -128,7 +128,7 @@
 		19C28FB6FE9D52B211CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				8D576316048677EA00EA77CD /* MicrosoftBinaries.qlgenerator */,
+				8D576316048677EA00EA77CD /* QLWindowsApps.qlgenerator */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -147,9 +147,9 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		8D57630D048677EA00EA77CD /* MicrosoftBinaries */ = {
+		8D57630D048677EA00EA77CD /* QLWindowsApps */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 2CA3261E0896AD4900168862 /* Build configuration list for PBXNativeTarget "MicrosoftBinaries" */;
+			buildConfigurationList = 2CA3261E0896AD4900168862 /* Build configuration list for PBXNativeTarget "QLWindowsApps" */;
 			buildPhases = (
 				0110DD9C16590B9E00C109E0 /* ShellScript */,
 				8D57630E048677EA00EA77CD /* Headers */,
@@ -163,10 +163,10 @@
 			);
 			dependencies = (
 			);
-			name = MicrosoftBinaries;
+			name = QLWindowsApps;
 			productInstallPath = /Library/QuickLook;
 			productName = MicrosoftBinaries;
-			productReference = 8D576316048677EA00EA77CD /* MicrosoftBinaries.qlgenerator */;
+			productReference = 8D576316048677EA00EA77CD /* QLWindowsApps.qlgenerator */;
 			productType = "com.apple.product-type.bundle";
 		};
 /* End PBXNativeTarget section */
@@ -177,7 +177,7 @@
 			attributes = {
 				LastUpgradeCheck = 0460;
 			};
-			buildConfigurationList = 2CA326220896AD4900168862 /* Build configuration list for PBXProject "MicrosoftBinaries" */;
+			buildConfigurationList = 2CA326220896AD4900168862 /* Build configuration list for PBXProject "QLWindowsApps" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 1;
@@ -191,7 +191,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				8D57630D048677EA00EA77CD /* MicrosoftBinaries */,
+				8D57630D048677EA00EA77CD /* QLWindowsApps */,
 			);
 		};
 /* End PBXProject section */
@@ -275,7 +275,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/../../../../Library/Developer/Xcode/DerivedData/QLWindowsApps-bsmrrhhupwtfblgxjpraexqciutb/Build/Products/Debug\"",
 				);
-				PRODUCT_NAME = MicrosoftBinaries;
+				PRODUCT_NAME = QLWindowsApps;
 				WRAPPER_EXTENSION = qlgenerator;
 			};
 			name = Debug;
@@ -293,7 +293,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/../../../../Library/Developer/Xcode/DerivedData/QLWindowsApps-bsmrrhhupwtfblgxjpraexqciutb/Build/Products/Debug\"",
 				);
-				PRODUCT_NAME = MicrosoftBinaries;
+				PRODUCT_NAME = QLWindowsApps;
 				WRAPPER_EXTENSION = qlgenerator;
 			};
 			name = Release;
@@ -338,7 +338,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		2CA3261E0896AD4900168862 /* Build configuration list for PBXNativeTarget "MicrosoftBinaries" */ = {
+		2CA3261E0896AD4900168862 /* Build configuration list for PBXNativeTarget "QLWindowsApps" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				2CA3261F0896AD4900168862 /* Debug */,
@@ -347,7 +347,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		2CA326220896AD4900168862 /* Build configuration list for PBXProject "MicrosoftBinaries" */ = {
+		2CA326220896AD4900168862 /* Build configuration list for PBXProject "QLWindowsApps" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				2CA326230896AD4900168862 /* Debug */,

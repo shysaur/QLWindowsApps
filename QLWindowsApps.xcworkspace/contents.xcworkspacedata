@@ -8,6 +8,6 @@
       location = "group:OSXIcotools/../EXEIconReader/EXEIconReader.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:MicrosoftBinaries/MicrosoftBinaries.xcodeproj">
+      location = "group:MicrosoftBinaries/QLWindowsApps.xcodeproj">
    </FileRef>
 </Workspace>

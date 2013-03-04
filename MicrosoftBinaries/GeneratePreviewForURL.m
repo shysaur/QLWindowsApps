@@ -18,7 +18,7 @@ OSStatus GeneratePreviewForURL(void *thisInterface, QLPreviewRequestRef preview,
 {
   NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
   
-  NSBundle *mbundle = [NSBundle bundleWithIdentifier:@"com.danc.qlgenerator.microsoftbinaries"];
+  NSBundle *mbundle = [NSBundle bundleWithIdentifier:@"com.danielecattaneo.qlgenerator.qlwindowsapps"];
   
   BOOL err;
   EIExeFile *exeFile;
