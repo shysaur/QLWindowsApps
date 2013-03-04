@@ -1,0 +1,9 @@
+//
+// Prefix header for all source files of the 'OSXIcotools' target in the 'OSXIcotools' project
+//
+
+#ifdef __OBJC__
+  #import <Cocoa/Cocoa.h>
+#endif
+
+#define HAVE_CONFIG_H 1

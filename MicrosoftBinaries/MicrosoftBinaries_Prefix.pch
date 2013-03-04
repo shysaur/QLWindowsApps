@@ -1,0 +1,7 @@
+//
+// Prefix header for all source files of the 'MicrosoftBinaries' target in the 'MicrosoftBinaries' project
+//
+
+#ifdef __OBJC__
+    #import <Cocoa/Cocoa.h>
+#endif
