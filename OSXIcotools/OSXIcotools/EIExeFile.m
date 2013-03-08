@@ -24,7 +24,7 @@
   /* get file size */
   sprintf(exename, "%s", [[exeFile path] UTF8String]);
   fl.name = exename;
-  fl.total_size = file_size(fl.name);
+  fl.total_size = (int)file_size(fl.name);
   if (fl.total_size == -1) {
     NSLog(@"%s total size = -1", fl.name);
     error = YES;

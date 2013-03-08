@@ -37,7 +37,7 @@
 strindex(const char *str, char ch)
 {
 	char *pos = strchr(str, ch);
-	return (pos == NULL ? -1 : pos - str);
+	return (pos == NULL ? -1 : (int)(pos - str));
 }
 
 /**
@@ -49,7 +49,7 @@ chomp(char *str)
 {
 	int len;
 
-	len = strlen(str);
+	len = (int)strlen(str);
 	if (len > 0 && str[len-1] == '\n')
 		str[len-1] = '\0';
 }
@@ -112,7 +112,7 @@ bool
 ends_with(const char *str, const char *end)
 {
 	int c;
-	int diff = strlen(str) - strlen(end);
+	long diff = strlen(str) - strlen(end);
 
 	if (diff < 0)
 		return false;
@@ -138,7 +138,7 @@ bool
 ends_with_nocase(const char *str, const char *end)
 {
 	int c;
-	int diff = strlen(str) - strlen(end);
+	long diff = strlen(str) - strlen(end);
 
 	if (diff < 0)
 		return false;
@@ -247,8 +247,8 @@ bool
 replace_str(char *str, const char *from, const char *to)
 {
 	char *pos;
-	int s1;
-	int s2;
+	size_t s1;
+	size_t s2;
 	
 	if ((pos = strstr(str, from)) == NULL)
 		return false;
@@ -288,7 +288,7 @@ cat_files(const char *file, const char *file2)
 char *
 substring(const char *buf, int start, int end)
 {
-	int len = strlen(buf);
+	size_t len = strlen(buf);
 
 	if (start < 0)
 		start += len;
@@ -308,14 +308,14 @@ substring(const char *buf, int start, int end)
 int
 string_strip_trailing(char *str, const char *stripchars)
 {
-	int a = strlen(str)-1;
-	int b = a;
+	long a = strlen(str)-1;
+	long b = a;
 
 	while (a >= 0 && string_index_of_c(stripchars, str[a]) != -1)
 		a--;
 	str[a+1] = '\0';
 
-	return b-a;
+	return (int)(b-a);
 }
 
 /**
@@ -328,14 +328,14 @@ string_strip_trailing(char *str, const char *stripchars)
 int
 string_strip_trailing_c(char *str, char stripchar)
 {
-	int a = strlen(str-1);
-	int b = a;
+	long a = strlen(str-1);
+	long b = a;
 
 	while (a >= 0 && str[a] == stripchar)
 		a--;
 	str[a+1] = '\0';
 
-	return b-a;
+	return (int)(b-a);
 }
 
 /* XXX: document */
@@ -458,5 +458,5 @@ xdirname(const char *path)
 	if (pos == path)
 		return xstrdup("/");
 
-	return substring(path, 0, pos-path);
+	return substring(path, 0, (int)(pos-path));
 }

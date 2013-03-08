@@ -16,8 +16,6 @@
 		014CD26C16E5168100185054 /* comparison.h in Headers */ = {isa = PBXBuildFile; fileRef = 014CD1F716E5168000185054 /* comparison.h */; };
 		014CD26D16E5168100185054 /* error.c in Sources */ = {isa = PBXBuildFile; fileRef = 014CD1F816E5168000185054 /* error.c */; };
 		014CD26E16E5168100185054 /* error.h in Headers */ = {isa = PBXBuildFile; fileRef = 014CD1F916E5168000185054 /* error.h */; };
-		014CD26F16E5168100185054 /* hmap.c in Sources */ = {isa = PBXBuildFile; fileRef = 014CD1FA16E5168000185054 /* hmap.c */; };
-		014CD27016E5168100185054 /* hmap.h in Headers */ = {isa = PBXBuildFile; fileRef = 014CD1FB16E5168000185054 /* hmap.h */; };
 		014CD27116E5168100185054 /* intutil.c in Sources */ = {isa = PBXBuildFile; fileRef = 014CD1FC16E5168000185054 /* intutil.c */; };
 		014CD27216E5168100185054 /* intutil.h in Headers */ = {isa = PBXBuildFile; fileRef = 014CD1FD16E5168000185054 /* intutil.h */; };
 		014CD27316E5168100185054 /* io-utils.c in Sources */ = {isa = PBXBuildFile; fileRef = 014CD1FE16E5168000185054 /* io-utils.c */; };
@@ -28,8 +26,6 @@
 		014CD27816E5168100185054 /* strbuf.h in Headers */ = {isa = PBXBuildFile; fileRef = 014CD20316E5168000185054 /* strbuf.h */; };
 		014CD27916E5168100185054 /* string-utils.c in Sources */ = {isa = PBXBuildFile; fileRef = 014CD20416E5168000185054 /* string-utils.c */; };
 		014CD27A16E5168100185054 /* string-utils.h in Headers */ = {isa = PBXBuildFile; fileRef = 014CD20516E5168000185054 /* string-utils.h */; };
-		014CD27B16E5168100185054 /* tmap.c in Sources */ = {isa = PBXBuildFile; fileRef = 014CD20616E5168000185054 /* tmap.c */; };
-		014CD27C16E5168100185054 /* tmap.h in Headers */ = {isa = PBXBuildFile; fileRef = 014CD20716E5168000185054 /* tmap.h */; };
 		014CD27D16E5168100185054 /* win32-endian.c in Sources */ = {isa = PBXBuildFile; fileRef = 014CD20916E5168000185054 /* win32-endian.c */; };
 		014CD27E16E5168100185054 /* win32-endian.h in Headers */ = {isa = PBXBuildFile; fileRef = 014CD20A16E5168000185054 /* win32-endian.h */; };
 		014CD27F16E5168100185054 /* win32.h in Headers */ = {isa = PBXBuildFile; fileRef = 014CD20B16E5168000185054 /* win32.h */; };
@@ -142,8 +138,6 @@
 		014CD1F716E5168000185054 /* comparison.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = comparison.h; sourceTree = "<group>"; };
 		014CD1F816E5168000185054 /* error.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = error.c; sourceTree = "<group>"; };
 		014CD1F916E5168000185054 /* error.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = error.h; sourceTree = "<group>"; };
-		014CD1FA16E5168000185054 /* hmap.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = hmap.c; sourceTree = "<group>"; };
-		014CD1FB16E5168000185054 /* hmap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = hmap.h; sourceTree = "<group>"; };
 		014CD1FC16E5168000185054 /* intutil.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = intutil.c; sourceTree = "<group>"; };
 		014CD1FD16E5168000185054 /* intutil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = intutil.h; sourceTree = "<group>"; };
 		014CD1FE16E5168000185054 /* io-utils.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "io-utils.c"; sourceTree = "<group>"; };
@@ -154,8 +148,6 @@
 		014CD20316E5168000185054 /* strbuf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = strbuf.h; sourceTree = "<group>"; };
 		014CD20416E5168000185054 /* string-utils.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "string-utils.c"; sourceTree = "<group>"; };
 		014CD20516E5168000185054 /* string-utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "string-utils.h"; sourceTree = "<group>"; };
-		014CD20616E5168000185054 /* tmap.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = tmap.c; sourceTree = "<group>"; };
-		014CD20716E5168000185054 /* tmap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tmap.h; sourceTree = "<group>"; };
 		014CD20916E5168000185054 /* win32-endian.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "win32-endian.c"; sourceTree = "<group>"; };
 		014CD20A16E5168000185054 /* win32-endian.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "win32-endian.h"; sourceTree = "<group>"; };
 		014CD20B16E5168000185054 /* win32.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = win32.h; sourceTree = "<group>"; };
@@ -332,8 +324,6 @@
 				014CD1F716E5168000185054 /* comparison.h */,
 				014CD1F816E5168000185054 /* error.c */,
 				014CD1F916E5168000185054 /* error.h */,
-				014CD1FA16E5168000185054 /* hmap.c */,
-				014CD1FB16E5168000185054 /* hmap.h */,
 				014CD1FC16E5168000185054 /* intutil.c */,
 				014CD1FD16E5168000185054 /* intutil.h */,
 				014CD1FE16E5168000185054 /* io-utils.c */,
@@ -344,8 +334,6 @@
 				014CD20316E5168000185054 /* strbuf.h */,
 				014CD20416E5168000185054 /* string-utils.c */,
 				014CD20516E5168000185054 /* string-utils.h */,
-				014CD20616E5168000185054 /* tmap.c */,
-				014CD20716E5168000185054 /* tmap.h */,
 			);
 			path = common;
 			sourceTree = SOURCE_ROOT;
@@ -486,13 +474,11 @@
 				014CD26B16E5168100185054 /* common.h in Headers */,
 				014CD26C16E5168100185054 /* comparison.h in Headers */,
 				014CD26E16E5168100185054 /* error.h in Headers */,
-				014CD27016E5168100185054 /* hmap.h in Headers */,
 				014CD27216E5168100185054 /* intutil.h in Headers */,
 				014CD27416E5168100185054 /* io-utils.h in Headers */,
 				014CD27616E5168100185054 /* llist.h in Headers */,
 				014CD27816E5168100185054 /* strbuf.h in Headers */,
 				014CD27A16E5168100185054 /* string-utils.h in Headers */,
-				014CD27C16E5168100185054 /* tmap.h in Headers */,
 				014CD27E16E5168100185054 /* win32-endian.h in Headers */,
 				014CD27F16E5168100185054 /* win32.h in Headers */,
 				014CD28016E5168100185054 /* alloca.h in Headers */,
@@ -601,13 +587,11 @@
 				014CD1F216E5167400185054 /* EIExeFile.m in Sources */,
 				014CD1F416E5167400185054 /* EIVersionInfoReader.m in Sources */,
 				014CD26D16E5168100185054 /* error.c in Sources */,
-				014CD26F16E5168100185054 /* hmap.c in Sources */,
 				014CD27116E5168100185054 /* intutil.c in Sources */,
 				014CD27316E5168100185054 /* io-utils.c in Sources */,
 				014CD27516E5168100185054 /* llist.c in Sources */,
 				014CD27716E5168100185054 /* strbuf.c in Sources */,
 				014CD27916E5168100185054 /* string-utils.c in Sources */,
-				014CD27B16E5168100185054 /* tmap.c in Sources */,
 				014CD27D16E5168100185054 /* win32-endian.c in Sources */,
 				014CD28216E5168100185054 /* asnprintf.c in Sources */,
 				014CD28316E5168100185054 /* asprintf.c in Sources */,
@@ -768,6 +752,7 @@
 				014CD1EC16E5161600185054 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

@@ -218,7 +218,7 @@ NSData* resTreeRead16(NSArray* path, int level, NSData* block, EIVERSION_ERR* er
     *err = EIV_WRONGDATA;
     return retv;
   }
-  int langCount = [transl length] / sizeof(TRANSLATION);
+  long langCount = [transl length] / sizeof(TRANSLATION);
   
   TRANSLATION* availLangs = (TRANSLATION*)[transl bytes];
   NSArray* sysLangs = [NSLocale preferredLanguages];
