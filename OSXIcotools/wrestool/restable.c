@@ -543,7 +543,7 @@ find_with_resource_array(WinLibrary *fi, WinResource *wr, char *id)
 WinResource *
 find_resource (WinLibrary *fi, char *type, char *name, char *language, int *level)
 {
-	WinResource *wr;
+	WinResource *wr, *old_wr;
 
 	*level = 0;
 	if (type == NULL)
@@ -555,15 +555,17 @@ find_resource (WinLibrary *fi, char *type, char *name, char *language, int *leve
 	*level = 1;
 	if (name == NULL)
 		return wr;
-  free(wr);
-	wr = find_with_resource_array(fi, wr, name);
+  old_wr = wr;
+	wr = find_with_resource_array(fi, old_wr, name);
+  free(old_wr);
 	if (wr == NULL || !wr->is_directory)
 		return wr;
 
 	*level = 2;
 	if (language == NULL)
 		return wr;
-  free(wr);
-	wr = find_with_resource_array(fi, wr, language);
+  old_wr = wr;
+	wr = find_with_resource_array(fi, old_wr, language);
+  free(old_wr);
 	return wr;
 }

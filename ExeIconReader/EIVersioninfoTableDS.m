@@ -12,8 +12,9 @@
 @implementation EIVersioninfoTableDS
 
 - init {
+  self = [super init];
   list = [[NSMutableArray alloc] init];
-  return [super init];
+  return self;
 }
 
 - (void)dealloc {

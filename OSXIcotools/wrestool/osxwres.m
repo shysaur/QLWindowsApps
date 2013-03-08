@@ -19,100 +19,38 @@
 
 #import <Cocoa/Cocoa.h>
 #include "osxwres.h"
-//#include "io-utils.h"
 #include "restypes.h"
 #include "restable.h"
 #include "common/common.h"
 
 
 static NSData *
-get_resource_data (WinLibrary *fi, char *type, char *name, char *lang)
+get_resource_data (WinLibrary *fi, char *type, char *name, char *lang, extract_error *err)
 {
   int level;
 	int size;
 	bool free_it;
 	void *memory;
+  *err = EXTR_NOERR;
   
   if (type == NULL) type = "";
   if (name == NULL) name = "";
   if (lang == NULL) lang = "";
   WinResource* wr = find_resource(fi, type, name, lang, &level);
-  if (wr == NULL) return NULL;
+  if (wr == NULL) {
+    *err = EXTR_NOTFOUND;
+    return NULL;
+  }
   memory = extract_resource(fi, wr, &size, &free_it, type, lang, false);
-  if (memory == NULL) return (NSData *)-1;
+  if (memory == NULL) {
+    *err = EXTR_FAIL;
+    return NULL;
+  }
   NSData *icoData = [[NSData alloc] initWithBytes:memory length:size];
   if (free_it) free(memory);
   
   return icoData;
 }
-
-
-
-#ifdef OLD
-
-NSData *
-extract_resources_nsdata (WinLibrary *fi, WinResource *wr,
-                          WinResource *type_wr, WinResource *name_wr,
-                          WinResource *lang_wr)
-{
-	int size;
-	bool free_it;
-	void *memory;
-  
-	memory = extract_resource(fi, wr, &size, &free_it, type_wr->id, (lang_wr == NULL ? NULL : lang_wr->id), false);
-  if (memory == NULL) return (NSData *)-1;
-  NSData *icoData = [[NSData alloc] initWithBytes:memory length:size];
-  if (free_it) free(memory);
-  
-	return icoData;
-}
-
-/* version of do_resources_recurs that stops when it finds the first non-directory matching item */
-
-static NSData *
-get_default_resource_old (WinLibrary *fi, WinResource *base, WinResource *type_wr,
-                          WinResource *name_wr, WinResource *lang_wr,
-						  char *type, char *name, char *lang)
-{
-	int c, rescnt;
-	WinResource *wr;
-
-	/* get a list of all resources at this level */
-	wr = list_resources (fi, base, &rescnt);
-	if (wr == NULL)
-		return (NSData *)-1;
-
-	/* process each resource listed */
-	for (c = 0 ; c < rescnt ; c++) {
-		/* (over)write the corresponding WinResource holder with the current */
-    //WINRESOURCE_BY_LEVEL --> type_wr, lang_wr, name_wr
-		memcpy(WINRESOURCE_BY_LEVEL(wr[c].level), wr+c, sizeof(WinResource));
-    //NSLog(@"%s of level %d", wr[c].id, wr[c].level);
-		/* go deeper unless there is something that does NOT match */
-		if (LEVEL_MATCHES(type) && LEVEL_MATCHES(name) && LEVEL_MATCHES(lang)) {
-			if (wr->is_directory) {
-				void *temp = get_default_resource_old (fi, wr+c, type_wr, name_wr, lang_wr, type, name, lang);
-        if (temp != NULL) {
-          free(wr);
-          return temp;
-        }
-      } else {
-				NSData* temp = extract_resources_nsdata(fi, wr+c, type_wr, name_wr, lang_wr);
-        free(wr);
-        return temp;
-      }
-		}
-	}
-
-	/* since we're moving back one level after this, unset the
-	 * WinResource holder used on this level */
-  //Not really necessary, after all
-	//memset(WINRESOURCE_BY_LEVEL(wr[0].level), 0, sizeof(WinResource));
-  free(wr);
-  return NO;
-}
-
-#endif
 
 /* nsdata_default_icon:
  *   Extracts default (first) matching resource as a NSData object
@@ -121,27 +59,11 @@ get_default_resource_old (WinLibrary *fi, WinResource *base, WinResource *type_w
 NSData *
 nsdata_default_resource (WinLibrary *fi, char *type, char *name, char *lang, extract_error *err)
 {
-  /*WinResource *type_wr;
-	WinResource *name_wr;
-	WinResource *lang_wr;
-
-	type_wr = malloc(sizeof(WinResource)*3);
-	name_wr = type_wr + 1;
-	lang_wr = type_wr + 2;
-	memset(type_wr, 0, sizeof(WinResource)*3);
+  NSData *temp = get_resource_data(fi, type, name, lang, err);
   
-  NSData *temp = get_default_resource(fi, NULL, type_wr, name_wr, lang_wr, type, name, lang);*/
-  NSData *temp = get_resource_data(fi, type, name, lang);
-  
-  *err = EXTR_NOERR;
-  if (temp == (NSData *)-1)  //someday i'll change this
-    *err = EXTR_FAIL;
-  else if (temp == NULL)
-    *err = EXTR_NOTFOUND;
-  else
+  if (temp != NULL)
     [temp autorelease];
 
-	//free(type_wr);
   return temp;
 }
 
