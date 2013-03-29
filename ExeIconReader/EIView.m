@@ -26,6 +26,7 @@
 -(void) setIconForExe:(NSURL*)exefile {
   NSImage *icoImage;
   BOOL error;
+  
   EIExeFile *exf = [[EIExeFile alloc] initWithExeFileURL:exefile error:&error];
   if (!error) {
     icoImage = [exf getIconNSImage];
