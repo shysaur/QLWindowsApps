@@ -1,0 +1,20 @@
+/* VersioninfoNames.strings
+ *
+ * Copyright (C) 2012 Daniele Cattaneo
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+"Comments" = "Comments";
+"CompanyName" = "Company Name";
+"FileDescription" = "File Description";
+"FileVersion" = "File Version";
+"InternalName" = "Internal Name";
+"LegalCopyright" = "Legal Copyright";
+"LegalTrademarks" = "Legal Trademarks";
+"OriginalFilename" = "Original Filename";
+"PrivateBuild" = "Private Build";
+"ProductName" = "Product Name";
+"ProductVersion" = "Product Version";
+"SpecialBuild" = "Special Build";

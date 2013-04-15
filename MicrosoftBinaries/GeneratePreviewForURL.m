@@ -106,7 +106,7 @@ OSStatus GeneratePreviewForURL(void *thisInterface, QLPreviewRequestRef preview,
       NSData* item = [vir queryValue:[NSString stringWithFormat:@"%@\\%@", queryHeader, [resSrch objectAtIndex:c]] error:&virErr];
       if (!virErr) {
         NSString* temp = [[NSString alloc] initWithData:item encoding:resEnc];
-        [html appendFormat:@"<tr><td>%@</td><td>%@</td></tr>", [resSrch objectAtIndex:c], temp];
+        [html appendFormat:@"<tr><td>%@</td><td>%@</td></tr>", NSLocalizedStringFromTableInBundle([resSrch objectAtIndex:c], @"VersioninfoNames", mbundle, nil), temp];
         [temp release];
       }
     }
