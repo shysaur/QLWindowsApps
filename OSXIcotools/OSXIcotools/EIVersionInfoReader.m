@@ -1,15 +1,26 @@
-//
-//  EIVersionInfoReader.m
-//  EXEIconReader
-//
-//  Created by Daniele Cattaneo on 18/11/12.
-//  Copyright 2012 __MyCompanyName__. All rights reserved.
-//
+/* EIVersionInfoReader.m - Class used to interpret VERSIONINFO structures
+ *
+ * Copyright (C) 2012-13 Daniele Cattaneo
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
-//  Thanks to Raymond Chen (MSFT) for the useful insight on the VERSIONINFO resource format.
-//  http://blogs.msdn.com/b/oldnewthing/archive/2006/12/22/1348663.aspx (kludge)
-//  http://blogs.msdn.com/b/oldnewthing/archive/2006/12/21/1340571.aspx (32 bit)
-//  http://blogs.msdn.com/b/oldnewthing/archive/2006/12/20/1332035.aspx (16 bit)
+/*  Thanks to Raymond Chen (MSFT) for the useful insight on the VERSIONINFO resource format.
+ *  http://blogs.msdn.com/b/oldnewthing/archive/2006/12/22/1348663.aspx (kludge)
+ *  http://blogs.msdn.com/b/oldnewthing/archive/2006/12/21/1340571.aspx (32 bit)
+ *  http://blogs.msdn.com/b/oldnewthing/archive/2006/12/20/1332035.aspx (16 bit)
+ */
 
 #import "EIVersionInfoReader.h"
 
@@ -83,9 +94,6 @@ NSData* resTreeRead32(NSArray* path, int level, NSData* block, EIVERSION_ERR* er
   
   const void* wszName = vnh + 1;
   while ((void*)vnh < be) {
-    //  The following line uncovers a bug in the operating system.
-    //  Uglier replacement follows.
-    //NSString* temp = [NSString stringWithCString:(const char*)wszName encoding:NSUTF16StringEncoding];
     int len = utf16StringLen((int16_t*)wszName);
     if (len == -1) ERR_RET(EIV_WRONGFORMAT);
     NSString *temp = [NSString stringWithCharacters:(const unichar*)wszName length:len];
@@ -208,40 +216,6 @@ NSData* resTreeRead16(NSArray* path, int level, NSData* block, EIVERSION_ERR* er
   }
   return nodeArray;
 }
-
-- (TRANSLATION)bestLocaleWithError:(EIVERSION_ERR*)err {
-  TRANSLATION retv;
-  NSData* transl = [self queryValue:@"\\VarFileInfo\\Translation" error:err];
-  if (*err) return retv;
-  
-  if (([transl length] % sizeof(TRANSLATION)) != 0) {
-    *err = EIV_WRONGDATA;
-    return retv;
-  }
-  long langCount = [transl length] / sizeof(TRANSLATION);
-  
-  TRANSLATION* availLangs = (TRANSLATION*)[transl bytes];
-  NSArray* sysLangs = [NSLocale preferredLanguages];
-  
-  int bestIndex = 0; 
-  NSUInteger bestLevel = -1;
-  for (int c=0; c<langCount; c++) {
-    //The reason why Apple engineers added this function in 10.6 is beyond me...
-    //...but it's great!
-    NSString* localeId = [NSLocale localeIdentifierFromWindowsLocaleCode:(availLangs[c].lang)];
-    NSUInteger thisLevel = [sysLangs indexOfObject:localeId];
-    if ((thisLevel != NSNotFound) && (thisLevel > bestLevel)) {
-      bestLevel = thisLevel;
-      bestIndex = c;
-    }
-  }
-  
-  //return [NSString stringWithFormat:@"%04X%04X", availLangs[bestIndex].lang, availLangs[bestIndex].coding];
-  retv.lang = availLangs[bestIndex].lang;
-  retv.coding = availLangs[bestIndex].coding;
-  return retv;
-}
-
 
 
 @end

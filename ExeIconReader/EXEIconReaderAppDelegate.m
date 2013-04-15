@@ -24,16 +24,6 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
 
-  /* NSOpenPanel* panel = [NSOpenPanel openPanel];
- 
-   // This method displays the panel and returns immediately.
-   // The completion handler is called when the user selects an
-   // item or cancels the panel.
-   [panel beginWithCompletionHandler:^(NSInteger result){
-      if (result == NSFileHandlingPanelOKButton) {
-        [view setIconForExe:[[panel URLs] objectAtIndex:0]];
-      }
-   }];*/
 }
 
 @end

@@ -1,10 +1,20 @@
-//
-//  EIVersionInfoReader.h
-//  EXEIconReader
-//
-//  Created by Daniele Cattaneo on 18/11/12.
-//  Copyright 2012 __MyCompanyName__. All rights reserved.
-//
+/* EIVersionInfoReader.h - Class used to interpret VERSIONINFO structures
+ *
+ * Copyright (C) 2012-13 Daniele Cattaneo
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 #import <Cocoa/Cocoa.h>
 
@@ -33,11 +43,6 @@ NSStringEncoding NSEncodingFromCodePage(int cp);
 - (NSData*)queryValue:(NSString*)subBlock error:(EIVERSION_ERR*)err;
 - (NSArray*)querySubNodesUnder:(NSString*)subBlock error:(EIVERSION_ERR*)err;
 
-//Note: "getBestLocaleWithError:" is *bugged* because it does a string comparison on locales, which
-//is often incorrect. I think the effort to write code to handle multiple locales in one resource is quite
-//wasted because it never happens; developers who want different version informations by language
-//use the resource tree locale node, not multiple locales in one resource.
-- (TRANSLATION)bestLocaleWithError:(EIVERSION_ERR*)err;
 
 @end
 

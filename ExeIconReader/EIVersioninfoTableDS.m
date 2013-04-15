@@ -46,22 +46,16 @@
   list = [[NSMutableArray alloc] init];
   
   EIVersionInfoReader* vir = [[[EIVersionInfoReader alloc] initWithBlock:verInfo is16Bit:bitness] autorelease];
-  NSData* transl = [vir queryValue:@"\\VarFileInfo\\Translation" error:&error];
-  if (transl == nil) return;
-  TRANSLATION def_transl = [vir bestLocaleWithError:&error];
-  NSString* queryHeader = [NSString stringWithFormat:@"\\StringFileInfo\\%04X%04X", def_transl.lang, def_transl.coding ];
   
+  NSString *queryHeader = @"\\StringFileInfo\\*";
   NSArray *resSrch = [vir querySubNodesUnder:queryHeader error:&error];
-  if (error) {
-    //Sometimes the translation table does not reflect the actual translations available...
-    queryHeader = @"\\StringFileInfo\\*";
-    resSrch = [vir querySubNodesUnder:queryHeader error:&error];
-  }
   
-  NSStringEncoding resEnc = NSEncodingFromCodePage(def_transl.coding);  //Trusting the coding parameter...
-  //Boy, the coding parameter can be trusted even *less* freqently than the language ID... How many VerInfo resources
-  //out there have 1252 coding while they're just plain UTF16!!
-  //I guess more people would be conforming to the version resource format if Microsoft publicized it better.
+  NSStringEncoding resEnc;
+  if (bitness) {
+    resEnc = NSWindowsCP1252StringEncoding;
+  } else {
+    resEnc = NSUTF16LittleEndianStringEncoding;
+  }
   
   for (int c=0; c<[resSrch count]; c++) {
     NSData* item = [vir queryValue:[NSString stringWithFormat:@"%@\\%@", queryHeader, [resSrch objectAtIndex:c]] error:&error];

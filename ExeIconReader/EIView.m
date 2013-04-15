@@ -17,7 +17,6 @@
  */
 
 #import "EIView.h"
-//#import "EIIconExtractor.h"
 #import "EIExeFile.h"
 #import "EIVersionInfoReader.h"
 
@@ -54,11 +53,6 @@
   else
     return NSDragOperationNone;
 }
-
-
-/*- (void)draggingExited:(id <NSDraggingInfo>)sender
-{
-}*/
 
 
 - (BOOL)performDragOperation:(id <NSDraggingInfo>)sender
