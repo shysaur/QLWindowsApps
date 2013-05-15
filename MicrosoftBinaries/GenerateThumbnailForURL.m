@@ -61,6 +61,7 @@ OSStatus GenerateThumbnailForURL(void *thisInterface, QLThumbnailRequestRef thum
     if ([fsize compare:[NSNumber numberWithLong:MAX_NETWORK_PREVIEW]] == NSOrderedDescending) {
       NSLog(@"Canceled thumbnail of %@ because file is big and not local.", url);
       [pool release];
+      return noErr;
     }
   }
   
