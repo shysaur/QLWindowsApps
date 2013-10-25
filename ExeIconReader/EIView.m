@@ -34,7 +34,7 @@
     MDItemRef mdirf = MDItemCreateWithURL(kCFAllocatorDefault, (CFURLRef)exefile);
     if (mdirf) {
       CFBooleanRef custico = MDItemCopyAttribute(mdirf, kMDItemFSHasCustomIcon);
-      if (custico == kCFBooleanFalse) {
+      if (custico == kCFBooleanFalse || custico == NULL) {
         [[NSWorkspace sharedWorkspace] setIcon:icoImage forFile:[exefile path] options:0];
       }
     }

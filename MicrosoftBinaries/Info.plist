@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>CFBuildDate</key>
-	<string>Wed May 15 19:06:03 CEST 2013</string>
+	<string>Sat Oct 26 00:38:27 CEST 2013</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
 	<key>CFBundleDocumentTypes</key>
@@ -29,7 +29,7 @@
 	<key>CFBundleShortVersionString</key>
 	<string>0.9.0</string>
 	<key>CFBundleVersion</key>
-	<string>2XJ.238</string>
+	<string>2#X.243</string>
 	<key>CFPlugInDynamicRegisterFunction</key>
 	<string></string>
 	<key>CFPlugInDynamicRegistration</key>
