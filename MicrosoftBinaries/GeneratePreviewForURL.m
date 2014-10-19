@@ -31,6 +31,7 @@
    ----------------------------------------------------------------------------- */
 
 #define NSAppKitVersionNumber10_6 1038
+#define NSAppKitVersionNumber10_9 1265
 
 OSStatus GeneratePreviewForURL(void *thisInterface, QLPreviewRequestRef preview, 
            CFURLRef url, CFStringRef contentTypeUTI, CFDictionaryRef options)
@@ -68,8 +69,10 @@ OSStatus GeneratePreviewForURL(void *thisInterface, QLPreviewRequestRef preview,
   NSString *csspath;
   if (floor(NSAppKitVersionNumber) <= NSAppKitVersionNumber10_6) {
     csspath = [mbundle pathForResource:@"PreviewStyleSL" ofType:@"css"];
-  } else {
+  } else if (floor(NSAppKitVersionNumber) <= NSAppKitVersionNumber10_9) {
     csspath = [mbundle pathForResource:@"PreviewStyleML" ofType:@"css"];
+  } else {
+    csspath = [mbundle pathForResource:@"PreviewStyleYE" ofType:@"css"];
   }
   NSMutableString *html = [[[NSMutableString alloc] init] autorelease];
   //[html appendString:@"<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">"];

@@ -15,7 +15,7 @@ h1 { /*r*/
   text-indent: 15px;
   border-bottom-width: 1px;
   border-bottom-style: solid;
-  border-bottom-color: #888;
+  border-bottom-color: #CCC;
 }
 #icon_img {
   position: absolute;
@@ -40,26 +40,28 @@ td {
   border-style: none;
 }
 body {   /*r*/
-  font-family: "Lucida Grande";
-  background-color: #484848;
-  color: white;
+  font-family: "Helvetica Neue";
+  background-color: #F6F5F6;
+  /*background-color: rgba(0, 0, 0, 0);*/
+  color: #222;
   margin: 0px;
   min-width: 640px;
 }
 #prgversion {  /*r*/
   font-size: 9px;
-  color: rgba(255, 255, 255, 0.5);
+  color: rgba(0, 0, 0, 0.5);
   position: absolute;
   text-align: right;
   width: 100%
 }
 .badge {  /*r*/
-  font-size: 10px;
+  font-size: 12px;
   background-color: #36f;
-  padding: 2px 6px 2px 6px;
-  -webkit-border-radius: 8px;
+  padding: 2px 7px 2px 6px;
+  -webkit-border-radius: 4px;
   position: relative;
   float: right;
-  margin: 0px 3px 0px 3px;
+  margin: 0px 4px 0px 3px;
   top: 18px;
+  color: white;
 }
