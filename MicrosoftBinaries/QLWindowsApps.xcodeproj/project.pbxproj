@@ -311,13 +311,11 @@
 				GCC_PREFIX_HEADER = MicrosoftBinaries_Prefix.pch;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = "\"$(BUILT_PRODUCTS_DIR)\"/**";
-				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)\"";
 				MACOSX_DEPLOYMENT_TARGET = 10.5;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = MicrosoftBinaries;
 				SDKROOT = macosx;
-				USER_HEADER_SEARCH_PATHS = "\"$(BUILT_PRODUCTS_DIR)\"/**";
+				USER_HEADER_SEARCH_PATHS = "\"$(PROJECT_DIR)/../OSXIcotools\"/**";
 			};
 			name = Debug;
 		};
@@ -329,12 +327,10 @@
 				GCC_PREFIX_HEADER = MicrosoftBinaries_Prefix.pch;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = "\"$(BUILT_PRODUCTS_DIR)\"/**";
-				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)\"";
 				MACOSX_DEPLOYMENT_TARGET = 10.5;
 				PRODUCT_NAME = MicrosoftBinaries;
 				SDKROOT = macosx;
-				USER_HEADER_SEARCH_PATHS = "\"$(BUILT_PRODUCTS_DIR)\"/**";
+				USER_HEADER_SEARCH_PATHS = "\"$(PROJECT_DIR)/../OSXIcotools\"/**";
 			};
 			name = Release;
 		};
