@@ -237,8 +237,8 @@
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "#!/bin/bash\n\nread COUNTER < ../buildtools/buildnumber\nCOUNTER=$((COUNTER+1))\necho $COUNTER > ../buildtools/buildnumber\n\nMACHID=$(../buildtools/isobuild2.pl $HOSTNAME)\n\n# Auto Increment Version Script\nbuildPlist=\"Info.plist\"\nCFBuildNumber=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" $buildPlist)\nCFBuildNumber=$MACHID'.'$COUNTER\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $CFBuildNumber\" $buildPlist\nCFBuildDate=$(date)\n/usr/libexec/PlistBuddy -c \"Set :CFBuildDate $CFBuildDate\" $buildPlist";
+			shellPath = /bin/bash;
+			shellScript = "VERNO=$(/usr/libexec/PlistBuddy -c \"Print :CFBundleVersion\" \"$INFOPLIST_FILE\")\necho $VERNO\nVERNO=$((VERNO+1))\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $VERNO\" \"$INFOPLIST_FILE\"";
 		};
 /* End PBXShellScriptBuildPhase section */
 
