@@ -8,8 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		0111E4FD165A6A5900EFA65D /* EIVersioninfoTableDS.m in Sources */ = {isa = PBXBuildFile; fileRef = 0111E4FC165A6A5900EFA65D /* EIVersioninfoTableDS.m */; };
+		012E612419F417CC008ED670 /* libOSXIcotools.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 012E612319F417CC008ED670 /* libOSXIcotools.a */; };
 		0148B4EB16594B25006ADF02 /* EIMainWindowDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0148B4EA16594B25006ADF02 /* EIMainWindowDelegate.m */; };
-		014CD30C16E51BC000185054 /* libOSXIcotools.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 014CD30B16E51BC000185054 /* libOSXIcotools.a */; };
 		01ACDCF71642AA8500AFC8C2 /* EIView.m in Sources */ = {isa = PBXBuildFile; fileRef = 01ACDCF61642AA8500AFC8C2 /* EIView.m */; };
 		1DDD58160DA1D0A300B32029 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DDD58140DA1D0A300B32029 /* MainMenu.xib */; };
 		256AC3DA0F4B6AC300CF3369 /* EXEIconReaderAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 256AC3D90F4B6AC300CF3369 /* EXEIconReaderAppDelegate.m */; };
@@ -21,9 +21,9 @@
 /* Begin PBXFileReference section */
 		0111E4FB165A6A5900EFA65D /* EIVersioninfoTableDS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EIVersioninfoTableDS.h; sourceTree = "<group>"; };
 		0111E4FC165A6A5900EFA65D /* EIVersioninfoTableDS.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EIVersioninfoTableDS.m; sourceTree = "<group>"; };
+		012E612319F417CC008ED670 /* libOSXIcotools.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libOSXIcotools.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		0148B4E916594B25006ADF02 /* EIMainWindowDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EIMainWindowDelegate.h; sourceTree = "<group>"; };
 		0148B4EA16594B25006ADF02 /* EIMainWindowDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EIMainWindowDelegate.m; sourceTree = "<group>"; };
-		014CD30B16E51BC000185054 /* libOSXIcotools.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libOSXIcotools.a; path = "../../../../Library/Developer/Xcode/DerivedData/QLWindowsApps-bsmrrhhupwtfblgxjpraexqciutb/Build/Products/Debug/libOSXIcotools.a"; sourceTree = "<group>"; };
 		01ACDCF51642AA8500AFC8C2 /* EIView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EIView.h; sourceTree = "<group>"; };
 		01ACDCF61642AA8500AFC8C2 /* EIView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EIView.m; sourceTree = "<group>"; };
 		089C165DFE840E0CC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -45,8 +45,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				012E612419F417CC008ED670 /* libOSXIcotools.a in Frameworks */,
 				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
-				014CD30C16E51BC000185054 /* libOSXIcotools.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -97,7 +97,6 @@
 		29B97314FDCFA39411CA2CEA /* EXEIconReader */ = {
 			isa = PBXGroup;
 			children = (
-				014CD30B16E51BC000185054 /* libOSXIcotools.a */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
@@ -129,6 +128,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				012E612319F417CC008ED670 /* libOSXIcotools.a */,
 				1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */,
 				1058C7A2FEA54F0111CA2CBB /* Other Frameworks */,
 			);
@@ -163,7 +163,7 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0450;
+				LastUpgradeCheck = 0600;
 			};
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "EXEIconReader" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -260,10 +260,6 @@
 				GCC_PREFIX_HEADER = EXEIconReader_Prefix.pch;
 				INFOPLIST_FILE = "EXEIconReader-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/../../../../Library/Developer/Xcode/DerivedData/QLWindowsApps-bsmrrhhupwtfblgxjpraexqciutb/Build/Products/Debug\"",
-				);
 				PRODUCT_NAME = EXEIconReader;
 			};
 			name = Debug;
@@ -279,10 +275,6 @@
 				GCC_PREFIX_HEADER = EXEIconReader_Prefix.pch;
 				INFOPLIST_FILE = "EXEIconReader-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/../../../../Library/Developer/Xcode/DerivedData/QLWindowsApps-bsmrrhhupwtfblgxjpraexqciutb/Build/Products/Debug\"",
-				);
 				PRODUCT_NAME = EXEIconReader;
 			};
 			name = Release;
@@ -291,7 +283,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DEBUGGING_SYMBOLS = full;
@@ -312,7 +303,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_OPTIMIZATION_LEVEL = s;
 				GCC_VERSION = "";

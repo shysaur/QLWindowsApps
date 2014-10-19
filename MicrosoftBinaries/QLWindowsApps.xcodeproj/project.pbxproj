@@ -12,8 +12,8 @@
 		011D85CA1643EBAE008A2601 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 011D85C91643EBAE008A2601 /* Cocoa.framework */; };
 		011D85F11643F5B7008A2601 /* MicrosoftBinaries_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 011D85F01643F5B7008A2601 /* MicrosoftBinaries_Prefix.pch */; };
 		012A7D36171C8F880019A298 /* VersioninfoNames.strings in Resources */ = {isa = PBXBuildFile; fileRef = 012A7D38171C8F880019A298 /* VersioninfoNames.strings */; };
+		012E612819F419AB008ED670 /* libOSXIcotools.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 012E612719F419AB008ED670 /* libOSXIcotools.a */; };
 		014A65521664081800A175EA /* PreviewStyleML.css in Resources */ = {isa = PBXBuildFile; fileRef = 014A65511664081800A175EA /* PreviewStyleML.css */; };
-		014CD30E16E52C5900185054 /* libOSXIcotools.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 014CD30D16E52C5900185054 /* libOSXIcotools.a */; };
 		2C05A19C06CAA52B00D84F6F /* GeneratePreviewForURL.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C05A19B06CAA52B00D84F6F /* GeneratePreviewForURL.m */; };
 		61E3BCFB0870B4F2002186A0 /* GenerateThumbnailForURL.m in Sources */ = {isa = PBXBuildFile; fileRef = 61E3BCFA0870B4F2002186A0 /* GenerateThumbnailForURL.m */; };
 		8D576312048677EA00EA77CD /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 08FB77B6FE84183AC02AAC07 /* main.c */; settings = {ATTRIBUTES = (); }; };
@@ -44,8 +44,8 @@
 		012A7D37171C8F880019A298 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/VersioninfoNames.strings; sourceTree = "<group>"; };
 		012A7D39171C91260019A298 /* it */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		012A7D3A171C91260019A298 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/VersioninfoNames.strings; sourceTree = "<group>"; };
+		012E612719F419AB008ED670 /* libOSXIcotools.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libOSXIcotools.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		014A65511664081800A175EA /* PreviewStyleML.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = PreviewStyleML.css; sourceTree = "<group>"; };
-		014CD30D16E52C5900185054 /* libOSXIcotools.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libOSXIcotools.a; path = "../../../../Library/Developer/Xcode/DerivedData/QLWindowsApps-bsmrrhhupwtfblgxjpraexqciutb/Build/Products/Debug/libOSXIcotools.a"; sourceTree = "<group>"; };
 		089C167EFE841241C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		08FB77B6FE84183AC02AAC07 /* main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		0AA1909FFE8422F4C02AAC07 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = /System/Library/Frameworks/CoreFoundation.framework; sourceTree = "<absolute>"; };
@@ -63,12 +63,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				012E612819F419AB008ED670 /* libOSXIcotools.a in Frameworks */,
 				8D576314048677EA00EA77CD /* CoreFoundation.framework in Frameworks */,
 				C86B05270671AA6E00DD9006 /* CoreServices.framework in Frameworks */,
 				F28CFBFD0A3EC0AF000ABFF5 /* ApplicationServices.framework in Frameworks */,
 				F28CFC030A3EC0C6000ABFF5 /* QuickLook.framework in Frameworks */,
 				011D85CA1643EBAE008A2601 /* Cocoa.framework in Frameworks */,
-				014CD30E16E52C5900185054 /* libOSXIcotools.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -85,7 +85,6 @@
 		089C166AFE841209C02AAC07 /* MicrosoftBinaries */ = {
 			isa = PBXGroup;
 			children = (
-				014CD30D16E52C5900185054 /* libOSXIcotools.a */,
 				011D84C71643EB25008A2601 /* Classes */,
 				08FB77AFFE84173DC02AAC07 /* Source */,
 				089C167CFE841241C02AAC07 /* Resources */,
@@ -98,6 +97,7 @@
 		089C1671FE841209C02AAC07 /* External Frameworks and Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				012E612719F419AB008ED670 /* libOSXIcotools.a */,
 				F28CFC020A3EC0C6000ABFF5 /* QuickLook.framework */,
 				F28CFBFC0A3EC0AF000ABFF5 /* ApplicationServices.framework */,
 				C86B05260671AA6E00DD9006 /* CoreServices.framework */,
@@ -288,10 +288,6 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = /Library/QuickLook;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/../../../../Library/Developer/Xcode/DerivedData/QLWindowsApps-bsmrrhhupwtfblgxjpraexqciutb/Build/Products/Debug\"",
-				);
 				PRODUCT_NAME = QLWindowsApps;
 				WRAPPER_EXTENSION = qlgenerator;
 			};
@@ -306,10 +302,6 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = /Library/QuickLook;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/../../../../Library/Developer/Xcode/DerivedData/QLWindowsApps-bsmrrhhupwtfblgxjpraexqciutb/Build/Products/Debug\"",
-				);
 				PRODUCT_NAME = QLWindowsApps;
 				WRAPPER_EXTENSION = qlgenerator;
 			};
