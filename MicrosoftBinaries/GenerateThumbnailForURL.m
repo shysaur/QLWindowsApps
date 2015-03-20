@@ -58,10 +58,12 @@ OSStatus GenerateThumbnailForURL(void *thisInterface, QLThumbnailRequestRef thum
   MDItemRef mdirf = MDItemCreateWithURL(kCFAllocatorDefault, (CFURLRef)url);
   if (mdirf) {
     NSNumber *fsize = MDItemCopyAttribute(mdirf, kMDItemFSSize);
-    if ([fsize compare:[NSNumber numberWithLong:MAX_NETWORK_PREVIEW]] == NSOrderedDescending) {
-      NSLog(@"Canceled thumbnail of %@ because file is big and not local.", url);
-      [pool release];
-      return noErr;
+    if (isFileOnNetworkDrive(url)) {
+      if ([fsize compare:[NSNumber numberWithLong:MAX_NETWORK_PREVIEW]] == NSOrderedDescending) {
+        NSLog(@"Canceled thumbnail of %@ because file is big and not local.", url);
+        [pool release];
+        return noErr;
+      }
     }
   }
   
