@@ -77,7 +77,10 @@ OSStatus GeneratePreviewForURL(void *thisInterface, QLPreviewRequestRef preview,
   NSMutableString *html = [[[NSMutableString alloc] init] autorelease];
   //[html appendString:@"<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">"];
   [html appendFormat:@"<html><head><style type=\"text/css\">%@</style></head><body>", [NSString stringWithContentsOfFile:csspath encoding:NSUTF8StringEncoding error:nil]];
-  [html appendString:@"<div id=\"icon\"><img id=\"icon_img\" src=\"cid:icon.tif\"></div>"];
+  
+  NSString *b64img;
+  b64img = [image base64Encoding];
+  [html appendFormat:@"<div id=\"icon\"><img id=\"icon_img\" src=\"data:image/tiff;base64,%@\"></div>", b64img];
   
   
   
@@ -124,12 +127,6 @@ OSStatus GeneratePreviewForURL(void *thisInterface, QLPreviewRequestRef preview,
   [html appendString:@"</body></html>"];
   
   
-  NSMutableDictionary *imgProps = [[[NSMutableDictionary alloc] init] autorelease];
-  [imgProps setObject:@"image/tiff" forKey:(NSString *)kQLPreviewPropertyMIMETypeKey];
-  [imgProps setObject:image forKey:(NSString *)kQLPreviewPropertyAttachmentDataKey];
-  [props setObject:[NSDictionary dictionaryWithObject:imgProps forKey:@"icon.tif"]
-            forKey:(NSString *)kQLPreviewPropertyAttachmentsKey];
-
   QLPreviewRequestSetDataRepresentation(
           preview,
           (CFDataRef)[html dataUsingEncoding:NSUTF8StringEncoding],
