@@ -26,18 +26,20 @@
 #define MAX_NETWORK_PREVIEW ((1024*1024*5))
 
 
-BOOL isFileOnNetworkDrive(CFURLRef url) {
+BOOL QWAIsFileOnNetworkDrive(CFURLRef url) {
   FSRef ref;
+  FSCatalogInfo ci;
+  GetVolParmsInfoBuffer vpi;
+  
   /* Using deprecated APIs to support 10.5 */
-  if (CFURLGetFSRef(url, &ref)) {
-    FSCatalogInfo ci;
-    if (FSGetCatalogInfo(&ref, kFSCatInfoVolume, &ci, NULL, NULL, NULL) == noErr) {
-      GetVolParmsInfoBuffer vpi;
-      if (FSGetVolumeParms(ci.volume, &vpi, sizeof(vpi)) == noErr) {
-        return (vpi.vMServerAdr != 0);
-      } else return NO;
-    } else return NO;
-  } else return NO;
+  if (!CFURLGetFSRef(url, &ref)) return NO;
+  
+  if (FSGetCatalogInfo(&ref, kFSCatInfoVolume, &ci, NULL, NULL, NULL) != noErr)
+    return NO;
+  
+  if (FSGetVolumeParms(ci.volume, &vpi, sizeof(vpi)) != noErr) return NO;
+  
+  return vpi.vMServerAdr != 0;
 }
 
 
@@ -48,57 +50,62 @@ BOOL isFileOnNetworkDrive(CFURLRef url) {
  ----------------------------------------------------------------------------- */
 
 OSStatus GenerateThumbnailForURL(void *thisInterface, QLThumbnailRequestRef thumbnail,
-           CFURLRef url, CFStringRef contentTypeUTI, CFDictionaryRef options, CGSize maxSize)
-{
+  CFURLRef url, CFStringRef contentTypeUTI, CFDictionaryRef options, CGSize maxSize) {
+  NSAutoreleasePool *pool;
+  MDItemRef mdirf;
+  NSNumber *fsize;
+  BOOL err;
+  EIExeFile *exeFile;
+  NSImage *icon;
+  NSRect rect;
+  CGImageRef qlres;
+  NSNumber *finfo;
+  
   //No icon for DLLs
-  if (!UTTypeEqual(contentTypeUTI, (CFStringRef)@"com.microsoft.windows-executable")) return noErr;
+  if (!UTTypeEqual(contentTypeUTI, (CFStringRef)@"com.microsoft.windows-executable"))
+    return noErr;
   
-  NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+  pool = [[NSAutoreleasePool alloc] init];
   
-  MDItemRef mdirf = MDItemCreateWithURL(kCFAllocatorDefault, (CFURLRef)url);
-  if (mdirf) {
-    NSNumber *fsize = MDItemCopyAttribute(mdirf, kMDItemFSSize);
-    if (isFileOnNetworkDrive(url)) {
-      if ([fsize compare:[NSNumber numberWithLong:MAX_NETWORK_PREVIEW]] == NSOrderedDescending) {
-        NSLog(@"Canceled thumbnail of %@ because file is big and not local.", url);
-        [pool release];
-        return noErr;
-      }
+  mdirf = MDItemCreateWithURL(kCFAllocatorDefault, (CFURLRef)url);
+  if (mdirf && QWAIsFileOnNetworkDrive(url)) {
+    fsize = MDItemCopyAttribute(mdirf, kMDItemFSSize);
+    
+    if ([fsize compare:@(MAX_NETWORK_PREVIEW)] == NSOrderedDescending) {
+      NSLog(@"Canceled thumbnail of %@ because file is big and not local.", url);
+      [pool release];
+      return noErr;
     }
   }
   
-  BOOL err;
-  EIExeFile *exeFile;
   exeFile = [[EIExeFile alloc] initWithExeFileURL:(NSURL*)url error:&err];
-  if (err) goto cleanup; //here goto is useful!
+  if (err) goto cleanup;
   if (QLThumbnailRequestIsCancelled(thumbnail)) goto cleanup;
   
-  NSImage *icon = [exeFile getIconNSImage];
+  icon = [exeFile getIconNSImage];
   if (!icon) goto cleanup;
   if (![icon isValid]) goto cleanup;
   if (QLThumbnailRequestIsCancelled(thumbnail)) goto cleanup;
-   
-  NSRect rect;
-  rect.origin.x = 0;
-  rect.origin.y = 0;
+  
+  rect.origin = NSZeroPoint;
   rect.size = NSSizeFromCGSize(maxSize);
-  CGImageRef qlres = [icon CGImageForProposedRect:&rect context:nil hints:nil];
+  qlres = [icon CGImageForProposedRect:&rect context:nil hints:nil];
   QLThumbnailRequestSetImage(thumbnail, qlres, NULL);
   
   if (mdirf) {
     CFBooleanRef custico = MDItemCopyAttribute(mdirf, kMDItemFSHasCustomIcon);
     if (custico == kCFBooleanFalse || custico == NULL) {
       [[NSWorkspace sharedWorkspace] setIcon:icon forFile:[(NSURL*)url path] options:0];
-    }
+  }
   }
   
-  cleanup:
+cleanup:
   [exeFile release];
   [pool release];
   return noErr;
 }
 
-void CancelThumbnailGeneration(void* thisInterface, QLThumbnailRequestRef thumbnail)
-{
+
+void CancelThumbnailGeneration(void* thisInterface, QLThumbnailRequestRef thumbnail) {
     // implement only if supported
 }
