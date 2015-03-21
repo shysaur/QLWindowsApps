@@ -93,10 +93,9 @@ OSStatus GenerateThumbnailForURL(void *thisInterface, QLThumbnailRequestRef thum
   QLThumbnailRequestSetImage(thumbnail, qlres, NULL);
   
   if (mdirf) {
-    CFBooleanRef custico = MDItemCopyAttribute(mdirf, kMDItemFSHasCustomIcon);
-    if (custico == kCFBooleanFalse || custico == NULL) {
+    finfo = MDItemCopyAttribute(mdirf, (CFStringRef)@"kMDItemFSFinderFlags");
+    if (!([finfo integerValue] & kHasCustomIcon))
       [[NSWorkspace sharedWorkspace] setIcon:icon forFile:[(NSURL*)url path] options:0];
-  }
   }
   
 cleanup:
