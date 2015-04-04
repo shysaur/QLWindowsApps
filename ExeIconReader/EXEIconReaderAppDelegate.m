@@ -18,12 +18,13 @@
 
 #import "EXEIconReaderAppDelegate.h"
 
+
 @implementation EXEIconReaderAppDelegate
 
-@synthesize window;
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
 
 }
+
 
 @end

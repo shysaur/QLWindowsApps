@@ -21,9 +21,11 @@
 
 @implementation EIMainWindowDelegate
 
+
 - (BOOL)windowShouldClose:(id)sender {
   [app terminate:self];
   return YES;
 }
+
 
 @end

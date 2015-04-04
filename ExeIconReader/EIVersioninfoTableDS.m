@@ -19,7 +19,9 @@
 #import "EIVersioninfoTableDS.h"
 #import "EIVersionInfoReader.h"
 
+
 @implementation EIVersioninfoTableDS
+
 
 - init {
   self = [super init];
@@ -27,18 +29,22 @@
   return self;
 }
 
+
 - (void)dealloc {
   [list release];
   [super dealloc];
 }
 
+
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)aTableView {
   return [list count];
 }
 
+
 - (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex {
   return [list objectAtIndex:rowIndex];
 }
+
 
 - (void)loadFromVersioninfo:(NSData*)verInfo is16Bit:(BOOL)bitness {
   EIVERSION_ERR error;
@@ -65,10 +71,12 @@
       [temp release];
     }
   }
-};
+}
+
 
 - (void)loadFromEIExeFile:(EIExeFile*)exfile {
   [self loadFromVersioninfo:[exfile getVersionInfo] is16Bit:[exfile is16Bit]];
 }
+
 
 @end

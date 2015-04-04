@@ -20,9 +20,11 @@
 #import "EIExeFile.h"
 #import "EIVersionInfoReader.h"
 
+
 @implementation EIView
 
--(void) setIconForExe:(NSURL*)exefile {
+
+- (void)setIconForExe:(NSURL *)exefile {
   NSImage *icoImage;
   BOOL error;
   
@@ -46,8 +48,8 @@
   [exf release];
 }
 
-- (NSDragOperation)draggingEntered:(id <NSDraggingInfo>)sender
-{
+
+- (NSDragOperation)draggingEntered:(id <NSDraggingInfo>)sender {
   if ((NSDragOperationGeneric & [sender draggingSourceOperationMask]) == NSDragOperationGeneric)
     return NSDragOperationCopy;
   else
@@ -55,8 +57,7 @@
 }
 
 
-- (BOOL)performDragOperation:(id <NSDraggingInfo>)sender
-{
+- (BOOL)performDragOperation:(id <NSDraggingInfo>)sender {
 	NSPasteboard *pboard = [sender draggingPasteboard];
   NSURL* finderUrl = [NSURL URLFromPasteboard:pboard];
 
@@ -67,5 +68,6 @@
   [self setNeedsDisplay:YES];    //redraw us with the new image
   return YES;
 }
+
 
 @end

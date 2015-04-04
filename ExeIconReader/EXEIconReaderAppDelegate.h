@@ -19,11 +19,7 @@
 #import <Cocoa/Cocoa.h>
 #import "EIView.h"
 
-@interface EXEIconReaderAppDelegate : NSObject <NSApplicationDelegate> {
-    NSWindow *window;
-    IBOutlet EIView *view;
-}
 
-@property (assign) IBOutlet NSWindow *window;
+@interface EXEIconReaderAppDelegate : NSObject <NSApplicationDelegate>
 
 @end
