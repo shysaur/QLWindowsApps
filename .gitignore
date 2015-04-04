@@ -17,3 +17,5 @@ DerivedData
 *.hmap
 .com.apple.timemachine.supported
 testing_samples
+*.pkg
+build
