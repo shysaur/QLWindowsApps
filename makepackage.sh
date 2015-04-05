@@ -28,6 +28,7 @@ echo pkgbuild...
 pkgbuild --identifier       com.danielecattaneo.qlgenerator.qlwindowsapps   \
          --version          "$ver"   \
          --root             build/Package/Root   \
+         --scripts          ./PackageResources/Scripts \
          "./PluginPackage.pkg"   
 productbuild --distribution     ./PackageResources/Distribution.xml   \
              --resources        ./PackageResources/Resources \
