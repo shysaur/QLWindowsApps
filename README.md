@@ -18,6 +18,11 @@ Features
 - It refuses to read big executables (>32 MB) over a network share (yes, this
   is a feature).
   
+### Supported OS X versions
+
+QLWindowsApps was tested on OS X Snow Leopard and later, up to OS X Yosemite.
+It should also work on Leopard, but it was never tested on it.
+  
 
 Known Issues
 ------------
