@@ -1,11 +1,21 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <installer-gui-script minSpecVersion="1">
     <title>QLWindowsApps</title> 
+    
+    <script><![CDATA[
+      function greaterThanLeopard() {
+        var curver = system.version.ProductVersion;
+        if (!curver || system.compareVersions(curver, '10.6') < 0) {
+          return false;
+        }
+        return true;
+      }
+    ]]></script>
 
     <pkg-ref id="com.danielecattaneo.qlgenerator.qlwindowsapps"/>
     <license file="gpl-3.0-standalone.html" uti="public.html"/>
     <options customize="never" require-scripts="false"/>
-    <domains enable_anywhere="false" enable_currentUserHome="true" enable_localSystem="true"/>
+    <domains enable_anywhere="false" enable_currentUserHome="true" enable_localSystem="greaterThanLeopard()"/>
     <choices-outline>
         <line choice="default">
             <line choice="com.danielecattaneo.qlgenerator.qlwindowsapps"/>
