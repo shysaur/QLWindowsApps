@@ -52,7 +52,7 @@ Copyright & License
 -------------------
 
 The icoutils are copyright (c) 1998 Oskar Liljeblad.
-QLWindowsApps is copyright (c) 2013-2015 Daniele Cattaneo.
+QLWindowsApps is copyright (c) 2012-2015 Daniele Cattaneo.
 
 This program is free software: you can redistribute it and/or modify it under
 the terms of the GNU General Public License as published by the Free Software
