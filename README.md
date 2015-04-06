@@ -20,8 +20,7 @@ Features
   
 ### Supported OS X versions
 
-QLWindowsApps was tested on OS X Snow Leopard and later, up to OS X Yosemite.
-It should also work on Leopard, but it was never tested on it.
+QLWindowsApps was tested on OS X Leopard and later, up to OS X Yosemite.
   
 
 Known Issues
