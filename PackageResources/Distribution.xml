@@ -15,5 +15,5 @@
     <choice id="com.danielecattaneo.qlgenerator.qlwindowsapps" visible="false">
         <pkg-ref id="com.danielecattaneo.qlgenerator.qlwindowsapps"/>
     </choice>
-    <pkg-ref id="com.danielecattaneo.qlgenerator.qlwindowsapps" version="" onConclusion="none">PluginPackage.pkg</pkg-ref>
+    <pkg-ref id="com.danielecattaneo.qlgenerator.qlwindowsapps" version="" onConclusion="none">QLWindowsApps.pkg</pkg-ref>
 </installer-gui-script>

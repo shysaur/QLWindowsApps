@@ -29,9 +29,9 @@ pkgbuild --identifier       com.danielecattaneo.qlgenerator.qlwindowsapps   \
          --version          "$ver"   \
          --root             build/Package/Root   \
          --scripts          ./PackageResources/Scripts \
-         "./PluginPackage.pkg"   
+         "./QLWindowsApps.pkg"   
 productbuild --distribution     ./PackageResources/Distribution.xml   \
              --resources        ./PackageResources/Resources \
              --package-path     ./ \
              "./QLWindowsApps-$ver.pkg"
-rm ./PluginPackage.pkg
+rm ./QLWindowsApps.pkg
