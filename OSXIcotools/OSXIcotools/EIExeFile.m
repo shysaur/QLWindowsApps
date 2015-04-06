@@ -97,9 +97,17 @@
 
 - (NSData*)getVersionInfo {
   extract_error err;
-  uint32_t sysLocale = [NSLocale windowsLocaleCodeFromLocaleIdentifier:[[NSLocale currentLocale] localeIdentifier]];
-  
+  uint32_t sysLocale;
+  NSString *localeIdent;
   char sysLocaleStr[64];
+  
+  if (NSAppKitVersionNumber < NSAppKitVersionNumber10_6)
+    sysLocale = 1033;
+  else {
+    localeIdent = [[NSLocale currentLocale] localeIdentifier];
+    sysLocale = [NSLocale windowsLocaleCodeFromLocaleIdentifier:localeIdent];
+  }
+  
   sprintf(sysLocaleStr, "%d", sysLocale);
   //try with the current selected locale in the OS
   NSData *verdata = nsdata_default_resource(&fl, "16", NULL, sysLocaleStr, &err);
