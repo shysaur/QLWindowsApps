@@ -22,7 +22,9 @@
 #include "io-utils.h"
 #include "osxwres.h"
 
+
 @implementation EIExeFile
+
 
 - initWithExeFileURL:(NSURL*)exeFile error:(BOOL*)err; {
   BOOL error;
@@ -75,6 +77,7 @@
   return [super init];
 }
 
+
 - (NSImage*)getIconNSImage {
   extract_error err;
   NSData *icodata = nsdata_default_resource(&fl, "14", NULL, NULL, &err);
@@ -90,6 +93,7 @@
   NSImage *timg = [[[NSImage alloc] initWithData:icodata] autorelease];
   return timg;
 }
+
 
 - (NSData*)getVersionInfo {
   extract_error err;
@@ -118,9 +122,11 @@
   return verdata;
 }
 
+
 - (BOOL)is16Bit {
   return !(fl.is_PE_binary);
 }
+
 
 - (void)dealloc {
   if (fl.file != NULL)
@@ -129,5 +135,6 @@
     free(fl.memory);
   [super dealloc];
 }
+
 
 @end
