@@ -23,6 +23,7 @@
 #import <Cocoa/Cocoa.h>
 #import "EIExeFile.h"
 #import "EIVersionInfoReader.h"
+#import "NSData+QWABase64.h"
 
 
 #define NSAppKitVersionNumber10_6 1038
@@ -103,7 +104,7 @@ NSString *QWAGetBase64EncodedImageForExeFile(EIExeFile *exeFile, CFStringRef con
   if (!icon || ![icon isValid])
     icon = [[NSWorkspace sharedWorkspace] iconForFile:[(NSURL*)url path]];
   image = [icon TIFFRepresentation];
-  return [image base64Encoding];
+  return [image qwa_base64Encoding];
 }
 
 
