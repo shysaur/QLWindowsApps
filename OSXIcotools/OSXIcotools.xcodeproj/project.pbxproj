@@ -559,7 +559,7 @@
 		014CD1D116E5161600185054 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0600;
+				LastUpgradeCheck = 0630;
 				ORGANIZATIONNAME = "Daniele Cattaneo";
 			};
 			buildConfigurationList = 014CD1D416E5161600185054 /* Build configuration list for PBXProject "OSXIcotools" */;
