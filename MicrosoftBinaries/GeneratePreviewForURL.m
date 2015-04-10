@@ -61,7 +61,7 @@ NSString *QWAHTMLVersionInfoForExeFile(EIExeFile *exeFile) {
   NSString *temp, *node, *vpath;
   
   mbundle = [NSBundle bundleWithIdentifier:@"com.danielecattaneo.qlgenerator.qlwindowsapps"];
-  html = [@"<table id=\"vertable\"><tbody>" mutableCopy];
+  html = [[@"<table id=\"vertable\"><tbody>" mutableCopy] autorelease];
   
   vinfo = [exeFile getVersionInfo];
   vir = [[EIVersionInfoReader alloc] initWithBlock:vinfo is16Bit:[exeFile is16Bit]];

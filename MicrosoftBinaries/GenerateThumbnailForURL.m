@@ -76,6 +76,8 @@ OSStatus GenerateThumbnailForURL(void *thisInterface, QLThumbnailRequestRef thum
       [pool release];
       return noErr;
     }
+    [fsize release];
+    CFRelease(mdirf);
   }
   
   exeFile = [[EIExeFile alloc] initWithExeFileURL:(NSURL*)url error:&err];
