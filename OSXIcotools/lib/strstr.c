@@ -1,4 +1,4 @@
-/* Copyright (C) 1991,92,93,94,96,97,98,2000,2004,2007,2008 Free Software
+/* Copyright (C) 1991-1994, 1996-1998, 2000, 2004, 2007-2012 Free Software
    Foundation, Inc.
    This file is part of the GNU C Library.
 
@@ -13,8 +13,7 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License along
-   with this program; if not, write to the Free Software Foundation,
-   Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.  */
+   with this program; if not, see <http://www.gnu.org/licenses/>.  */
 
 /* This particular implementation was written by Eric Blake, 2008.  */
 
@@ -32,8 +31,8 @@
 #endif
 
 #define RETURN_TYPE char *
-#define AVAILABLE(h, h_l, j, n_l)			\
-  (!memchr ((h) + (h_l), '\0', (j) + (n_l) - (h_l))	\
+#define AVAILABLE(h, h_l, j, n_l)                       \
+  (!memchr ((h) + (h_l), '\0', (j) + (n_l) - (h_l))     \
    && ((h_l) = (j) + (n_l)))
 #include "str-two-way.h"
 
@@ -67,17 +66,17 @@ strstr (const char *haystack_start, const char *needle_start)
     return (char *) haystack;
   needle -= needle_len;
   haystack_len = (haystack > haystack_start + needle_len ? 1
-		  : needle_len + haystack_start - haystack);
+                  : needle_len + haystack_start - haystack);
 
   /* Perform the search.  Abstract memory is considered to be an array
      of 'unsigned char' values, not an array of 'char' values.  See
      ISO C 99 section 6.2.6.1.  */
   if (needle_len < LONG_NEEDLE_THRESHOLD)
     return two_way_short_needle ((const unsigned char *) haystack,
-				 haystack_len,
-				 (const unsigned char *) needle, needle_len);
+                                 haystack_len,
+                                 (const unsigned char *) needle, needle_len);
   return two_way_long_needle ((const unsigned char *) haystack, haystack_len,
-			      (const unsigned char *) needle, needle_len);
+                              (const unsigned char *) needle, needle_len);
 }
 
 #undef LONG_NEEDLE_THRESHOLD
