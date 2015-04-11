@@ -21,9 +21,9 @@
 #include "restypes.h"
 #include "osxwres.h"
 
+
 @interface EIExeFile : NSObject {
   WinLibrary fl;
-  char exename[1024];
 }
 
 - initWithExeFileURL:(NSURL*)exeFile error:(BOOL*)err;

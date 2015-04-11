@@ -27,16 +27,22 @@
 
 
 - initWithExeFileURL:(NSURL*)exeFile error:(BOOL*)err; {
-  BOOL error;
-  error = NO;
+  CFIndex strsize;
+  BOOL error = NO;
+  NSString *tmp;
+  
+  self = [super init];
   
   /* initiate stuff */
   fl.file = NULL;
   fl.memory = NULL;
 
+  tmp = [[exeFile absoluteURL] path];
+  strsize = CFStringGetMaximumSizeOfFileSystemRepresentation((CFStringRef)tmp);
+  fl.name = malloc(strsize);
+  CFStringGetFileSystemRepresentation((CFStringRef)tmp, fl.name, strsize);
+  
   /* get file size */
-  sprintf(exename, "%s", [[exeFile path] UTF8String]);
-  fl.name = exename;
   fl.total_size = (int)file_size(fl.name);
   if (fl.total_size == -1) {
     NSLog(@"%s total size = -1", fl.name);
@@ -72,9 +78,9 @@
     goto cleanup;
   }
   
-  cleanup:
-  *err = error;
-  return [super init];
+cleanup:
+  if (err) *err = error;
+  return self;
 }
 
 
@@ -137,10 +143,10 @@
 
 
 - (void)dealloc {
-  if (fl.file != NULL)
+  if (fl.file)
     fclose(fl.file);
-  if (fl.memory != NULL)
-    free(fl.memory);
+  free(fl.memory);
+  free(fl.name);
   [super dealloc];
 }
 
