@@ -26,11 +26,11 @@
   WinLibrary fl;
 }
 
-- initWithExeFileURL:(NSURL*)exeFile error:(BOOL*)err;
+- initWithExeFileURL:(NSURL*)exeFile;
 - (void)dealloc;
 
-- (NSImage*)getIconNSImage;
-- (NSData*)getVersionInfo;
+- (NSImage*)icon;
+- (NSData*)versionInfo;
 - (BOOL)is16Bit;
 
 @end

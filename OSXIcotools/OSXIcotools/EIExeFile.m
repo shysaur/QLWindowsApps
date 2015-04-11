@@ -26,12 +26,12 @@
 @implementation EIExeFile
 
 
-- initWithExeFileURL:(NSURL*)exeFile error:(BOOL*)err; {
+- initWithExeFileURL:(NSURL*)exeFile {
   CFIndex strsize;
-  BOOL error = NO;
   NSString *tmp;
   
   self = [super init];
+  if (!self) return nil;
   
   /* initiate stuff */
   fl.file = NULL;
@@ -46,45 +46,41 @@
   fl.total_size = (int)file_size(fl.name);
   if (fl.total_size == -1) {
     NSLog(@"%s total size = -1", fl.name);
-    error = YES;
-    goto cleanup;
+    goto fail;
   }
   if (fl.total_size == 0) {
     NSLog(@"%s: file has a size of 0", fl.name);
-    error = YES;
-    goto cleanup;
+    goto fail;
   }
 
   /* open file */
   fl.file = fopen(fl.name, "rb");
   if (fl.file == NULL) {
     NSLog(@"%s error opening file", fl.name);
-    error = YES;
-    goto cleanup;
+    goto fail;
   }
   
   /* read all of file */
   fl.memory = malloc(fl.total_size);
   if (fread(fl.memory, fl.total_size, 1, fl.file) != 1) {
     NSLog(@"%s error reading file contents", fl.name);
-    error = YES;
-    goto cleanup;
+    goto fail;
   }
 
   /* identify file and find resource table */
   if (!read_library (&fl)) {
     /* error reported by read_library */
-    error = YES;
-    goto cleanup;
+    goto fail;
   }
   
-cleanup:
-  if (err) *err = error;
   return self;
+fail:
+  [self release];
+  return nil;
 }
 
 
-- (NSImage*)getIconNSImage {
+- (NSImage*)icon {
   extract_error err;
   NSData *icodata = nsdata_default_resource(&fl, "14", NULL, NULL, &err);
     
@@ -101,7 +97,7 @@ cleanup:
 }
 
 
-- (NSData*)getVersionInfo {
+- (NSData*)versionInfo {
   extract_error err;
   uint32_t sysLocale;
   NSString *localeIdent;

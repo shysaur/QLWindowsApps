@@ -63,7 +63,7 @@ NSString *QWAHTMLVersionInfoForExeFile(EIExeFile *exeFile) {
   mbundle = [NSBundle bundleWithIdentifier:@"com.danielecattaneo.qlgenerator.qlwindowsapps"];
   html = [[@"<table id=\"vertable\"><tbody>" mutableCopy] autorelease];
   
-  vinfo = [exeFile getVersionInfo];
+  vinfo = [exeFile versionInfo];
   vir = [[EIVersionInfoReader alloc] initWithBlock:vinfo is16Bit:[exeFile is16Bit]];
   [vir autorelease];
   
@@ -100,7 +100,7 @@ NSString *QWAGetBase64EncodedImageForExeFile(EIExeFile *exeFile, CFStringRef con
   NSData *image;
   
   if (UTTypeEqual(contentTypeUTI, (CFStringRef)@"com.microsoft.windows-executable"))
-    icon = [exeFile getIconNSImage];
+    icon = [exeFile icon];
   if (!icon || ![icon isValid])
     icon = [[NSWorkspace sharedWorkspace] iconForFile:[(NSURL*)url path]];
   image = [icon TIFFRepresentation];
@@ -117,7 +117,6 @@ NSString *QWAGetBase64EncodedImageForExeFile(EIExeFile *exeFile, CFStringRef con
 OSStatus GeneratePreviewForURL(void *thisInterface, QLPreviewRequestRef preview, 
   CFURLRef url, CFStringRef contentTypeUTI, CFDictionaryRef options) {
   NSAutoreleasePool *pool;
-  BOOL err;
   EIExeFile *exeFile;
   NSMutableString *html;
   NSDictionary *props;
@@ -125,9 +124,9 @@ OSStatus GeneratePreviewForURL(void *thisInterface, QLPreviewRequestRef preview,
   pool = [[NSAutoreleasePool alloc] init];
   html = [NSMutableString string];
   
-  exeFile = [[EIExeFile alloc] initWithExeFileURL:(NSURL*)url error:&err];
+  exeFile = [[EIExeFile alloc] initWithExeFileURL:(NSURL*)url];
+  if (!exeFile) goto cleanup;
   [exeFile autorelease];
-  if (err) goto cleanup;
   if (QLPreviewRequestIsCancelled(preview)) goto cleanup;
   
   /* Header: use an inline style sheet */

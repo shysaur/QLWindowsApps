@@ -75,7 +75,7 @@
 
 
 - (void)loadFromEIExeFile:(EIExeFile*)exfile {
-  [self loadFromVersioninfo:[exfile getVersionInfo] is16Bit:[exfile is16Bit]];
+  [self loadFromVersioninfo:[exfile versionInfo] is16Bit:[exfile is16Bit]];
 }
 
 

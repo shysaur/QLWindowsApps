@@ -80,11 +80,11 @@ OSStatus GenerateThumbnailForURL(void *thisInterface, QLThumbnailRequestRef thum
     CFRelease(mdirf);
   }
   
-  exeFile = [[EIExeFile alloc] initWithExeFileURL:(NSURL*)url error:&err];
-  if (err) goto cleanup;
+  exeFile = [[EIExeFile alloc] initWithExeFileURL:(NSURL*)url];
+  if (!exeFile) goto cleanup;
   if (QLThumbnailRequestIsCancelled(thumbnail)) goto cleanup;
   
-  icon = [exeFile getIconNSImage];
+  icon = [exeFile icon];
   if (!icon) goto cleanup;
   if (![icon isValid]) goto cleanup;
   if (QLThumbnailRequestIsCancelled(thumbnail)) goto cleanup;
