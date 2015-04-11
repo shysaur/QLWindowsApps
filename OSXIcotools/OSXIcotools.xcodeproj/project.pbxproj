@@ -185,8 +185,8 @@
 		014CD26116E5168100185054 /* extract.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = extract.c; sourceTree = "<group>"; };
 		014CD26216E5168100185054 /* fileread.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = fileread.c; sourceTree = "<group>"; };
 		014CD26316E5168100185054 /* fileread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = fileread.h; sourceTree = "<group>"; };
-		014CD26416E5168100185054 /* osxwres.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = osxwres.h; sourceTree = "<group>"; };
-		014CD26516E5168100185054 /* osxwres.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = osxwres.m; sourceTree = "<group>"; };
+		014CD26416E5168100185054 /* osxwres.h */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 2; lastKnownFileType = sourcecode.c.h; path = osxwres.h; sourceTree = "<group>"; tabWidth = 2; usesTabs = 0; };
+		014CD26516E5168100185054 /* osxwres.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 2; lastKnownFileType = sourcecode.c.objc; path = osxwres.m; sourceTree = "<group>"; tabWidth = 2; usesTabs = 0; };
 		014CD26616E5168100185054 /* restable.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = restable.c; sourceTree = "<group>"; };
 		014CD26716E5168100185054 /* restable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = restable.h; sourceTree = "<group>"; };
 		014CD26816E5168100185054 /* restypes.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = restypes.c; sourceTree = "<group>"; };
@@ -292,8 +292,11 @@
 				014CD20416E5168000185054 /* string-utils.c */,
 				014CD20516E5168000185054 /* string-utils.h */,
 			);
+			indentWidth = 4;
 			path = common;
 			sourceTree = SOURCE_ROOT;
+			tabWidth = 4;
+			usesTabs = 1;
 		};
 		014CD20816E5168000185054 /* icotool */ = {
 			isa = PBXGroup;
@@ -302,8 +305,11 @@
 				014CD20A16E5168000185054 /* win32-endian.h */,
 				014CD20B16E5168000185054 /* win32.h */,
 			);
+			indentWidth = 4;
 			path = icotool;
 			sourceTree = SOURCE_ROOT;
+			tabWidth = 4;
+			usesTabs = 1;
 		};
 		014CD20C16E5168000185054 /* lib */ = {
 			isa = PBXGroup;
@@ -368,8 +374,11 @@
 				014CD25E16E5168100185054 /* xvasprintf.c */,
 				014CD25F16E5168100185054 /* xvasprintf.h */,
 			);
+			indentWidth = 4;
 			path = lib;
 			sourceTree = SOURCE_ROOT;
+			tabWidth = 4;
+			usesTabs = 1;
 		};
 		014CD26016E5168100185054 /* wrestool */ = {
 			isa = PBXGroup;
@@ -377,16 +386,19 @@
 				014CD26116E5168100185054 /* extract.c */,
 				014CD26216E5168100185054 /* fileread.c */,
 				014CD26316E5168100185054 /* fileread.h */,
-				014CD26416E5168100185054 /* osxwres.h */,
 				014CD26516E5168100185054 /* osxwres.m */,
+				014CD26416E5168100185054 /* osxwres.h */,
 				014CD26616E5168100185054 /* restable.c */,
 				014CD26716E5168100185054 /* restable.h */,
 				014CD26816E5168100185054 /* restypes.c */,
 				014CD26916E5168100185054 /* restypes.h */,
 				014CD26A16E5168100185054 /* wrestool.h */,
 			);
+			indentWidth = 4;
 			path = wrestool;
 			sourceTree = SOURCE_ROOT;
+			tabWidth = 4;
+			usesTabs = 1;
 		};
 /* End PBXGroup section */
 
