@@ -24,6 +24,7 @@
 
 #import "EIVersionInfoReader.h"
 
+
 typedef struct {
   int16_t cbNode;  //Size of the node (a node includes its children)
   int16_t cbData;  //Size of the data in the node
@@ -44,40 +45,44 @@ NSStringEncoding NSEncodingFromCodePage(int cp) {
     case 28591: return NSISOLatin1StringEncoding;
     case   932: return NSShiftJISStringEncoding;
     case 28592: return NSISOLatin2StringEncoding;
-    case  1251: return NSWindowsCP1251StringEncoding;    /* Cyrillic; same as AdobeStandardCyrillic */
-    case  1252: return NSWindowsCP1252StringEncoding;    /* WinLatin1 */
-    case  1253: return NSWindowsCP1253StringEncoding;    /* Greek */
-    case  1254: return NSWindowsCP1254StringEncoding;    /* Turkish */
-    case  1250: return NSWindowsCP1250StringEncoding;    /* WinLatin2 */
+    case  1251: return NSWindowsCP1251StringEncoding;   
+    case  1252: return NSWindowsCP1252StringEncoding;   
+    case  1253: return NSWindowsCP1253StringEncoding;   
+    case  1254: return NSWindowsCP1254StringEncoding;   
+    case  1250: return NSWindowsCP1250StringEncoding;   
     case 50222:
     case 50221:
-    case 50220: return NSISO2022JPStringEncoding;        /* ISO 2022 Japanese encoding for e-mail */
+    case 50220: return NSISO2022JPStringEncoding;       
     case 10000: return NSMacOSRomanStringEncoding;
-    case  1201: return NSUTF16BigEndianStringEncoding;   /* NSUTF16StringEncoding encoding with explicit endianness specified */
-    case  1200: return NSUTF16LittleEndianStringEncoding;/* NSUTF16StringEncoding encoding with explicit endianness specified */                
-    case 12001: return NSUTF32BigEndianStringEncoding;   /* NSUTF32StringEncoding encoding with explicit endianness specified */
-    case 12000: return NSUTF32LittleEndianStringEncoding;/* NSUTF32StringEncoding encoding with explicit endianness specified */
-    default:    return NSUTF16LittleEndianStringEncoding;/* We hope exotic codings are just misguided mistakes.*/
+    case  1201: return NSUTF16BigEndianStringEncoding;  
+    case  1200: return NSUTF16LittleEndianStringEncoding;
+    case 12001: return NSUTF32BigEndianStringEncoding;  
+    case 12000: return NSUTF32LittleEndianStringEncoding;
+      /* We hope exotic codings are just misguided mistakes.*/
+    default:    return NSUTF16LittleEndianStringEncoding;
   }
 }
 
 
-int utf16StringLen(int16_t* string) {
-  int len = 0;
-  while (len < 1024) {
-    if (*string == 0) return len;
-    len += 1;
-    string += 1;
-  }
+int utf16StringLen(const unichar* string) {
+  int len;
+  
+  for (len = 0; len < 1024; len++)
+    if (*(string++) == 0)
+      return len;
   return -1;  //absurd string length
 }
 
+
 NSArray* makeRequest(NSString* subBlock) {
   NSArray *request;
-  if ([subBlock compare:@"\\"] == NSOrderedSame) {
+  NSString *tmp;
+  
+  if ([subBlock isEqual:@"\\"]) {
     request = [NSArray arrayWithObject:@"VS_VERSION_INFO"];
   } else {
-    request = [[NSString stringWithFormat:@"VS_VERSION_INFO%@",subBlock] componentsSeparatedByString:@"\\"];
+    tmp = [@"VS_VERSION_INFO" stringByAppendingString:subBlock];
+    request = [tmp componentsSeparatedByString:@"\\"];
   }
   return request;
 }
@@ -86,81 +91,113 @@ NSArray* makeRequest(NSString* subBlock) {
 #define PAD_TO_32BIT(x) (((void*)((x)) + ((4 - ((intptr_t)((x)) % 4)) % 4)))
 #define ERR_RET(x) {*err = ((x)); return nil;}
 
-NSData* resTreeRead32(NSArray* path, int level, NSData* block, EIVERSION_ERR* err, BOOL returnWholeBlock) {
-  const void* bb = [block bytes];
-  const void* be = bb + [block length];
-  const VERSIONNODE_HEADER* vnh = bb;
+NSData *resTreeRead32(NSArray *path, int level, NSData *block, EIVERSION_ERR *err, BOOL getChildren) {
+  const void *bb, *be;
+  const VERSIONNODE_HEADER *vnh;
+  const unichar *wszName;
+  ssize_t nameLen, subtreeLen;
+  const void *dataptr, *nextptr;
+  NSString *nodeName, *nodeToRead;
+  NSData *nodeData;
+  
+  vnh = bb = [block bytes];
+  be = bb + [block length];
   *err = EIV_NOERR;
   
-  const void* wszName = vnh + 1;
+  wszName = (unichar *)(vnh + 1);
+  nodeToRead = [path objectAtIndex:level];
+  
+  /* Search for the right node in this level */
   while ((void*)vnh < be) {
-    int len = utf16StringLen((int16_t*)wszName);
-    if (len == -1) ERR_RET(EIV_WRONGFORMAT);
-    NSString *temp = [NSString stringWithCharacters:(const unichar*)wszName length:len];
+    nameLen = utf16StringLen(wszName);
+    if (nameLen < 0) ERR_RET(EIV_WRONGFORMAT);
     
-    if (([temp caseInsensitiveCompare:[path objectAtIndex:level]]==NSOrderedSame) || 
-        ([@"*" compare:[path objectAtIndex:level]]==NSOrderedSame)) {  //* is a wildcard for the first item
-      const void* dataptr = PAD_TO_32BIT(wszName + (len * 2) + 2);
-      const void* nodeptr = PAD_TO_32BIT(dataptr + vnh->cbData);  //pointer to first child node
-      if ([path count] == (level+1)) {
-        if (!returnWholeBlock) {
-          intptr_t realDataLen = vnh->cbData;
-          if ((vnh->wType == 1) && (level == 3)) {
-            if ((nodeptr - (void*)vnh) < (vnh->cbNode)) realDataLen *= 2;
-            //Right after the transition to Unicode version strings many resource compilers had a bug where
-            //the cbData is interpreted as a character count, not as a byte count as it should be.
-          }
-          return [NSData dataWithBytesNoCopy:(void*)dataptr length:realDataLen freeWhenDone:NO];
-        } else {
-          return [NSData dataWithBytesNoCopy:(void*)nodeptr length:(((void*)vnh+(vnh->cbNode))-nodeptr) freeWhenDone:NO];
-        }
-      } else {
-        NSData *nodeData = [NSData dataWithBytesNoCopy:(void*)nodeptr length:(((void*)vnh+(vnh->cbNode))-nodeptr) freeWhenDone:NO];
-        return resTreeRead32(path, level+1, nodeData, err, returnWholeBlock);
-      }
-    }
+    nodeName = [NSString stringWithCharacters:wszName length:nameLen];
+    if ([nodeName caseInsensitiveCompare:nodeToRead] == NSOrderedSame || [@"*" isEqual:nodeToRead])
+      break;
     
     vnh = PAD_TO_32BIT((void*)vnh + vnh->cbNode);
-    wszName = vnh + 1;
+    wszName = (const unichar*)(vnh + 1);
   }
-  ERR_RET(EIV_UNKNOWNNODE);
+
+  if ((void*)vnh >= be)
+    ERR_RET(EIV_UNKNOWNNODE);
+  
+  dataptr = PAD_TO_32BIT((void*)(wszName + nameLen + 1));
+  nextptr = PAD_TO_32BIT(dataptr + vnh->cbData);  //pointer to first child node
+  subtreeLen = ((void*)vnh + vnh->cbNode) - nextptr;
+  
+  /* If we're at the node we want to return, return it */
+  if ([path count] == level + 1) {
+    if (getChildren) {
+      return [NSData dataWithBytes:nextptr length:subtreeLen];
+    } else {
+      /* Right after the transition to Unicode version strings many resource
+       * compilers had a bug where the cbData is interpreted as a character
+       * count, not as a byte count as it should be.*/
+      if (vnh->wType == 1 && level == 3)
+        if (nextptr - (void*)vnh < vnh->cbNode)
+          return [NSData dataWithBytes:dataptr length:vnh->cbData * 2];
+      return [NSData dataWithBytes:dataptr length:vnh->cbData];
+    }
+  }
+  
+  /* Otherwise recurse into this node's children */
+  nodeData = [NSData dataWithBytesNoCopy:(void*)nextptr length:subtreeLen freeWhenDone:NO];
+  return resTreeRead32(path, level+1, nodeData, err, getChildren);
 }
 
-NSData* resTreeRead16(NSArray* path, int level, NSData* block, EIVERSION_ERR* err, BOOL returnWholeBlock) {
-  const void* bb = [block bytes];
-  const void* be = bb + [block length];
-  const VERSIONNODE16_HEADER* vnh = bb;
+
+NSData *resTreeRead16(NSArray *path, int level, NSData* block, EIVERSION_ERR *err, BOOL getChildren) {
+  const void *bb, *be;
+  const VERSIONNODE16_HEADER *vnh;
+  const char *wszName;
+  ssize_t subtreeLen;
+  const void *dataptr, *nextptr;
+  NSString *nodeName, *nodeToRead;
+  NSData *nodeData;
+  
+  vnh = bb = [block bytes];
+  be = bb + [block length];
   *err = EIV_NOERR;
   
-  const void* wszName = vnh + 1;
+  wszName = (char*)(vnh + 1);
+  nodeToRead = [path objectAtIndex:level];
+  
+  /* Search for the right node in this level */
   while ((void*)vnh < be) {
-    NSString* temp = [NSString stringWithCString:(const char*)wszName encoding:NSWindowsCP1252StringEncoding];
+    nodeName = [NSString stringWithCString:wszName encoding:NSWindowsCP1252StringEncoding];
         
-    if (([temp caseInsensitiveCompare:[path objectAtIndex:level]]==NSOrderedSame) || 
-        ([@"*" compare:[path objectAtIndex:level]]==NSOrderedSame)) {  //* is a wildcard for the first item
-      const void* dataptr = PAD_TO_32BIT(wszName + [temp length] + 1);
-      const void* nodeptr = PAD_TO_32BIT(dataptr + vnh->cbData);  //pointer to first child node
-      if ([path count] == (level+1)) {
-        if (!returnWholeBlock) {
-          return [NSData dataWithBytesNoCopy:(void*)dataptr length:vnh->cbData freeWhenDone:NO];
-        } else {
-          return [NSData dataWithBytesNoCopy:(void*)nodeptr length:(((void*)vnh+(vnh->cbNode))-nodeptr) freeWhenDone:NO];
-        }
-      } else {
-        NSData *nodeData = [NSData dataWithBytesNoCopy:(void*)nodeptr length:(((void*)vnh+(vnh->cbNode))-nodeptr) freeWhenDone:NO];
-        return resTreeRead16(path, level+1, nodeData, err, returnWholeBlock);
-      }
-    }
+    if ([nodeName caseInsensitiveCompare:nodeToRead] == NSOrderedSame ||
+        [@"*" isEqual:nodeToRead])
+      break;
     
     vnh = PAD_TO_32BIT((void*)vnh + vnh->cbNode);
-    wszName = vnh + 1;
+    wszName = (const char*)(vnh + 1);
   }
-  ERR_RET(EIV_UNKNOWNNODE);
+  
+  if ((void*)vnh >= be)
+    ERR_RET(EIV_UNKNOWNNODE);
+  
+  dataptr = PAD_TO_32BIT(wszName + [nodeName length] + 1);
+  nextptr = PAD_TO_32BIT(dataptr + vnh->cbData);  //pointer to first child node
+  subtreeLen = ((void*)vnh + vnh->cbNode) - nextptr;
+  
+  /* If we're at the node we want to return, return it */
+  if ([path count] == level + 1) {
+    if (getChildren)
+      return [NSData dataWithBytes:nextptr length:subtreeLen];
+    return [NSData dataWithBytes:dataptr length:vnh->cbData];
+  }
+  
+  /* Otherwise recurse into this node's children */
+  nodeData = [NSData dataWithBytesNoCopy:(void*)nextptr length:subtreeLen freeWhenDone:NO];
+  return resTreeRead16(path, level+1, nodeData, err, getChildren);
 }
-
 
 
 @implementation EIVersionInfoReader
+
 
 - initWithBlock:(NSData*)myBlock is16Bit:(BOOL)win16 {
   gBlock = [myBlock retain];
@@ -168,53 +205,100 @@ NSData* resTreeRead16(NSArray* path, int level, NSData* block, EIVERSION_ERR* er
   return [super init];
 }
 
+
 - (void)dealloc {
   [gBlock release];
   [super dealloc];
 }
 
-//Like VerQueryValue(pBlock, lpSubBlock, lplpBuffer, puLen);
-- (NSData*)queryValue:(NSString*)subBlock error:(EIVERSION_ERR*)err {
-  if (win16Block) {
-    return resTreeRead16(makeRequest(subBlock), 0, gBlock, err, NO);
-  } else {
-    return resTreeRead32(makeRequest(subBlock), 0, gBlock, err, NO);
-  }
+
+// Like VerQueryValue(pBlock, lpSubBlock, lplpBuffer, puLen);
+- (NSData *)queryValue:(NSString *)subBlock error:(EIVERSION_ERR *)err {
+  NSData *res;
+  EIVERSION_ERR rerr = EIV_NOERR;
+  
+  if (win16Block)
+    res = resTreeRead16(makeRequest(subBlock), 0, gBlock, &rerr, NO);
+  else
+    res = resTreeRead32(makeRequest(subBlock), 0, gBlock, &rerr, NO);
+  if (!res && err)
+    *err = rerr;
+  return res;
 }
 
-- (NSArray*)querySubNodesUnder:(NSString*)subBlock error:(EIVERSION_ERR*)err {
+
+- (NSArray *)querySubNodesUnder:(NSString *)subBlock error:(EIVERSION_ERR *)err {
+  NSArray *res;
+  EIVERSION_ERR rerr = EIV_NOERR;
+  
+  if (win16Block)
+    res = [self _query16BitSubNodesUnder:subBlock error:&rerr];
+  else
+    res = [self _query32BitSubNodesUnder:subBlock error:&rerr];
+  if (!res && err)
+    *err = rerr;
+  return res;
+}
+
+
+- (NSArray *)_query16BitSubNodesUnder:(NSString *)subBlock error:(EIVERSION_ERR *)err {
   NSData *queryNode;
-  if (win16Block) {
-    queryNode = resTreeRead16(makeRequest(subBlock), 0, gBlock, err, YES);
-  } else {
-    queryNode = resTreeRead32(makeRequest(subBlock), 0, gBlock, err, YES);
-  }
+  NSMutableArray *nodeArray;
+  const void *bb, *be;
+  const VERSIONNODE16_HEADER *vnh;
+  const char *wszName;
+  NSString *nodeName;
+  
+  queryNode = resTreeRead16(makeRequest(subBlock), 0, gBlock, err, YES);
   if (*err) return nil;
   
-  NSMutableArray* nodeArray = [[[NSMutableArray alloc] init] autorelease];
+  nodeArray = [NSMutableArray array];
   
-  const void* bb = [queryNode bytes];
-  const void* be = bb + [queryNode length];
-  const VERSIONNODE_HEADER* vnh = bb;
+  vnh = bb = [queryNode bytes];
+  be = bb + [queryNode length];
   
-  const void* wszName = vnh + 1;
-  if (win16Block) wszName -= 2;
+  wszName = (char*)(vnh + 1);
   while ((void*)vnh < be) {
-    NSString *temp;
-    if (win16Block) {
-      temp = [NSString stringWithCString:(const char*)wszName encoding:NSWindowsCP1252StringEncoding];
-    } else {
-      int len = utf16StringLen((int16_t*)wszName);
-      if (len == -1) ERR_RET(EIV_WRONGFORMAT);
-      temp = [NSString stringWithCharacters:(const unichar*)wszName length:len];
-    }
-    [nodeArray addObject:temp];
+    nodeName = [NSString stringWithCString:wszName encoding:NSWindowsCP1252StringEncoding];
+    [nodeArray addObject:nodeName];
     
     vnh = PAD_TO_32BIT((void*)vnh + vnh->cbNode);
-    wszName = vnh + 1;
-    if (win16Block) wszName -= 2;
+    wszName = (char*)(vnh + 1);
   }
-  return nodeArray;
+  
+  return [[nodeArray copy] autorelease];
+}
+
+
+- (NSArray *)_query32BitSubNodesUnder:(NSString *)subBlock error:(EIVERSION_ERR *)err {
+  NSData *queryNode;
+  NSMutableArray *nodeArray;
+  const void *bb, *be;
+  const VERSIONNODE_HEADER *vnh;
+  const unichar *wszName;
+  NSString *nodeName;
+  ssize_t nameLen;
+  
+  queryNode = resTreeRead32(makeRequest(subBlock), 0, gBlock, err, YES);
+  if (*err) return nil;
+  
+  nodeArray = [NSMutableArray array];
+  vnh = bb = [queryNode bytes];
+  be = bb + [queryNode length];
+  
+  wszName = (unichar *)(vnh + 1);
+  while ((void*)vnh < be) {
+    nameLen = utf16StringLen(wszName);
+    if (nameLen < 0) ERR_RET(EIV_WRONGFORMAT);
+    
+    nodeName = [NSString stringWithCharacters:wszName length:nameLen];
+    [nodeArray addObject:nodeName];
+    
+    vnh = PAD_TO_32BIT((void*)vnh + vnh->cbNode);
+    wszName = (void*)(vnh + 1);
+  }
+  
+  return [[nodeArray copy] autorelease];
 }
 
 

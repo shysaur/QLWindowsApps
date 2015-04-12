@@ -50,7 +50,6 @@ NSString *QWAGetCascadingStyleSheet(void) {
 
 NSString *QWAHTMLVersionInfoForExeFile(EIExeFile *exeFile) {
   NSMutableString *html;
-  EIVERSION_ERR virErr;
   NSData *vinfo;
   EIVersionInfoReader *vir;
   NSString* queryHeader;
@@ -68,8 +67,8 @@ NSString *QWAHTMLVersionInfoForExeFile(EIExeFile *exeFile) {
   [vir autorelease];
   
   queryHeader = @"\\StringFileInfo\\*";
-  resSrch = [vir querySubNodesUnder:queryHeader error:&virErr];
-  if (virErr) return @"";
+  resSrch = [vir querySubNodesUnder:queryHeader error:NULL];
+  if (!resSrch) return @"";
   
   if ([exeFile is16Bit])
     resEnc = NSWindowsCP1252StringEncoding;
@@ -78,8 +77,8 @@ NSString *QWAHTMLVersionInfoForExeFile(EIExeFile *exeFile) {
   
   for (node in resSrch) {
     vpath = [NSString stringWithFormat:@"%@\\%@", queryHeader, node];
-    item = [vir queryValue:vpath error:&virErr];
-    if (virErr) continue;
+    item = [vir queryValue:vpath error:NULL];
+    if (!item) continue;
     
     temp = [[NSString alloc] initWithData:item encoding:resEnc];
     [html appendString:@"<tr><td>"];
@@ -171,6 +170,6 @@ cleanup:
 
 
 void CancelPreviewGeneration(void* thisInterface, QLPreviewRequestRef preview) {
-    // implement only if supported
+  // implement only if supported
 }
 

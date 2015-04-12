@@ -54,7 +54,6 @@ OSStatus GenerateThumbnailForURL(void *thisInterface, QLThumbnailRequestRef thum
   NSAutoreleasePool *pool;
   MDItemRef mdirf;
   NSNumber *fsize;
-  BOOL err;
   EIExeFile *exeFile;
   NSImage *icon;
   NSRect rect;

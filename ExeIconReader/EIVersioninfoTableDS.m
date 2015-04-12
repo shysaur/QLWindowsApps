@@ -65,7 +65,7 @@
   
   for (int c=0; c<[resSrch count]; c++) {
     NSData* item = [vir queryValue:[NSString stringWithFormat:@"%@\\%@", queryHeader, [resSrch objectAtIndex:c]] error:&error];
-    if (!error) {
+    if (!item) {
       NSString* temp = [[NSString alloc] initWithData:item encoding:resEnc];
       [list addObject:[NSString stringWithFormat:@"%@: %@", [resSrch objectAtIndex:c], temp]];
       [temp release];
