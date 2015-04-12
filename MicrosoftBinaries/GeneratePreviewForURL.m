@@ -50,7 +50,6 @@ NSString *QWAGetCascadingStyleSheet(void) {
 
 NSString *QWAHTMLVersionInfoForExeFile(EIExeFile *exeFile) {
   NSMutableString *html;
-  NSData *vinfo;
   EIVersionInfo *vir;
   NSString* queryHeader;
   NSArray *resSrch;
@@ -61,10 +60,7 @@ NSString *QWAHTMLVersionInfoForExeFile(EIExeFile *exeFile) {
   
   mbundle = [NSBundle bundleWithIdentifier:@"com.danielecattaneo.qlgenerator.qlwindowsapps"];
   html = [[@"<table id=\"vertable\"><tbody>" mutableCopy] autorelease];
-  
-  vinfo = [exeFile versionInfo];
-  vir = [[EIVersionInfo alloc] initWithData:vinfo is16Bit:[exeFile is16Bit]];
-  [vir autorelease];
+  vir = [exeFile versionInfo];
   
   queryHeader = @"\\StringFileInfo\\*";
   resSrch = [vir querySubNodesUnder:queryHeader error:NULL];

@@ -21,6 +21,7 @@
 #include <stdlib.h>
 #include "io-utils.h"
 #include "osxwres.h"
+#include "EIVersionInfo.h"
 
 
 @implementation EIExeFile
@@ -91,13 +92,12 @@ fail:
       NSLog(@"%s: error in extracting resource", fl.name);
     return nil;
   }
-  
-  NSImage *timg = [[[NSImage alloc] initWithData:icodata] autorelease];
-  return timg;
+
+  return [[[NSImage alloc] initWithData:icodata] autorelease];
 }
 
 
-- (NSData*)versionInfo {
+- (EIVersionInfo *)versionInfo {
   extract_error err;
   uint32_t sysLocale;
   NSString *localeIdent;
@@ -129,7 +129,8 @@ fail:
       NSLog(@"%s: error in extracting resource", fl.name);
     return nil;
   }
-  return verdata;
+  
+  return [[[EIVersionInfo alloc] initWithData:verdata is16Bit:[self is16Bit]] autorelease];
 }
 
 

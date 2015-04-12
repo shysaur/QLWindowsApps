@@ -22,6 +22,9 @@
 #include "osxwres.h"
 
 
+@class EIVersionInfo;
+
+
 @interface EIExeFile : NSObject {
   WinLibrary fl;
 }
@@ -30,7 +33,7 @@
 - (void)dealloc;
 
 - (NSImage *)icon;
-- (NSData *)versionInfo;
+- (EIVersionInfo *)versionInfo;
 - (BOOL)is16Bit;
 
 @end

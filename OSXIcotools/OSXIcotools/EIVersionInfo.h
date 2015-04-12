@@ -34,6 +34,9 @@ typedef enum {
 - (instancetype)initWithData:(NSData *)myBlock is16Bit:(BOOL)win16;
 - (void)dealloc;
 
+- (BOOL)is16bit;
+- (NSData *)data;
+
 - (NSData*)queryValue:(NSString*)subBlock error:(EIVERSION_ERR*)err;
 - (NSArray*)querySubNodesUnder:(NSString*)subBlock error:(EIVERSION_ERR*)err;
 

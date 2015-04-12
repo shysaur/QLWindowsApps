@@ -30,7 +30,7 @@
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)aTableView;
 - (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex;
 
-- (void)loadFromVersioninfo:(NSData*)verInfo is16Bit:(BOOL)bitness;
+- (void)loadFromVersionInfo:(EIVersionInfo*)vir;
 - (void)loadFromEIExeFile:(EIExeFile*)exfile;
 
 @end

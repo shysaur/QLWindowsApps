@@ -185,6 +185,16 @@ NSData *resTreeRead16(NSArray *path, int level, NSData* block, EIVERSION_ERR *er
 }
 
 
+- (BOOL)is16bit {
+  return win16Block;
+}
+
+
+- (NSData *)data {
+  return [[gBlock retain] autorelease];
+}
+
+
 // Like VerQueryValue(pBlock, lpSubBlock, lplpBuffer, puLen);
 - (NSData *)queryValue:(NSString *)subBlock error:(EIVERSION_ERR *)err {
   NSData *res;

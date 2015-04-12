@@ -46,18 +46,16 @@
 }
 
 
-- (void)loadFromVersioninfo:(NSData*)verInfo is16Bit:(BOOL)bitness {
+- (void)loadFromVersionInfo:(EIVersionInfo*)vir {
   EIVERSION_ERR error;
   [list release];
   list = [[NSMutableArray alloc] init];
-  
-  EIVersionInfo* vir = [[[EIVersionInfo alloc] initWithData:verInfo is16Bit:bitness] autorelease];
   
   NSString *queryHeader = @"\\StringFileInfo\\*";
   NSArray *resSrch = [vir querySubNodesUnder:queryHeader error:&error];
   
   NSStringEncoding resEnc;
-  if (bitness) {
+  if ([vir is16bit]) {
     resEnc = NSWindowsCP1252StringEncoding;
   } else {
     resEnc = NSUTF16LittleEndianStringEncoding;
@@ -65,7 +63,7 @@
   
   for (int c=0; c<[resSrch count]; c++) {
     NSData* item = [vir queryValue:[NSString stringWithFormat:@"%@\\%@", queryHeader, [resSrch objectAtIndex:c]] error:&error];
-    if (!item) {
+    if (item) {
       NSString* temp = [[NSString alloc] initWithData:item encoding:resEnc];
       [list addObject:[NSString stringWithFormat:@"%@: %@", [resSrch objectAtIndex:c], temp]];
       [temp release];
@@ -75,7 +73,7 @@
 
 
 - (void)loadFromEIExeFile:(EIExeFile*)exfile {
-  [self loadFromVersioninfo:[exfile versionInfo] is16Bit:[exfile is16Bit]];
+  [self loadFromVersionInfo:[exfile versionInfo]];
 }
 
 
