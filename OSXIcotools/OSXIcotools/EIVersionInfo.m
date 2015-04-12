@@ -22,7 +22,7 @@
  *  http://blogs.msdn.com/b/oldnewthing/archive/2006/12/20/1332035.aspx (16 bit)
  */
 
-#import "EIVersionInfoReader.h"
+#import "EIVersionInfo.h"
 
 
 typedef struct {
@@ -169,10 +169,10 @@ NSData *resTreeRead16(NSArray *path, int level, NSData* block, EIVERSION_ERR *er
 }
 
 
-@implementation EIVersionInfoReader
+@implementation EIVersionInfo
 
 
-- initWithBlock:(NSData*)myBlock is16Bit:(BOOL)win16 {
+- (instancetype)initWithData:(NSData *)myBlock is16Bit:(BOOL)win16 {
   gBlock = [myBlock retain];
   win16Block = win16;
   return [super init];

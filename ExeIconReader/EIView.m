@@ -18,7 +18,7 @@
 
 #import "EIView.h"
 #import "EIExeFile.h"
-#import "EIVersionInfoReader.h"
+#import "EIVersionInfo.h"
 
 
 @implementation EIView

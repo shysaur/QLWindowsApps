@@ -26,17 +26,16 @@ typedef enum {
 } EIVERSION_ERR;
 
 
-@interface EIVersionInfoReader : NSObject {
+@interface EIVersionInfo : NSObject {
   NSData* gBlock;
   BOOL win16Block;
 }
 
-- initWithBlock:(NSData*)myBlock is16Bit:(BOOL)win16;
+- (instancetype)initWithData:(NSData *)myBlock is16Bit:(BOOL)win16;
 - (void)dealloc;
 
 - (NSData*)queryValue:(NSString*)subBlock error:(EIVERSION_ERR*)err;
 - (NSArray*)querySubNodesUnder:(NSString*)subBlock error:(EIVERSION_ERR*)err;
-
 
 @end
 

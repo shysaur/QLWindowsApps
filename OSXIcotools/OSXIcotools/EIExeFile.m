@@ -26,7 +26,7 @@
 @implementation EIExeFile
 
 
-- initWithExeFileURL:(NSURL*)exeFile {
+- (instancetype)initWithExeFileURL:(NSURL *)exeFile {
   CFIndex strsize;
   NSString *tmp;
   

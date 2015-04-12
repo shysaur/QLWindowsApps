@@ -17,7 +17,7 @@
  */
 
 #import "EIVersioninfoTableDS.h"
-#import "EIVersionInfoReader.h"
+#import "EIVersionInfo.h"
 
 
 @implementation EIVersioninfoTableDS
@@ -51,7 +51,7 @@
   [list release];
   list = [[NSMutableArray alloc] init];
   
-  EIVersionInfoReader* vir = [[[EIVersionInfoReader alloc] initWithBlock:verInfo is16Bit:bitness] autorelease];
+  EIVersionInfo* vir = [[[EIVersionInfo alloc] initWithData:verInfo is16Bit:bitness] autorelease];
   
   NSString *queryHeader = @"\\StringFileInfo\\*";
   NSArray *resSrch = [vir querySubNodesUnder:queryHeader error:&error];

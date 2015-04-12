@@ -22,7 +22,7 @@
 #include <QuickLook/QuickLook.h>
 #import <Cocoa/Cocoa.h>
 #import "EIExeFile.h"
-#import "EIVersionInfoReader.h"
+#import "EIVersionInfo.h"
 #import "NSData+QWABase64.h"
 
 
@@ -51,7 +51,7 @@ NSString *QWAGetCascadingStyleSheet(void) {
 NSString *QWAHTMLVersionInfoForExeFile(EIExeFile *exeFile) {
   NSMutableString *html;
   NSData *vinfo;
-  EIVersionInfoReader *vir;
+  EIVersionInfo *vir;
   NSString* queryHeader;
   NSArray *resSrch;
   NSBundle *mbundle;
@@ -63,7 +63,7 @@ NSString *QWAHTMLVersionInfoForExeFile(EIExeFile *exeFile) {
   html = [[@"<table id=\"vertable\"><tbody>" mutableCopy] autorelease];
   
   vinfo = [exeFile versionInfo];
-  vir = [[EIVersionInfoReader alloc] initWithBlock:vinfo is16Bit:[exeFile is16Bit]];
+  vir = [[EIVersionInfo alloc] initWithData:vinfo is16Bit:[exeFile is16Bit]];
   [vir autorelease];
   
   queryHeader = @"\\StringFileInfo\\*";
