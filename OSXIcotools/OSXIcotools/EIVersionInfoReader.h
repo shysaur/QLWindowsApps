@@ -25,11 +25,6 @@ typedef enum {
   EIV_WRONGDATA = 3
 } EIVERSION_ERR;
 
-typedef struct {
-  uint16_t lang;
-  uint16_t coding;
-} TRANSLATION;
-
 
 @interface EIVersionInfoReader : NSObject {
   NSData* gBlock;
