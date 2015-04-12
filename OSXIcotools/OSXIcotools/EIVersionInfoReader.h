@@ -30,7 +30,6 @@ typedef struct {
   uint16_t coding;
 } TRANSLATION;
 
-NSStringEncoding NSEncodingFromCodePage(int cp);
 
 @interface EIVersionInfoReader : NSObject {
   NSData* gBlock;

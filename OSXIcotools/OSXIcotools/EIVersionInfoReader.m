@@ -37,33 +37,6 @@ typedef struct {
 } VERSIONNODE16_HEADER;
 
 
-NSStringEncoding NSEncodingFromCodePage(int cp) {
-  switch (cp) {
-    case 20127: return NSASCIIStringEncoding;
-    case 20932: return NSJapaneseEUCStringEncoding;
-    case 65001: return NSUTF8StringEncoding;
-    case 28591: return NSISOLatin1StringEncoding;
-    case   932: return NSShiftJISStringEncoding;
-    case 28592: return NSISOLatin2StringEncoding;
-    case  1251: return NSWindowsCP1251StringEncoding;   
-    case  1252: return NSWindowsCP1252StringEncoding;   
-    case  1253: return NSWindowsCP1253StringEncoding;   
-    case  1254: return NSWindowsCP1254StringEncoding;   
-    case  1250: return NSWindowsCP1250StringEncoding;   
-    case 50222:
-    case 50221:
-    case 50220: return NSISO2022JPStringEncoding;       
-    case 10000: return NSMacOSRomanStringEncoding;
-    case  1201: return NSUTF16BigEndianStringEncoding;  
-    case  1200: return NSUTF16LittleEndianStringEncoding;
-    case 12001: return NSUTF32BigEndianStringEncoding;  
-    case 12000: return NSUTF32LittleEndianStringEncoding;
-      /* We hope exotic codings are just misguided mistakes.*/
-    default:    return NSUTF16LittleEndianStringEncoding;
-  }
-}
-
-
 int utf16StringLen(const unichar* string) {
   int len;
   
