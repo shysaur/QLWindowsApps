@@ -20,7 +20,7 @@
 #import "EIExeFile.h"
 
 
-@interface EIVersioninfoTableDS : NSObject <NSTableViewDataSource> {
+@interface EIVersionInfoTableDataSource : NSObject <NSTableViewDataSource> {
   NSMutableArray* list;
 }
 

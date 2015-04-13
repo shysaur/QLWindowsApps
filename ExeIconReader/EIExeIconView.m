@@ -16,12 +16,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#import "EIView.h"
+#import "EIExeIconView.h"
 #import "EIExeFile.h"
 #import "EIVersionInfo.h"
 
 
-@implementation EIView
+@implementation EIExeIconView
 
 
 - (void)setIconForExe:(NSURL *)exefile {

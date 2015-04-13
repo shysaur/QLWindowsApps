@@ -17,7 +17,7 @@
  */
 
 #import <Cocoa/Cocoa.h>
-#import "EIView.h"
+#import "EIExeIconView.h"
 
 
 @interface EXEIconReaderAppDelegate : NSObject <NSApplicationDelegate>

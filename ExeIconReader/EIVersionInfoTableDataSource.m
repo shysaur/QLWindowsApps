@@ -16,11 +16,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#import "EIVersioninfoTableDS.h"
+#import "EIVersionInfoTableDataSource.h"
 #import "EIVersionInfo.h"
 
 
-@implementation EIVersioninfoTableDS
+@implementation EIVersionInfoTableDataSource
 
 
 - init {

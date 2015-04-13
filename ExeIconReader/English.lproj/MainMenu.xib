@@ -809,7 +809,7 @@
 				<nil key="NSViewClass"/>
 				<nil key="NSUserInterfaceItemIdentifier"/>
 				<object class="NSView" key="NSWindowView" id="439893737">
-					<reference key="NSNextResponder"/>
+					<nil key="NSNextResponder"/>
 					<int key="NSvFlags">256</int>
 					<array class="NSMutableArray" key="NSSubviews">
 						<object class="NSSplitView" id="93779751">
@@ -827,9 +827,8 @@
 										<string>NeXT Encapsulated PostScript v1.2 pasteboard type</string>
 										<string>NeXT TIFF v4.0 pasteboard type</string>
 									</set>
-									<string key="NSFrame">{{-3, -3}, {257, 253}}</string>
+									<string key="NSFrameSize">{254, 247}</string>
 									<reference key="NSSuperview" ref="93779751"/>
-									<reference key="NSWindow"/>
 									<reference key="NSNextKeyView" ref="480373203"/>
 									<bool key="NSDoNotTranslateAutoresizingMask">YES</bool>
 									<bool key="NSEnabled">YES</bool>
@@ -855,9 +854,8 @@
 												<object class="NSTableView" id="284739631">
 													<reference key="NSNextResponder" ref="334309877"/>
 													<int key="NSvFlags">256</int>
-													<string key="NSFrameSize">{282, 229}</string>
+													<string key="NSFrameSize">{279, 229}</string>
 													<reference key="NSSuperview" ref="334309877"/>
-													<reference key="NSWindow"/>
 													<reference key="NSNextKeyView" ref="532330117"/>
 													<bool key="NSEnabled">YES</bool>
 													<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
@@ -865,9 +863,8 @@
 													<object class="NSTableHeaderView" key="NSHeaderView" id="817361445">
 														<reference key="NSNextResponder" ref="532330117"/>
 														<int key="NSvFlags">256</int>
-														<string key="NSFrameSize">{282, 17}</string>
+														<string key="NSFrameSize">{279, 17}</string>
 														<reference key="NSSuperview" ref="532330117"/>
-														<reference key="NSWindow"/>
 														<reference key="NSNextKeyView" ref="334309877"/>
 														<reference key="NSTableView" ref="284739631"/>
 													</object>
@@ -878,7 +875,7 @@
 													</object>
 													<array class="NSMutableArray" key="NSTableColumns">
 														<object class="NSTableColumn" id="828879356">
-															<double key="NSWidth">279</double>
+															<double key="NSWidth">276</double>
 															<double key="NSMinWidth">40</double>
 															<double key="NSMaxWidth">1000</double>
 															<object class="NSTableHeaderCell" key="NSHeaderCell">
@@ -956,9 +953,8 @@
 													<int key="NSTableViewGroupRowStyle">1</int>
 												</object>
 											</array>
-											<string key="NSFrame">{{1, 17}, {282, 229}}</string>
+											<string key="NSFrame">{{1, 17}, {279, 229}}</string>
 											<reference key="NSSuperview" ref="480373203"/>
-											<reference key="NSWindow"/>
 											<reference key="NSNextKeyView" ref="284739631"/>
 											<reference key="NSDocView" ref="284739631"/>
 											<reference key="NSBGColor" ref="469661392"/>
@@ -970,7 +966,6 @@
 											<int key="NSvFlags">-2147483392</int>
 											<string key="NSFrame">{{236, 17}, {15, 214}}</string>
 											<reference key="NSSuperview" ref="480373203"/>
-											<reference key="NSWindow"/>
 											<reference key="NSNextKeyView" ref="935112914"/>
 											<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 											<string key="NSControlAction">_doScroller:</string>
@@ -984,7 +979,6 @@
 											<int key="NSvFlags">-2147483392</int>
 											<string key="NSFrame">{{1, 231}, {250, 15}}</string>
 											<reference key="NSSuperview" ref="480373203"/>
-											<reference key="NSWindow"/>
 											<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 											<string key="NSControlAction">_doScroller:</string>
 											<reference key="NSControlTarget" ref="480373203"/>
@@ -999,17 +993,15 @@
 											<array class="NSMutableArray" key="NSSubviews">
 												<reference ref="817361445"/>
 											</array>
-											<string key="NSFrame">{{1, 0}, {282, 17}}</string>
+											<string key="NSFrame">{{1, 0}, {279, 17}}</string>
 											<reference key="NSSuperview" ref="480373203"/>
-											<reference key="NSWindow"/>
 											<reference key="NSNextKeyView" ref="817361445"/>
 											<reference key="NSDocView" ref="817361445"/>
 											<bool key="NSAutomaticallyAdjustsContentInsets">YES</bool>
 										</object>
 									</array>
-									<string key="NSFrame">{{260, 0}, {284, 247}}</string>
+									<string key="NSFrame">{{263, 0}, {281, 247}}</string>
 									<reference key="NSSuperview" ref="93779751"/>
-									<reference key="NSWindow"/>
 									<reference key="NSNextKeyView" ref="334309877"/>
 									<bool key="NSDoNotTranslateAutoresizingMask">YES</bool>
 									<int key="NSsFlags">133682</int>
@@ -1025,14 +1017,11 @@
 							</array>
 							<string key="NSFrame">{{20, 20}, {544, 247}}</string>
 							<reference key="NSSuperview" ref="439893737"/>
-							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="974199083"/>
 							<bool key="NSIsVertical">YES</bool>
 						</object>
 					</array>
 					<string key="NSFrameSize">{584, 287}</string>
-					<reference key="NSSuperview"/>
-					<reference key="NSWindow"/>
 					<reference key="NSNextKeyView" ref="93779751"/>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1280, 777}}</string>
@@ -1049,7 +1038,7 @@
 				<string key="NSClassName">EIMainWindowDelegate</string>
 			</object>
 			<object class="NSCustomObject" id="371371175">
-				<string key="NSClassName">EIVersioninfoTableDS</string>
+				<string key="NSClassName">EIVersionInfoTableDataSource</string>
 			</object>
 		</array>
 		<object class="IBObjectContainer" key="IBDocument.Objects">
@@ -2252,7 +2241,7 @@
 				<string key="550.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="551.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="555.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="558.CustomClassName">EIView</string>
+				<string key="558.CustomClassName">EIExeIconView</string>
 				<string key="558.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="559.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="56.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -2299,33 +2288,11 @@
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
-					<string key="className">EIVersioninfoTableDS</string>
+					<string key="className">EIVersionInfoTableDataSource</string>
 					<string key="superclassName">NSObject</string>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">EXEIconReader/EIVersioninfoTableDS.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">EIView</string>
-					<string key="superclassName">NSImageView</string>
-					<dictionary class="NSMutableDictionary" key="outlets">
-						<string key="tableView">NSTableView</string>
-						<string key="vinfods">EIVersioninfoTableDS</string>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<object class="IBToOneOutletInfo" key="tableView">
-							<string key="name">tableView</string>
-							<string key="candidateClassName">NSTableView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="vinfods">
-							<string key="name">vinfods</string>
-							<string key="candidateClassName">EIVersioninfoTableDS</string>
-						</object>
-					</dictionary>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">EXEIconReader/EIView.h</string>
+						<string key="minorKey">EXEIconReader/EIVersionInfoTableDataSource.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
@@ -2474,14 +2441,6 @@
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBFrameworkSource</string>
 						<string key="minorKey">AppKit.framework/Headers/NSImageCell.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">NSImageView</string>
-					<string key="superclassName">NSControl</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBFrameworkSource</string>
-						<string key="minorKey">AppKit.framework/Headers/NSImageView.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">

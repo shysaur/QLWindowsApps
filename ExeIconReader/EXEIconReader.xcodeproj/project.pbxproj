@@ -7,10 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0111E4FD165A6A5900EFA65D /* EIVersioninfoTableDS.m in Sources */ = {isa = PBXBuildFile; fileRef = 0111E4FC165A6A5900EFA65D /* EIVersioninfoTableDS.m */; };
+		0111E4FD165A6A5900EFA65D /* EIVersionInfoTableDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 0111E4FC165A6A5900EFA65D /* EIVersionInfoTableDataSource.m */; };
 		012E612419F417CC008ED670 /* libOSXIcotools.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 012E612319F417CC008ED670 /* libOSXIcotools.a */; };
 		0148B4EB16594B25006ADF02 /* EIMainWindowDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0148B4EA16594B25006ADF02 /* EIMainWindowDelegate.m */; };
-		01ACDCF71642AA8500AFC8C2 /* EIView.m in Sources */ = {isa = PBXBuildFile; fileRef = 01ACDCF61642AA8500AFC8C2 /* EIView.m */; };
+		01ACDCF71642AA8500AFC8C2 /* EIExeIconView.m in Sources */ = {isa = PBXBuildFile; fileRef = 01ACDCF61642AA8500AFC8C2 /* EIExeIconView.m */; };
 		1DDD58160DA1D0A300B32029 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DDD58140DA1D0A300B32029 /* MainMenu.xib */; };
 		256AC3DA0F4B6AC300CF3369 /* EXEIconReaderAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 256AC3D90F4B6AC300CF3369 /* EXEIconReaderAppDelegate.m */; };
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
@@ -19,13 +19,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		0111E4FB165A6A5900EFA65D /* EIVersioninfoTableDS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EIVersioninfoTableDS.h; sourceTree = "<group>"; };
-		0111E4FC165A6A5900EFA65D /* EIVersioninfoTableDS.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EIVersioninfoTableDS.m; sourceTree = "<group>"; };
+		0111E4FB165A6A5900EFA65D /* EIVersionInfoTableDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EIVersionInfoTableDataSource.h; sourceTree = "<group>"; };
+		0111E4FC165A6A5900EFA65D /* EIVersionInfoTableDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EIVersionInfoTableDataSource.m; sourceTree = "<group>"; };
 		012E612319F417CC008ED670 /* libOSXIcotools.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libOSXIcotools.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		0148B4E916594B25006ADF02 /* EIMainWindowDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EIMainWindowDelegate.h; sourceTree = "<group>"; };
 		0148B4EA16594B25006ADF02 /* EIMainWindowDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EIMainWindowDelegate.m; sourceTree = "<group>"; };
-		01ACDCF51642AA8500AFC8C2 /* EIView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EIView.h; sourceTree = "<group>"; };
-		01ACDCF61642AA8500AFC8C2 /* EIView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EIView.m; sourceTree = "<group>"; };
+		01ACDCF51642AA8500AFC8C2 /* EIExeIconView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EIExeIconView.h; sourceTree = "<group>"; };
+		01ACDCF61642AA8500AFC8C2 /* EIExeIconView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EIExeIconView.m; sourceTree = "<group>"; };
 		089C165DFE840E0CC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		13E42FB307B3F0F600E4EEF1 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
@@ -56,10 +56,10 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				0111E4FB165A6A5900EFA65D /* EIVersioninfoTableDS.h */,
-				0111E4FC165A6A5900EFA65D /* EIVersioninfoTableDS.m */,
-				01ACDCF51642AA8500AFC8C2 /* EIView.h */,
-				01ACDCF61642AA8500AFC8C2 /* EIView.m */,
+				0111E4FB165A6A5900EFA65D /* EIVersionInfoTableDataSource.h */,
+				0111E4FC165A6A5900EFA65D /* EIVersionInfoTableDataSource.m */,
+				01ACDCF51642AA8500AFC8C2 /* EIExeIconView.h */,
+				01ACDCF61642AA8500AFC8C2 /* EIExeIconView.m */,
 				256AC3D80F4B6AC300CF3369 /* EXEIconReaderAppDelegate.h */,
 				256AC3D90F4B6AC300CF3369 /* EXEIconReaderAppDelegate.m */,
 				0148B4E916594B25006ADF02 /* EIMainWindowDelegate.h */,
@@ -219,9 +219,9 @@
 			files = (
 				8D11072D0486CEB800E47090 /* main.m in Sources */,
 				256AC3DA0F4B6AC300CF3369 /* EXEIconReaderAppDelegate.m in Sources */,
-				01ACDCF71642AA8500AFC8C2 /* EIView.m in Sources */,
+				01ACDCF71642AA8500AFC8C2 /* EIExeIconView.m in Sources */,
 				0148B4EB16594B25006ADF02 /* EIMainWindowDelegate.m in Sources */,
-				0111E4FD165A6A5900EFA65D /* EIVersioninfoTableDS.m in Sources */,
+				0111E4FD165A6A5900EFA65D /* EIVersionInfoTableDataSource.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
