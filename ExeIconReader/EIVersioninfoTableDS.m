@@ -25,7 +25,7 @@
 
 - init {
   self = [super init];
-  list = [[NSMutableArray alloc] init];
+  list = nil;
   return self;
 }
 
