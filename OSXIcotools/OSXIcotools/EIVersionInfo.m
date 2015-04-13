@@ -65,6 +65,7 @@ NSArray* makeRequest(NSString* subBlock) {
 #define ERR_RET(x) {*err = ((x)); return nil;}
 
 NSData *resTreeRead32(NSArray *path, int level, NSData *block, EIVERSION_ERR *err, BOOL getChildren) {
+  BOOL found;
   const void *bb, *be;
   const VERSIONNODE_HEADER *vnh;
   const unichar *wszName;
@@ -81,19 +82,21 @@ NSData *resTreeRead32(NSArray *path, int level, NSData *block, EIVERSION_ERR *er
   nodeToRead = [path objectAtIndex:level];
   
   /* Search for the right node in this level */
+  found = NO;
   while ((void*)vnh < be) {
     nameLen = utf16StringLen(wszName);
     if (nameLen < 0) ERR_RET(EIV_WRONGFORMAT);
     
     nodeName = [NSString stringWithCharacters:wszName length:nameLen];
-    if ([nodeName caseInsensitiveCompare:nodeToRead] == NSOrderedSame || [@"*" isEqual:nodeToRead])
+    if ([nodeName caseInsensitiveCompare:nodeToRead] == NSOrderedSame || [@"*" isEqual:nodeToRead]) {
+      found = YES;
       break;
+    }
     
     vnh = PAD_TO_32BIT((void*)vnh + vnh->cbNode);
     wszName = (const unichar*)(vnh + 1);
   }
-
-  if ((void*)vnh >= be)
+  if (!found)
     ERR_RET(EIV_UNKNOWNNODE);
   
   dataptr = PAD_TO_32BIT((void*)(wszName + nameLen + 1));
@@ -122,6 +125,7 @@ NSData *resTreeRead32(NSArray *path, int level, NSData *block, EIVERSION_ERR *er
 
 
 NSData *resTreeRead16(NSArray *path, int level, NSData* block, EIVERSION_ERR *err, BOOL getChildren) {
+  BOOL found;
   const void *bb, *be;
   const VERSIONNODE16_HEADER *vnh;
   const char *wszName;
@@ -138,18 +142,21 @@ NSData *resTreeRead16(NSArray *path, int level, NSData* block, EIVERSION_ERR *er
   nodeToRead = [path objectAtIndex:level];
   
   /* Search for the right node in this level */
+  found = NO;
   while ((void*)vnh < be) {
     nodeName = [NSString stringWithCString:wszName encoding:NSWindowsCP1252StringEncoding];
         
     if ([nodeName caseInsensitiveCompare:nodeToRead] == NSOrderedSame ||
-        [@"*" isEqual:nodeToRead])
+        [@"*" isEqual:nodeToRead]) {
+      found = YES;
       break;
+    }
     
     vnh = PAD_TO_32BIT((void*)vnh + vnh->cbNode);
     wszName = (const char*)(vnh + 1);
   }
   
-  if ((void*)vnh >= be)
+  if (!found)
     ERR_RET(EIV_UNKNOWNNODE);
   
   dataptr = PAD_TO_32BIT(wszName + [nodeName length] + 1);
