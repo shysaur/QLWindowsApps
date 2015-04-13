@@ -1,6 +1,7 @@
 /* wrestool.h - Common definitions for wrestool
  *
  * Copyright (C) 1998 Oskar Liljeblad
+ * Copyright (C) 2012 Daniele Cattaneo
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

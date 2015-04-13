@@ -144,7 +144,8 @@ get_resource_id_quoted (WinResource *wr)
 /*static*/ bool
 compare_resource_id (WinResource *wr, char *id)
 {
-  if (*id == 0) return true; //Empty string is wildcard for disabling comparison
+	/* Empty string is wildcard for disabling comparison */
+	if (*id == 0) return true;
   
 	if (wr->numeric_id) {
 		int32_t cmp1, cmp2;
@@ -416,7 +417,7 @@ read_library (WinLibrary *fi)
 		Win32ImageSectionHeader *pe_sec;
 		Win32ImageDataDirectory *dir;
 		Win32ImageNTHeaders *pe_header;
-    PE32plusImageNTHeaders *peplus_header;
+		PE32plusImageNTHeaders *peplus_header;
 		int d;
 
 		/* allocate new memory */
@@ -430,40 +431,40 @@ read_library (WinLibrary *fi)
 		/* relocate memory, start from last section */
 		pe_header = PE_HEADER(fi->memory);
 		RETURN_IF_BAD_POINTER(false, pe_header->file_header.number_of_sections);
-    peplus_header = (PE32plusImageNTHeaders*)pe_header;
+		peplus_header = (PE32plusImageNTHeaders*)pe_header;
     
-    /* we don't need to do OFFSET checking for the sections.
-     * calc_vma_size has already done that */
-    for (d = pe_header->file_header.number_of_sections - 1; d >= 0 ; d--) {
-      pe_sec = PE_SECTIONS(fi->memory) + d;
-      if (pe_sec->characteristics & IMAGE_SCN_CNT_UNINITIALIZED_DATA) continue;
-      //if (pe_sec->virtual_address + pe_sec->size_of_raw_data > fi->total_size)
-      RETURN_IF_BAD_OFFSET(0, fi->memory + pe_sec->virtual_address, pe_sec->size_of_raw_data);
-      RETURN_IF_BAD_OFFSET(0, fi->memory + pe_sec->pointer_to_raw_data, pe_sec->size_of_raw_data);
-      if (pe_sec->virtual_address != pe_sec->pointer_to_raw_data) {
-        memmove(fi->memory + pe_sec->virtual_address,
-            fi->memory + pe_sec->pointer_to_raw_data,
-            pe_sec->size_of_raw_data);
-      }
-    }
+		/* we don't need to do OFFSET checking for the sections.
+		 * calc_vma_size has already done that */
+		for (d = pe_header->file_header.number_of_sections - 1; d >= 0 ; d--) {
+			pe_sec = PE_SECTIONS(fi->memory) + d;
+			if (pe_sec->characteristics & IMAGE_SCN_CNT_UNINITIALIZED_DATA) continue;
+			//if (pe_sec->virtual_address + pe_sec->size_of_raw_data > fi->total_size)
+			RETURN_IF_BAD_OFFSET(0, fi->memory + pe_sec->virtual_address, pe_sec->size_of_raw_data);
+			RETURN_IF_BAD_OFFSET(0, fi->memory + pe_sec->pointer_to_raw_data, pe_sec->size_of_raw_data);
+			if (pe_sec->virtual_address != pe_sec->pointer_to_raw_data) {
+				memmove(fi->memory + pe_sec->virtual_address,
+						fi->memory + pe_sec->pointer_to_raw_data,
+						pe_sec->size_of_raw_data);
+			}
+		}
 
-    if (pe_header->optional_header.magic == 0x20B) {  //PE32+
-      /* find resource directory */
-      RETURN_IF_BAD_POINTER(false, peplus_header->optional_header.data_directory[IMAGE_DIRECTORY_ENTRY_RESOURCE]);
-      dir = peplus_header->optional_header.data_directory + IMAGE_DIRECTORY_ENTRY_RESOURCE;
-      if (dir->size == 0) {
-        warn(_("%s: file contains no resources"), fi->name);
-        return false;
-      }
-    } else {  //PE32
-      /* find resource directory */
-      RETURN_IF_BAD_POINTER(false, pe_header->optional_header.data_directory[IMAGE_DIRECTORY_ENTRY_RESOURCE]);
-      dir = pe_header->optional_header.data_directory + IMAGE_DIRECTORY_ENTRY_RESOURCE;
-      if (dir->size == 0) {
-        warn(_("%s: file contains no resources"), fi->name);
-        return false;
-      }
-    }
+		if (pe_header->optional_header.magic == 0x20B) {  /* PE32+ */
+			/* find resource directory */
+			RETURN_IF_BAD_POINTER(false, peplus_header->optional_header.data_directory[IMAGE_DIRECTORY_ENTRY_RESOURCE]);
+			dir = peplus_header->optional_header.data_directory + IMAGE_DIRECTORY_ENTRY_RESOURCE;
+			if (dir->size == 0) {
+				warn(_("%s: file contains no resources"), fi->name);
+				return false;
+			}
+		} else {  /* PE32 */
+			/* find resource directory */
+			RETURN_IF_BAD_POINTER(false, pe_header->optional_header.data_directory[IMAGE_DIRECTORY_ENTRY_RESOURCE]);
+			dir = pe_header->optional_header.data_directory + IMAGE_DIRECTORY_ENTRY_RESOURCE;
+			if (dir->size == 0) {
+				warn(_("%s: file contains no resources"), fi->name);
+				return false;
+			}
+		}
 
 		fi->first_resource = ((uint8_t *) fi->memory) + dir->virtual_address;
 		fi->is_PE_binary = true;
@@ -503,11 +504,10 @@ calc_vma_size (WinLibrary *fi)
     	RETURN_IF_BAD_POINTER(0, *seg);
 
     	size = MAX(size, seg->virtual_address + seg->size_of_raw_data);
-		/* I have no idea what misc.virtual_size is for... */
-    /* Pecoff 8.2 pag 24:  VirtualSize is The total size of the section when
-    loaded into memory. If this value is greater than SizeOfRawData, the se-
-    ction is zero-padded. This field is valid only for executable images and
-    should be set to zero for object files. */
+		/* Pecoff 8.2 pag 24:  VirtualSize is The total size of the section when
+		 loaded into memory. If this value is greater than SizeOfRawData, the se-
+		 ction is zero-padded. This field is valid only for executable images and
+		 should be set to zero for object files. */
         size = MAX(size, seg->virtual_address + seg->misc.virtual_size);
         seg++;
     }
@@ -555,17 +555,17 @@ find_resource (WinLibrary *fi, char *type, char *name, char *language, int *leve
 	*level = 1;
 	if (name == NULL)
 		return wr;
-  old_wr = wr;
+	old_wr = wr;
 	wr = find_with_resource_array(fi, old_wr, name);
-  free(old_wr);
+	free(old_wr);
 	if (wr == NULL || !wr->is_directory)
 		return wr;
 
 	*level = 2;
 	if (language == NULL)
 		return wr;
-  old_wr = wr;
+	old_wr = wr;
 	wr = find_with_resource_array(fi, old_wr, language);
-  free(old_wr);
+	free(old_wr);
 	return wr;
 }

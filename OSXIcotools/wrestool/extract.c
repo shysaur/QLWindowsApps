@@ -189,10 +189,10 @@ extract_resource (WinLibrary *fi, WinResource *wr, int *size,
 			*free_it = true;
 			return extract_group_icon_cursor_resource(fi, wr, lang, size, false);
 		}
-    if (intval == (int) RT_VERSION) {
-      *free_it = false;
-      return get_resource_entry(fi, wr, size); //no conversion for versioninfo
-    }
+		if (intval == (int) RT_VERSION) {
+			*free_it = false;
+			return get_resource_entry(fi, wr, size); //no conversion for versioninfo
+		}
 	}
 
 	warn(_("%s: don't know how to extract resource, try `--raw'"), fi->name);
@@ -232,7 +232,7 @@ extract_group_icon_cursor_resource(WinLibrary *fi, WinResource *wr, char *lang,
 	skipped = 0;
 	for (c = 0 ; c < icondir->count ; c++) {
 		int level;
-    int iconsize;
+		int iconsize;
 		char name[14];
 		WinResource *fwr;
 
@@ -247,8 +247,8 @@ extract_group_icon_cursor_resource(WinLibrary *fi, WinResource *wr, char *lang,
 		/* find the corresponding icon resource */
 		snprintf(name, sizeof(name)/sizeof(char), "-%d", icondir->entries[c].res_id);
 		fwr = find_resource(fi, (is_icon ? "-3" : "-1"), name, "", &level);
-    //The empty string tells find_resource to ignore the value of the language id. Some EXEs have GROUP_ICONS
-    //with a different language ID than the ICONs themselves.
+		//The empty string tells find_resource to ignore the value of the language id. Some EXEs have GROUP_ICONS
+		//with a different language ID than the ICONs themselves.
 		if (fwr == NULL) {
 			warn(_("%s: could not find `%s' in `%s' resource."),
 			 	fi->name, &name[1], (is_icon ? "group_icon" : "group_cursor"));
@@ -256,22 +256,22 @@ extract_group_icon_cursor_resource(WinLibrary *fi, WinResource *wr, char *lang,
 		}
 
 		if (get_resource_entry(fi, fwr, &iconsize) != NULL) {
-      if (iconsize == 0) {
-        warn(_("%s: icon resource `%s' is empty, skipping"), fi->name, name);
-        skipped++;
-        continue;
-      }
-      if (iconsize != icondir->entries[c].bytes_in_res) {
-        warn(_("%s: mismatch of size in icon resource `%s' and group (%d vs %d)"), fi->name, name, iconsize, icondir->entries[c].bytes_in_res);
-      }
-      size += iconsize < icondir->entries[c].bytes_in_res ? icondir->entries[c].bytes_in_res : iconsize;
+			if (iconsize == 0) {
+				warn(_("%s: icon resource `%s' is empty, skipping"), fi->name, name);
+				skipped++;
+				continue;
+			}
+			if (iconsize != icondir->entries[c].bytes_in_res) {
+				warn(_("%s: mismatch of size in icon resource `%s' and group (%d vs %d)"), fi->name, name, iconsize, icondir->entries[c].bytes_in_res);
+			}
+			size += iconsize < icondir->entries[c].bytes_in_res ? icondir->entries[c].bytes_in_res : iconsize;
 
-      /* cursor resources have two additional WORDs that contain
-       * hotspot info */
-      if (!is_icon)
-        size -= sizeof(uint16_t)*2;
+			/* cursor resources have two additional WORDs that contain
+			 * hotspot info */
+			if (!is_icon)
+				size -= sizeof(uint16_t)*2;
 		}
-    free(fwr);
+		free(fwr);
 	}
   
 	offset = sizeof(Win32CursorIconFileDir) + (icondir->count-skipped) * sizeof(Win32CursorIconFileDirEntry);
@@ -310,7 +310,7 @@ extract_group_icon_cursor_resource(WinLibrary *fi, WinResource *wr, char *lang,
 			/* get_resource_entry has printed error */
 			return NULL;
 		}
-    if (size == 0) {
+		if (size == 0) {
 		    skipped++;
 		    continue;
 		}
@@ -332,8 +332,8 @@ extract_group_icon_cursor_resource(WinLibrary *fi, WinResource *wr, char *lang,
 
 		/* transfer resource into file memory */
 		if (is_icon) {
-			//memcpy(&memory[offset], data, icondir->entries[c].bytes_in_res);
-      memcpy(&memory[offset], data, size);  //Better to trust the resource itself. Fixes crash with ISCC.exe
+			/* Better to trust the resource itself. Fixes crash with ISCC.exe */
+			memcpy(&memory[offset], data, size);
 		} else {
 			fileicondir->entries[c-skipped].hotspot_x = ((uint16_t *) data)[0];
 			fileicondir->entries[c-skipped].hotspot_y = ((uint16_t *) data)[1];
@@ -344,7 +344,7 @@ extract_group_icon_cursor_resource(WinLibrary *fi, WinResource *wr, char *lang,
 
 		/* increase the offset pointer */
 		offset += icondir->entries[c].bytes_in_res;
-    free(fwr);
+		free(fwr);
 	}
 
 	return (void *) memory;
