@@ -24,6 +24,13 @@
 #include "EIVersionInfo.h"
 
 
+#ifdef DEBUG
+#  define EILog(...) NSLog(__VA_ARGS__)
+#else
+#  define EILog(...)
+#endif
+
+
 @implementation EIExeFile
 
 
@@ -50,7 +57,7 @@
     goto fail;
   }
   if (fl.total_size == 0) {
-    NSLog(@"%s: file has a size of 0", fl.name);
+    EILog(@"%s: file has a size of 0", fl.name);
     goto fail;
   }
 
@@ -87,7 +94,7 @@ fail:
     
   if (err) {
     if (err == EXTR_NOTFOUND)
-      NSLog(@"%s: suitable resource not found", fl.name);
+      EILog(@"%s: suitable resource not found", fl.name);
     else
       NSLog(@"%s: error in extracting resource", fl.name);
     return nil;
@@ -124,7 +131,7 @@ fail:
   
   if (err) {
     if (err == EXTR_NOTFOUND)
-      NSLog(@"%s: suitable resource not found", fl.name);
+      EILog(@"%s: suitable resource not found", fl.name);
     else
       NSLog(@"%s: error in extracting resource", fl.name);
     return nil;
