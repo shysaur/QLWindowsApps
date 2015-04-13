@@ -19,32 +19,29 @@
 #import "EIExeIconView.h"
 #import "EIExeFile.h"
 #import "EIVersionInfo.h"
+#import "EIMainWindowDelegate.h"
 
 
 @implementation EIExeIconView
 
 
-- (void)setIconForExe:(NSURL *)exefile {
+- (void)setImageFromExe:(NSURL *)exefile {
   NSImage *icoImage;
   
-  EIExeFile *exf = [[EIExeFile alloc] initWithExeFileURL:exefile];
+  [exf release];
+  exf = [[EIExeFile alloc] initWithExeFileURL:exefile];
+  
   if (exf) {
     icoImage = [exf icon];
     [self setImage:icoImage];
-    
-    MDItemRef mdirf = MDItemCreateWithURL(kCFAllocatorDefault, (CFURLRef)exefile);
-    if (mdirf) {
-      CFBooleanRef custico = MDItemCopyAttribute(mdirf, kMDItemFSHasCustomIcon);
-      if (custico == kCFBooleanFalse || custico == NULL) {
-        [[NSWorkspace sharedWorkspace] setIcon:icoImage forFile:[exefile path] options:0];
-      }
-    }
-    [NSApp setApplicationIconImage: icoImage];
-    
-    [vinfods loadFromEIExeFile:exf];
-    [tableView reloadData];
   }
-  [exf release];
+  
+  [self sendAction:[self action] to:[self target]];
+}
+
+
+- (EIExeFile *)exeFile {
+  return [[exf retain] autorelease];
 }
 
 
@@ -57,14 +54,15 @@
 
 
 - (BOOL)performDragOperation:(id <NSDraggingInfo>)sender {
-	NSPasteboard *pboard = [sender draggingPasteboard];
-  NSURL* finderUrl = [NSURL URLFromPasteboard:pboard];
+  NSPasteboard *pboard;
+  NSURL* finderUrl;
 
+  pboard = [sender draggingPasteboard];
+  finderUrl = [NSURL URLFromPasteboard:pboard];
   if (finderUrl == nil) return NO;
 
-  [self setIconForExe:finderUrl];
+  [self setImageFromExe:finderUrl];
   
-  [self setNeedsDisplay:YES];    //redraw us with the new image
   return YES;
 }
 

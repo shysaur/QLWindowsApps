@@ -17,14 +17,15 @@
  */
 
 #import <Cocoa/Cocoa.h>
-#import "EIVersionInfoTableDataSource.h"
+
+@class EIExeFile;
 
 
 @interface EIExeIconView : NSImageView {
-  IBOutlet NSTableView *tableView;
-  IBOutlet EIVersionInfoTableDataSource *vinfods;
+  EIExeFile *exf;
 }
 
-- (void)setIconForExe:(NSURL *)exefile;
+- (void)setImageFromExe:(NSURL *)exefile;
+- (EIExeFile *)exeFile;
 
 @end

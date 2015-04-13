@@ -17,6 +17,9 @@
  */
 
 #import "EIMainWindowDelegate.h"
+#import "EIExeFile.h"
+#import "EIExeIconView.h"
+#import "EIVersionInfoTableDataSource.h"
 
 
 @implementation EIMainWindowDelegate
@@ -25,6 +28,23 @@
 - (BOOL)windowShouldClose:(id)sender {
   [app terminate:self];
   return YES;
+}
+
+
+- (void)takeExeFileValueFrom:(id)sender {
+  EIVersionInfoTableDataSource *ds;
+  EIExeFile *exf;
+  NSWorkspace *ws;
+  
+  exf = [sender exeFile];
+
+  ws = [NSWorkspace sharedWorkspace];
+  [ws setIcon:[imageView image] forFile:[[exf url] path] options:0];
+  [NSApp setApplicationIconImage:[imageView image]];
+  
+  ds = [tableView dataSource];
+  [ds loadFromEIExeFile:exf];
+  [tableView reloadData];
 }
 
 

@@ -27,6 +27,7 @@
 
 @interface EIExeFile : NSObject {
   WinLibrary fl;
+  NSURL *url;
 }
 
 - (instancetype)initWithExeFileURL:(NSURL *)exeFile;
@@ -34,6 +35,7 @@
 
 - (NSImage *)icon;
 - (EIVersionInfo *)versionInfo;
+- (NSURL *)url;
 - (BOOL)is16Bit;
 
 @end

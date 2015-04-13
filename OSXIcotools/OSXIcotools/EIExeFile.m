@@ -45,6 +45,7 @@
   fl.file = NULL;
   fl.memory = NULL;
 
+  url = [exeFile retain];
   tmp = [[exeFile absoluteURL] path];
   strsize = CFStringGetMaximumSizeOfFileSystemRepresentation((CFStringRef)tmp);
   fl.name = malloc(strsize);
@@ -141,6 +142,11 @@ fail:
 }
 
 
+- (NSURL *)url {
+  return url;
+}
+
+
 - (BOOL)is16Bit {
   return !(fl.is_PE_binary);
 }
@@ -151,6 +157,7 @@ fail:
     fclose(fl.file);
   free(fl.memory);
   free(fl.name);
+  [url release];
   [super dealloc];
 }
 

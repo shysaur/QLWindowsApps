@@ -21,8 +21,11 @@
 
 @interface EIMainWindowDelegate : NSObject <NSWindowDelegate> {
   IBOutlet NSApplication *app;
+  IBOutlet NSTableView *tableView;
+  IBOutlet NSImageView *imageView;
 }
 
 - (BOOL)windowShouldClose:(id)sender;
+- (IBAction)takeExeFileValueFrom:(id)sender;
 
 @end
