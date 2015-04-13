@@ -47,26 +47,29 @@
 
 
 - (void)loadFromVersionInfo:(EIVersionInfo*)vir {
-  EIVERSION_ERR error;
+  NSArray *resSrch;
+  NSData* item;
+  NSString *node, *keyPath, *value;
+  NSStringEncoding resEnc;
+  
   [list release];
   list = [[NSMutableArray alloc] init];
   
-  NSString *queryHeader = @"\\StringFileInfo\\*";
-  NSArray *resSrch = [vir querySubNodesUnder:queryHeader error:&error];
+  resSrch = [vir querySubNodesUnder:@"\\StringFileInfo\\*" error:NULL];
   
-  NSStringEncoding resEnc;
-  if ([vir is16bit]) {
+  if ([vir is16bit])
     resEnc = NSWindowsCP1252StringEncoding;
-  } else {
+  else
     resEnc = NSUTF16LittleEndianStringEncoding;
-  }
   
-  for (int c=0; c<[resSrch count]; c++) {
-    NSData* item = [vir queryValue:[NSString stringWithFormat:@"%@\\%@", queryHeader, [resSrch objectAtIndex:c]] error:&error];
+  for (node in resSrch) {
+    keyPath = [NSString stringWithFormat:@"\\StringFileInfo\\*\\%@", node];
+    item = [vir queryValue:keyPath error:NULL];
+    
     if (item) {
-      NSString* temp = [[NSString alloc] initWithData:item encoding:resEnc];
-      [list addObject:[NSString stringWithFormat:@"%@: %@", [resSrch objectAtIndex:c], temp]];
-      [temp release];
+      value = [[NSString alloc] initWithData:item encoding:resEnc];
+      [list addObject:[NSString stringWithFormat:@"%@: %@", node, value]];
+      [value release];
     }
   }
 }
