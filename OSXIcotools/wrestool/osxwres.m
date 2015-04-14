@@ -1,4 +1,4 @@
-/* osxwres.m - wrestool bridge for Mac OS X / NeXTSTEP(untested) / GnuStep(untested)
+/* osxwres.m - wrestool bridge for Mac OS X 
  *
  * Copyright (C) 1998 Oskar Liljeblad
  * Copyright (C) 2012 Daniele Cattaneo
@@ -24,47 +24,41 @@
 #include "common/common.h"
 
 
-static NSData *
+NSData *
 get_resource_data (WinLibrary *fi, char *type, char *name, char *lang, extract_error *err)
 {
   int level;
-	int size;
-	bool free_it;
-	void *memory;
+  int size;
+  bool free_it;
+  void *memory;
+  WinResource* wr;
+  NSData *icoData;
+  
   *err = EXTR_NOERR;
   
   if (type == NULL) type = "";
   if (name == NULL) name = "";
   if (lang == NULL) lang = "";
-  WinResource* wr = find_resource(fi, type, name, lang, &level);
+  
+  wr = find_resource(fi, type, name, lang, &level);
   if (wr == NULL) {
     *err = EXTR_NOTFOUND;
     return NULL;
   }
+  
   memory = extract_resource(fi, wr, &size, &free_it, type, lang, false);
   if (memory == NULL) {
     *err = EXTR_FAIL;
     return NULL;
   }
-  NSData *icoData = [[NSData alloc] initWithBytes:memory length:size];
-  if (free_it) free(memory);
   
-  return icoData;
+  if (free_it) {
+    icoData = [[NSData alloc] initWithBytesNoCopy:memory length:size freeWhenDone:YES];
+  } else {
+    icoData = [[NSData alloc] initWithBytes:memory length:size];
+  }
+  return [icoData autorelease];
 }
 
-/* nsdata_default_icon:
- *   Extracts default (first) matching resource as a NSData object
- */
-
-NSData *
-nsdata_default_resource (WinLibrary *fi, char *type, char *name, char *lang, extract_error *err)
-{
-  NSData *temp = get_resource_data(fi, type, name, lang, err);
-  
-  if (temp != NULL)
-    [temp autorelease];
-
-  return temp;
-}
 
 

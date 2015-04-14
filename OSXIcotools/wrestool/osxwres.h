@@ -1,4 +1,4 @@
-/* osxwres.h - wrestool bridge for Mac OS X / NeXTSTEP(untested) / GnuStep(untested)
+/* osxwres.h - wrestool bridge for Mac OS X
  *
  * Copyright (C) 1998 Oskar Liljeblad
  * Copyright (C) 2012 Daniele Cattaneo
@@ -28,6 +28,6 @@ typedef enum {
   EXTR_NOTFOUND = 2   //Resource not found
 } extract_error;
 
-NSData *nsdata_default_resource (WinLibrary *, char *, char *, char *, extract_error *);
+NSData *get_resource_data (WinLibrary *, char *, char *, char *, extract_error *);
 
 #endif

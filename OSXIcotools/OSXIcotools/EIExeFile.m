@@ -91,7 +91,7 @@ fail:
 
 - (NSImage*)icon {
   extract_error err;
-  NSData *icodata = nsdata_default_resource(&fl, "14", NULL, NULL, &err);
+  NSData *icodata = get_resource_data(&fl, "14", NULL, NULL, &err);
     
   if (err) {
     if (err == EXTR_NOTFOUND)
@@ -120,13 +120,13 @@ fail:
   
   sprintf(sysLocaleStr, "%d", sysLocale);
   //try with the current selected locale in the OS
-  NSData *verdata = nsdata_default_resource(&fl, "16", NULL, sysLocaleStr, &err);
+  NSData *verdata = get_resource_data(&fl, "16", NULL, sysLocaleStr, &err);
   if (err) {
     //if failure, try the en-US locale (the majority of apps, if they're not neutral, use this)
-    verdata = nsdata_default_resource(&fl, "16", NULL, "1033", &err);
+    verdata = get_resource_data(&fl, "16", NULL, "1033", &err);
     if (err) {
       //else, pick the first locale we find, and go with it.
-      verdata = nsdata_default_resource(&fl, "16", NULL, NULL, &err);
+      verdata = get_resource_data(&fl, "16", NULL, NULL, &err);
     }
   }
   
