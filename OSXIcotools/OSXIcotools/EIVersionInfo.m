@@ -25,6 +25,11 @@
 #import "EIVersionInfo.h"
 
 
+#define PAD_TO_32BIT(x) (((void*)((x)) + ((4 - ((intptr_t)((x)) % 4)) % 4)))
+#define ERR_RET(x) {*err = ((x)); return nil;}
+#define CHECK_PTR(b, x, e) {if ((void*)(x) < b || e < (void*)(x)) ERR_RET(EIV_WRONGFORMAT);}
+
+
 typedef struct {
   int16_t cbNode;  //Size of the node (a node includes its children)
   int16_t cbData;  //Size of the data in the node
@@ -37,13 +42,23 @@ typedef struct {
 } VERSIONNODE16_HEADER;
 
 
-int utf16StringLen(const unichar* string) {
+int utf16StringLen(const unichar* string, const unichar *maxptr) {
   int len;
   
-  for (len = 0; len < 1024; len++)
-    if (*(string++) == 0)
+  for (len = 0; string < maxptr; len++)
+    if (*(string++) == '\0')
       return len;
   return -1;  //absurd string length
+}
+
+
+int checkedStringLen(const char *str, const char *maxptr) {
+  int len;
+  
+  for (len = 0; str < maxptr; len++)
+    if (*(str++) == '\0')
+      return len;
+  return -1;
 }
 
 
@@ -60,9 +75,6 @@ NSArray* makeRequest(NSString* subBlock) {
   return request;
 }
 
-
-#define PAD_TO_32BIT(x) (((void*)((x)) + ((4 - ((intptr_t)((x)) % 4)) % 4)))
-#define ERR_RET(x) {*err = ((x)); return nil;}
 
 NSData *resTreeRead32(NSArray *path, int level, NSData *block, EIVERSION_ERR *err, BOOL getChildren) {
   BOOL found;
@@ -84,7 +96,7 @@ NSData *resTreeRead32(NSArray *path, int level, NSData *block, EIVERSION_ERR *er
   /* Search for the right node in this level */
   found = NO;
   while ((void*)vnh < be) {
-    nameLen = utf16StringLen(wszName);
+    nameLen = utf16StringLen(wszName, be);
     if (nameLen < 0) ERR_RET(EIV_WRONGFORMAT);
     
     nodeName = [NSString stringWithCharacters:wszName length:nameLen];
@@ -102,6 +114,8 @@ NSData *resTreeRead32(NSArray *path, int level, NSData *block, EIVERSION_ERR *er
   dataptr = PAD_TO_32BIT((void*)(wszName + nameLen + 1));
   nextptr = PAD_TO_32BIT(dataptr + vnh->cbData);  //pointer to first child node
   subtreeLen = ((void*)vnh + vnh->cbNode) - nextptr;
+  
+  CHECK_PTR(bb, nextptr + subtreeLen - 1, be);
   
   /* If we're at the node we want to return, return it */
   if ([path count] == level + 1) {
@@ -129,7 +143,7 @@ NSData *resTreeRead16(NSArray *path, int level, NSData* block, EIVERSION_ERR *er
   const void *bb, *be;
   const VERSIONNODE16_HEADER *vnh;
   const char *wszName;
-  ssize_t subtreeLen;
+  ssize_t subtreeLen, sl;
   const void *dataptr, *nextptr;
   NSString *nodeName, *nodeToRead;
   NSData *nodeData;
@@ -144,6 +158,8 @@ NSData *resTreeRead16(NSArray *path, int level, NSData* block, EIVERSION_ERR *er
   /* Search for the right node in this level */
   found = NO;
   while ((void*)vnh < be) {
+    sl = checkedStringLen(wszName, be);
+    if (sl < 0) ERR_RET(EIV_WRONGFORMAT);
     nodeName = [NSString stringWithCString:wszName encoding:NSWindowsCP1252StringEncoding];
         
     if ([nodeName caseInsensitiveCompare:nodeToRead] == NSOrderedSame ||
@@ -162,6 +178,8 @@ NSData *resTreeRead16(NSArray *path, int level, NSData* block, EIVERSION_ERR *er
   dataptr = PAD_TO_32BIT(wszName + [nodeName length] + 1);
   nextptr = PAD_TO_32BIT(dataptr + vnh->cbData);  //pointer to first child node
   subtreeLen = ((void*)vnh + vnh->cbNode) - nextptr;
+  
+  CHECK_PTR(bb, nextptr + subtreeLen - 1, be);
   
   /* If we're at the node we want to return, return it */
   if ([path count] == level + 1) {
@@ -238,6 +256,7 @@ NSData *resTreeRead16(NSArray *path, int level, NSData* block, EIVERSION_ERR *er
   const VERSIONNODE16_HEADER *vnh;
   const char *wszName;
   NSString *nodeName;
+  int sl;
   
   queryNode = resTreeRead16(makeRequest(subBlock), 0, gBlock, err, YES);
   if (*err) return nil;
@@ -249,6 +268,9 @@ NSData *resTreeRead16(NSArray *path, int level, NSData* block, EIVERSION_ERR *er
   
   wszName = (char*)(vnh + 1);
   while ((void*)vnh < be) {
+    sl = checkedStringLen(wszName, be);
+    if (sl < 0) ERR_RET(EIV_WRONGFORMAT);
+    
     nodeName = [NSString stringWithCString:wszName encoding:NSWindowsCP1252StringEncoding];
     [nodeArray addObject:nodeName];
     
@@ -278,7 +300,7 @@ NSData *resTreeRead16(NSArray *path, int level, NSData* block, EIVERSION_ERR *er
   
   wszName = (unichar *)(vnh + 1);
   while ((void*)vnh < be) {
-    nameLen = utf16StringLen(wszName);
+    nameLen = utf16StringLen(wszName, be);
     if (nameLen < 0) ERR_RET(EIV_WRONGFORMAT);
     
     nodeName = [NSString stringWithCharacters:wszName length:nameLen];
