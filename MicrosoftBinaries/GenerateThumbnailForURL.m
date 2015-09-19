@@ -66,7 +66,7 @@ OSStatus GenerateThumbnailForURL(void *thisInterface, QLThumbnailRequestRef thum
   
   pool = [[NSAutoreleasePool alloc] init];
   
-  mdirf = MDItemCreateWithURL(kCFAllocatorDefault, (CFURLRef)url);
+  mdirf = MDItemCreate(kCFAllocatorDefault, (CFStringRef)[(NSURL*)url path]);
   if (mdirf && QWAIsFileOnNetworkDrive(url)) {
     fsize = MDItemCopyAttribute(mdirf, kMDItemFSSize);
     
