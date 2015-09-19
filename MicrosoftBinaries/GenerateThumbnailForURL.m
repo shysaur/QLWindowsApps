@@ -27,19 +27,16 @@
 
 
 BOOL QWAIsFileOnNetworkDrive(CFURLRef url) {
-  FSRef ref;
-  FSCatalogInfo ci;
-  GetVolParmsInfoBuffer vpi;
+  NSURL *volume;
+  NSNumber *local;
   
-  /* Using deprecated APIs to support 10.5 */
-  if (!CFURLGetFSRef(url, &ref)) return NO;
-  
-  if (FSGetCatalogInfo(&ref, kFSCatInfoVolume, &ci, NULL, NULL, NULL) != noErr)
+  if (![(NSURL*)url getResourceValue:&volume forKey:NSURLVolumeURLKey error:nil])
     return NO;
   
-  if (FSGetVolumeParms(ci.volume, &vpi, sizeof(vpi)) != noErr) return NO;
+  if (![volume getResourceValue:&local forKey:NSURLVolumeIsLocalKey error:nil])
+    return NO;
   
-  return vpi.vMServerAdr != 0;
+  return ![local boolValue];
 }
 
 
