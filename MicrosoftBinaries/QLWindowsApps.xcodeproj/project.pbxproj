@@ -26,6 +26,8 @@
 		011D85F11643F5B7008A2601 /* MicrosoftBinaries_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 011D85F01643F5B7008A2601 /* MicrosoftBinaries_Prefix.pch */; };
 		012A7D36171C8F880019A298 /* VersioninfoNames.strings in Resources */ = {isa = PBXBuildFile; fileRef = 012A7D38171C8F880019A298 /* VersioninfoNames.strings */; };
 		012E612819F419AB008ED670 /* libOSXIcotools.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 012E612719F419AB008ED670 /* libOSXIcotools.a */; };
+		014896381BADDC59005C0B9D /* NSImage+QWACGImage.h in Headers */ = {isa = PBXBuildFile; fileRef = 014896361BADDC59005C0B9D /* NSImage+QWACGImage.h */; };
+		014896391BADDC59005C0B9D /* NSImage+QWACGImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 014896371BADDC59005C0B9D /* NSImage+QWACGImage.m */; };
 		014A65521664081800A175EA /* PreviewStyleML.css in Resources */ = {isa = PBXBuildFile; fileRef = 014A65511664081800A175EA /* PreviewStyleML.css */; };
 		017925811AD2F9CD00E4F41F /* NSData+QWABase64.h in Headers */ = {isa = PBXBuildFile; fileRef = 0179257F1AD2F9CD00E4F41F /* NSData+QWABase64.h */; };
 		017925821AD2F9CD00E4F41F /* NSData+QWABase64.m in Sources */ = {isa = PBXBuildFile; fileRef = 017925801AD2F9CD00E4F41F /* NSData+QWABase64.m */; };
@@ -62,6 +64,8 @@
 		012A7D39171C91260019A298 /* it */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		012A7D3A171C91260019A298 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/VersioninfoNames.strings; sourceTree = "<group>"; };
 		012E612719F419AB008ED670 /* libOSXIcotools.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libOSXIcotools.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		014896361BADDC59005C0B9D /* NSImage+QWACGImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSImage+QWACGImage.h"; sourceTree = "<group>"; };
+		014896371BADDC59005C0B9D /* NSImage+QWACGImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSImage+QWACGImage.m"; sourceTree = "<group>"; };
 		014A65511664081800A175EA /* PreviewStyleML.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = PreviewStyleML.css; sourceTree = "<group>"; };
 		0179257F1AD2F9CD00E4F41F /* NSData+QWABase64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+QWABase64.h"; sourceTree = "<group>"; };
 		017925801AD2F9CD00E4F41F /* NSData+QWABase64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+QWABase64.m"; sourceTree = "<group>"; };
@@ -137,6 +141,8 @@
 			children = (
 				0179257F1AD2F9CD00E4F41F /* NSData+QWABase64.h */,
 				017925801AD2F9CD00E4F41F /* NSData+QWABase64.m */,
+				014896361BADDC59005C0B9D /* NSImage+QWACGImage.h */,
+				014896371BADDC59005C0B9D /* NSImage+QWACGImage.m */,
 				011D85F01643F5B7008A2601 /* MicrosoftBinaries_Prefix.pch */,
 				61E3BCFA0870B4F2002186A0 /* GenerateThumbnailForURL.m */,
 				2C05A19B06CAA52B00D84F6F /* GeneratePreviewForURL.m */,
@@ -161,6 +167,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				017925811AD2F9CD00E4F41F /* NSData+QWABase64.h in Headers */,
+				014896381BADDC59005C0B9D /* NSImage+QWACGImage.h in Headers */,
 				011D85F11643F5B7008A2601 /* MicrosoftBinaries_Prefix.pch in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -262,6 +269,7 @@
 				017925821AD2F9CD00E4F41F /* NSData+QWABase64.m in Sources */,
 				2C05A19C06CAA52B00D84F6F /* GeneratePreviewForURL.m in Sources */,
 				61E3BCFB0870B4F2002186A0 /* GenerateThumbnailForURL.m in Sources */,
+				014896391BADDC59005C0B9D /* NSImage+QWACGImage.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

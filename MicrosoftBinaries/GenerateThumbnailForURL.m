@@ -21,6 +21,7 @@
 #include <QuickLook/QuickLook.h>
 #import <Cocoa/Cocoa.h>
 #import "EIExeFile.h"
+#import "NSImage+QWACGImage.h"
 
 
 #define MAX_NETWORK_PREVIEW ((1024*1024*5))
@@ -91,8 +92,9 @@ OSStatus GenerateThumbnailForURL(void *thisInterface, QLThumbnailRequestRef thum
   
   rect.origin = NSZeroPoint;
   rect.size = NSSizeFromCGSize(maxSize);
-  qlres = [icon CGImageForProposedRect:&rect context:nil hints:nil];
-  QLThumbnailRequestSetImage(thumbnail, qlres, NULL);
+  qlres = [icon qwa_CGImageForProposedRect:&rect];
+  if (qlres)
+    QLThumbnailRequestSetImage(thumbnail, qlres, NULL);
   
   if (mdirf) {
     finfo = MDItemCopyAttribute(mdirf, (CFStringRef)@"kMDItemFSFinderFlags");
