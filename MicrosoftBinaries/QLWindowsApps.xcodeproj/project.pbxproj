@@ -357,7 +357,7 @@
 				GCC_PREFIX_HEADER = MicrosoftBinaries_Prefix.pch;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				PRODUCT_NAME = MicrosoftBinaries;
 				SDKROOT = macosx;
 				USER_HEADER_SEARCH_PATHS = "\"$(PROJECT_DIR)/../OSXIcotools\"/**";
@@ -372,7 +372,7 @@
 				GCC_PREFIX_HEADER = MicrosoftBinaries_Prefix.pch;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				PRODUCT_NAME = MicrosoftBinaries;
 				SDKROOT = macosx;
 				USER_HEADER_SEARCH_PATHS = "\"$(PROJECT_DIR)/../OSXIcotools\"/**";
