@@ -57,7 +57,7 @@ get_resource_data (WinLibrary *fi, char *type, char *name, char *lang, extract_e
   } else {
     icoData = [[NSData alloc] initWithBytes:memory length:size];
   }
-  return [icoData autorelease];
+  return icoData;
 }
 
 

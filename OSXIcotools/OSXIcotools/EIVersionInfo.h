@@ -32,7 +32,6 @@ typedef enum {
 }
 
 - (instancetype)initWithData:(NSData *)myBlock is16Bit:(BOOL)win16;
-- (void)dealloc;
 
 - (BOOL)is16bit;
 - (NSData *)data;

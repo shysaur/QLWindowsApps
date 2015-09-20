@@ -40,15 +40,8 @@ BOOL QWAIsFileOnNetworkDrive(CFURLRef url) {
 }
 
 
-/* -----------------------------------------------------------------------------
- Generate a thumbnail for file
- 
- This function's job is to create thumbnail for designated file as fast as possible
- ----------------------------------------------------------------------------- */
-
-OSStatus GenerateThumbnailForURL(void *thisInterface, QLThumbnailRequestRef thumbnail,
-  CFURLRef url, CFStringRef contentTypeUTI, CFDictionaryRef options, CGSize maxSize) {
-  NSAutoreleasePool *pool;
+void QWAGenerateThumbnailForURL(QLThumbnailRequestRef thumbnail,
+  CFURLRef url, CFStringRef contentTypeUTI, CGSize maxSize) {
   MDItemRef mdirf;
   NSNumber *fsize;
   EIExeFile *exeFile;
@@ -59,22 +52,16 @@ OSStatus GenerateThumbnailForURL(void *thisInterface, QLThumbnailRequestRef thum
   
   //No icon for DLLs
   if (!UTTypeEqual(contentTypeUTI, (CFStringRef)@"com.microsoft.windows-executable"))
-    return noErr;
-  
-  pool = [[NSAutoreleasePool alloc] init];
+    return;
   
   mdirf = MDItemCreateWithURL(kCFAllocatorDefault, (CFURLRef)url);
   if (mdirf && QWAIsFileOnNetworkDrive(url)) {
-    fsize = MDItemCopyAttribute(mdirf, kMDItemFSSize);
+    fsize = CFBridgingRelease(MDItemCopyAttribute(mdirf, kMDItemFSSize));
     
     if ([fsize compare:@(MAX_NETWORK_PREVIEW)] == NSOrderedDescending) {
       NSLog(@"Canceled thumbnail of %@ because file is big and not local.", url);
-      [fsize release];
-      CFRelease(mdirf);
-      [pool release];
-      return noErr;
+      goto cleanup;
     }
-    [fsize release];
   }
   
   exeFile = [[EIExeFile alloc] initWithExeFileURL:(NSURL*)url];
@@ -92,16 +79,29 @@ OSStatus GenerateThumbnailForURL(void *thisInterface, QLThumbnailRequestRef thum
   QLThumbnailRequestSetImage(thumbnail, qlres, NULL);
   
   if (mdirf) {
-    finfo = MDItemCopyAttribute(mdirf, (CFStringRef)@"kMDItemFSFinderFlags");
+    finfo = CFBridgingRelease(MDItemCopyAttribute(mdirf, (CFStringRef)@"kMDItemFSFinderFlags"));
     if (!([finfo integerValue] & kHasCustomIcon))
       [[NSWorkspace sharedWorkspace] setIcon:icon forFile:[(NSURL*)url path] options:0];
   }
   
 cleanup:
-  [exeFile release];
   if (mdirf)
     CFRelease(mdirf);
-  [pool release];
+}
+
+
+/* -----------------------------------------------------------------------------
+ Generate a thumbnail for file
+ 
+ This function's job is to create thumbnail for designated file as fast as possible
+ ----------------------------------------------------------------------------- */
+
+OSStatus GenerateThumbnailForURL(void *thisInterface, QLThumbnailRequestRef thumbnail,
+  CFURLRef url, CFStringRef contentTypeUTI, CFDictionaryRef options, CGSize maxSize) {
+  
+  @autoreleasepool {
+    QWAGenerateThumbnailForURL(thumbnail, url, contentTypeUTI, maxSize);
+  }
   return noErr;
 }
 

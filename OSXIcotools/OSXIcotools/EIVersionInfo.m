@@ -198,15 +198,9 @@ NSData *EIResTreeRead16(NSArray *path, int level, NSData* block, EIVERSION_ERR *
 
 
 - (instancetype)initWithData:(NSData *)myBlock is16Bit:(BOOL)win16 {
-  gBlock = [myBlock retain];
+  gBlock = myBlock;
   win16Block = win16;
   return [super init];
-}
-
-
-- (void)dealloc {
-  [gBlock release];
-  [super dealloc];
 }
 
 
@@ -216,7 +210,7 @@ NSData *EIResTreeRead16(NSArray *path, int level, NSData* block, EIVERSION_ERR *
 
 
 - (NSData *)data {
-  return [[gBlock retain] autorelease];
+  return gBlock;
 }
 
 
@@ -278,7 +272,7 @@ NSData *EIResTreeRead16(NSArray *path, int level, NSData* block, EIVERSION_ERR *
     wszName = (char*)(vnh + 1);
   }
   
-  return [[nodeArray copy] autorelease];
+  return [nodeArray copy];
 }
 
 
@@ -310,7 +304,7 @@ NSData *EIResTreeRead16(NSArray *path, int level, NSData* block, EIVERSION_ERR *
     wszName = (void*)(vnh + 1);
   }
   
-  return [[nodeArray copy] autorelease];
+  return [nodeArray copy];
 }
 
 

@@ -42,48 +42,45 @@
   fl.file = NULL;
   fl.memory = NULL;
 
-  url = [exeFile retain];
+  url = exeFile;
   fl.name = strdup([url fileSystemRepresentation]);
   if (!fl.name) {
     NSLog(@"malloc failed");
-    goto fail;
+    return nil;
   }
   
   /* get file size */
   fl.total_size = (int)file_size(fl.name);
   if (fl.total_size == -1) {
     NSLog(@"%s total size = -1", fl.name);
-    goto fail;
+    return nil;
   }
   if (fl.total_size == 0) {
     EILog(@"%s: file has a size of 0", fl.name);
-    goto fail;
+    return nil;
   }
 
   /* open file */
   fl.file = fopen(fl.name, "rb");
   if (fl.file == NULL) {
     NSLog(@"%s error opening file", fl.name);
-    goto fail;
+    return nil;
   }
   
   /* read all of file */
   fl.memory = malloc(fl.total_size);
   if (fread(fl.memory, fl.total_size, 1, fl.file) != 1) {
     NSLog(@"%s error reading file contents", fl.name);
-    goto fail;
+    return nil;
   }
 
   /* identify file and find resource table */
   if (!read_library (&fl)) {
     /* error reported by read_library */
-    goto fail;
+    return nil;
   }
   
   return self;
-fail:
-  [self release];
-  return nil;
 }
 
 
@@ -99,7 +96,7 @@ fail:
     return nil;
   }
 
-  return [[[NSImage alloc] initWithData:icodata] autorelease];
+  return [[NSImage alloc] initWithData:icodata];
 }
 
 
@@ -132,7 +129,7 @@ fail:
     return nil;
   }
   
-  return [[[EIVersionInfo alloc] initWithData:verdata is16Bit:[self is16Bit]] autorelease];
+  return [[EIVersionInfo alloc] initWithData:verdata is16Bit:[self is16Bit]];
 }
 
 
@@ -151,8 +148,6 @@ fail:
     fclose(fl.file);
   free(fl.memory);
   free(fl.name);
-  [url release];
-  [super dealloc];
 }
 
 

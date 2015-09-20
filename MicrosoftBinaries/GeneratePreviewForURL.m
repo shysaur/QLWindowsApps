@@ -55,7 +55,7 @@ NSString *QWAHTMLVersionInfoForExeFile(EIExeFile *exeFile) {
   NSString *temp, *node, *vpath;
   
   mbundle = [NSBundle bundleWithIdentifier:@"com.danielecattaneo.qlgenerator.qlwindowsapps"];
-  html = [[@"<table id=\"vertable\"><tbody>" mutableCopy] autorelease];
+  html = [@"<table id=\"vertable\"><tbody>" mutableCopy];
   vir = [exeFile versionInfo];
   
   queryHeader = @"\\StringFileInfo\\*";
@@ -78,7 +78,6 @@ NSString *QWAHTMLVersionInfoForExeFile(EIExeFile *exeFile) {
     [html appendString:@"</td><td>"];
     [html appendString:temp];
     [html appendString:@"</td></tr>"];
-    [temp release];
   }
   
   [html appendString:@"</tbody></table>"];
@@ -93,52 +92,43 @@ NSString *QWAGetBase64EncodedImageForExeFile(EIExeFile *exeFile, CFStringRef con
   if (UTTypeEqual(contentTypeUTI, (CFStringRef)@"com.microsoft.windows-executable"))
     icon = [exeFile icon];
   if (!icon || ![icon isValid])
-    icon = [[NSWorkspace sharedWorkspace] iconForFile:[(NSURL*)url path]];
+    icon = [[NSWorkspace sharedWorkspace] iconForFile:[(__bridge NSURL*)url path]];
   image = [icon TIFFRepresentation];
   return [image base64EncodedStringWithOptions:0];
 }
 
 
-/* -----------------------------------------------------------------------------
-   Generate a preview for file
-
-   This function's job is to create preview for designated file
-   ----------------------------------------------------------------------------- */
-
-OSStatus GeneratePreviewForURL(void *thisInterface, QLPreviewRequestRef preview, 
-  CFURLRef url, CFStringRef contentTypeUTI, CFDictionaryRef options) {
-  NSAutoreleasePool *pool;
+void QWAGeneratePreviewForURL(QLPreviewRequestRef preview,
+  CFURLRef url, CFStringRef contentTypeUTI) {
   EIExeFile *exeFile;
   NSMutableString *html;
   NSDictionary *props;
   
-  pool = [[NSAutoreleasePool alloc] init];
   html = [NSMutableString string];
   
-  exeFile = [[EIExeFile alloc] initWithExeFileURL:(NSURL*)url];
-  if (!exeFile) goto cleanup;
-  [exeFile autorelease];
-  if (QLPreviewRequestIsCancelled(preview)) goto cleanup;
+  exeFile = [[EIExeFile alloc] initWithExeFileURL:(__bridge NSURL*)url];
+  if (!exeFile) return;
+  if (QLPreviewRequestIsCancelled(preview)) return;
   
   /* Header: use an inline style sheet */
   [html appendString:@"<html><head><style type=\"text/css\">"];
   [html appendString:QWAGetCascadingStyleSheet()];
   [html appendString:@"</style></head><body>"];
   
-  if (QLPreviewRequestIsCancelled(preview)) goto cleanup;
+  if (QLPreviewRequestIsCancelled(preview)) return;
   
   /* Icon div */
   [html appendString:@"<div id=\"icon\"><img id=\"icon_img\" src=\"data:image/tiff;base64,"];
   [html appendString:QWAGetBase64EncodedImageForExeFile(exeFile, contentTypeUTI, url)];
   [html appendString:@"\"></div>"];
   
-  if (QLPreviewRequestIsCancelled(preview)) goto cleanup;
+  if (QLPreviewRequestIsCancelled(preview)) return;
   
   /* File name and 16-bit badge */
   [html appendString:@"<div id=\"exename\">"];
   if ([exeFile is16Bit])
     [html appendString:@"<div class=\"badge\">16 bit</div>"];
-  [html appendFormat:@"<h1>%@</h1></div>", [(NSURL*)url lastPathComponent]];
+  [html appendFormat:@"<h1>%@</h1></div>", [(__bridge NSURL*)url lastPathComponent]];
   
   /* Version info */
   [html appendString:@"<div id=\"info\">"];
@@ -152,11 +142,23 @@ OSStatus GeneratePreviewForURL(void *thisInterface, QLPreviewRequestRef preview,
             (NSString *)kQLPreviewPropertyMIMETypeKey : @"text/html"};
   
   QLPreviewRequestSetDataRepresentation(preview,
-    (CFDataRef)[html dataUsingEncoding:NSUTF8StringEncoding], kUTTypeHTML,
-    (CFDictionaryRef)props);
-    
-cleanup:
-  [pool release];
+    (__bridge CFDataRef)[html dataUsingEncoding:NSUTF8StringEncoding], kUTTypeHTML,
+    (__bridge CFDictionaryRef)props);
+}
+
+
+/* -----------------------------------------------------------------------------
+   Generate a preview for file
+
+   This function's job is to create preview for designated file
+   ----------------------------------------------------------------------------- */
+
+OSStatus GeneratePreviewForURL(void *thisInterface, QLPreviewRequestRef preview, 
+  CFURLRef url, CFStringRef contentTypeUTI, CFDictionaryRef options) {
+
+  @autoreleasepool {
+    QWAGeneratePreviewForURL(preview, url, contentTypeUTI);
+  }
   return noErr;
 }
 
