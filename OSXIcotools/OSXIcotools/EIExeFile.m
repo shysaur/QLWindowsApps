@@ -35,9 +35,6 @@
 
 
 - (instancetype)initWithExeFileURL:(NSURL *)exeFile {
-  CFIndex strsize;
-  NSString *tmp;
-  
   self = [super init];
   if (!self) return nil;
   
@@ -46,10 +43,11 @@
   fl.memory = NULL;
 
   url = [exeFile retain];
-  tmp = [[exeFile absoluteURL] path];
-  strsize = CFStringGetMaximumSizeOfFileSystemRepresentation((CFStringRef)tmp);
-  fl.name = malloc(strsize);
-  CFStringGetFileSystemRepresentation((CFStringRef)tmp, fl.name, strsize);
+  fl.name = strdup([url fileSystemRepresentation]);
+  if (!fl.name) {
+    NSLog(@"malloc failed");
+    goto fail;
+  }
   
   /* get file size */
   fl.total_size = (int)file_size(fl.name);
