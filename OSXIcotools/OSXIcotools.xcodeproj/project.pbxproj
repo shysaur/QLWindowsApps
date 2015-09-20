@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		014CD1DD16E5161600185054 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 014CD1DC16E5161600185054 /* Cocoa.framework */; };
 		014CD1F116E5167400185054 /* EIExeFile.h in Headers */ = {isa = PBXBuildFile; fileRef = 014CD1ED16E5167400185054 /* EIExeFile.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		014CD1F216E5167400185054 /* EIExeFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 014CD1EE16E5167400185054 /* EIExeFile.m */; };
 		014CD1F316E5167400185054 /* EIVersionInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 014CD1EF16E5167400185054 /* EIVersionInfo.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -70,10 +69,6 @@
 
 /* Begin PBXFileReference section */
 		014CD1D916E5161600185054 /* libOSXIcotools.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libOSXIcotools.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		014CD1DC16E5161600185054 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
-		014CD1DF16E5161600185054 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
-		014CD1E016E5161600185054 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
-		014CD1E116E5161600185054 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		014CD1E416E5161600185054 /* OSXIcotools-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "OSXIcotools-Prefix.pch"; sourceTree = "<group>"; };
 		014CD1ED16E5167400185054 /* EIExeFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EIExeFile.h; sourceTree = "<group>"; };
 		014CD1EE16E5167400185054 /* EIExeFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EIExeFile.m; sourceTree = "<group>"; };
@@ -135,23 +130,11 @@
 		01C5D13F1AD82F00009C800F /* config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = config.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
-/* Begin PBXFrameworksBuildPhase section */
-		014CD1D616E5161600185054 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				014CD1DD16E5161600185054 /* Cocoa.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXFrameworksBuildPhase section */
-
 /* Begin PBXGroup section */
 		014CD1D016E5161600185054 = {
 			isa = PBXGroup;
 			children = (
 				014CD1E216E5161600185054 /* OSXIcotools */,
-				014CD1DB16E5161600185054 /* Frameworks */,
 				014CD1DA16E5161600185054 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -162,25 +145,6 @@
 				014CD1D916E5161600185054 /* libOSXIcotools.a */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		014CD1DB16E5161600185054 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				014CD1DC16E5161600185054 /* Cocoa.framework */,
-				014CD1DE16E5161600185054 /* Other Frameworks */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		014CD1DE16E5161600185054 /* Other Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				014CD1DF16E5161600185054 /* AppKit.framework */,
-				014CD1E016E5161600185054 /* CoreData.framework */,
-				014CD1E116E5161600185054 /* Foundation.framework */,
-			);
-			name = "Other Frameworks";
 			sourceTree = "<group>";
 		};
 		014CD1E216E5161600185054 /* OSXIcotools */ = {
@@ -350,7 +314,6 @@
 			buildConfigurationList = 014CD1EA16E5161600185054 /* Build configuration list for PBXNativeTarget "OSXIcotools" */;
 			buildPhases = (
 				014CD1D516E5161600185054 /* Sources */,
-				014CD1D616E5161600185054 /* Frameworks */,
 				014CD1D716E5161600185054 /* Headers */,
 			);
 			buildRules = (
