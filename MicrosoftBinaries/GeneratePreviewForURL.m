@@ -138,7 +138,7 @@ OSStatus GeneratePreviewForURL(void *thisInterface, QLPreviewRequestRef preview,
   [html appendString:@"<div id=\"exename\">"];
   if ([exeFile is16Bit])
     [html appendString:@"<div class=\"badge\">16 bit</div>"];
-  [html appendFormat:@"<h1>%@</h1></div>", [[(NSURL*)url path] lastPathComponent]];
+  [html appendFormat:@"<h1>%@</h1></div>", [(NSURL*)url lastPathComponent]];
   
   /* Version info */
   [html appendString:@"<div id=\"info\">"];
