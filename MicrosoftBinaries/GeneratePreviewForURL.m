@@ -25,7 +25,6 @@
 #import "EIVersionInfo.h"
 
 
-#define NSAppKitVersionNumber10_6 1038
 #define NSAppKitVersionNumber10_9 1265
 
 
@@ -35,9 +34,7 @@ NSString *QWAGetCascadingStyleSheet(void) {
   
   mbundle = [NSBundle bundleWithIdentifier:@"com.danielecattaneo.qlgenerator.qlwindowsapps"];
 
-  if (floor(NSAppKitVersionNumber) <= NSAppKitVersionNumber10_6) {
-    csspath = [mbundle pathForResource:@"PreviewStyleSL" ofType:@"css"];
-  } else if (floor(NSAppKitVersionNumber) <= NSAppKitVersionNumber10_9) {
+  if (floor(NSAppKitVersionNumber) <= NSAppKitVersionNumber10_9) {
     csspath = [mbundle pathForResource:@"PreviewStyleML" ofType:@"css"];
   } else {
     csspath = [mbundle pathForResource:@"PreviewStyleYE" ofType:@"css"];

@@ -21,7 +21,6 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		0114514916611D770096CD65 /* PreviewStyleSL.css in Resources */ = {isa = PBXBuildFile; fileRef = 0114514816611D770096CD65 /* PreviewStyleSL.css */; };
 		011D85CA1643EBAE008A2601 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 011D85C91643EBAE008A2601 /* Cocoa.framework */; };
 		011D85F11643F5B7008A2601 /* MicrosoftBinaries_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 011D85F01643F5B7008A2601 /* MicrosoftBinaries_Prefix.pch */; };
 		012A7D36171C8F880019A298 /* VersioninfoNames.strings in Resources */ = {isa = PBXBuildFile; fileRef = 012A7D38171C8F880019A298 /* VersioninfoNames.strings */; };
@@ -53,7 +52,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		0114514816611D770096CD65 /* PreviewStyleSL.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = PreviewStyleSL.css; sourceTree = "<group>"; };
 		011D85C91643EBAE008A2601 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		011D85F01643F5B7008A2601 /* MicrosoftBinaries_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MicrosoftBinaries_Prefix.pch; sourceTree = "<group>"; };
 		012A7D37171C8F880019A298 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/VersioninfoNames.strings; sourceTree = "<group>"; };
@@ -118,7 +116,6 @@
 		089C167CFE841241C02AAC07 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				0114514816611D770096CD65 /* PreviewStyleSL.css */,
 				014A65511664081800A175EA /* PreviewStyleML.css */,
 				01ED4F2619F4255F008ABEB1 /* PreviewStyleYE.css */,
 				8D576317048677EA00EA77CD /* Info.plist */,
@@ -221,7 +218,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D5B49A804867FD3000E48DA /* InfoPlist.strings in Resources */,
-				0114514916611D770096CD65 /* PreviewStyleSL.css in Resources */,
 				014A65521664081800A175EA /* PreviewStyleML.css in Resources */,
 				012A7D36171C8F880019A298 /* VersioninfoNames.strings in Resources */,
 				01ED4F2719F4255F008ABEB1 /* PreviewStyleYE.css in Resources */,
