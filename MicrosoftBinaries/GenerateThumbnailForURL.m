@@ -54,39 +54,36 @@ void QWAGenerateThumbnailForURL(QLThumbnailRequestRef thumbnail,
   if (!UTTypeEqual(contentTypeUTI, (CFStringRef)@"com.microsoft.windows-executable"))
     return;
   
-  mdirf = MDItemCreateWithURL(kCFAllocatorDefault, (CFURLRef)url);
-  if (mdirf && QWAIsFileOnNetworkDrive(url)) {
-    fsize = CFBridgingRelease(MDItemCopyAttribute(mdirf, kMDItemFSSize));
-    
-    if ([fsize compare:@(MAX_NETWORK_PREVIEW)] == NSOrderedDescending) {
-      NSLog(@"Canceled thumbnail of %@ because file is big and not local.", url);
-      goto cleanup;
+  if (QWAIsFileOnNetworkDrive(url)) {
+    if ([url getResourceValue:&fsize forKey:NSURLFileSizeKey error:nil]) {
+      if ([fsize compare:@(MAX_NETWORK_PREVIEW)] == NSOrderedDescending) {
+        NSLog(@"Canceled thumbnail of %@ because file is big and not local.", url);
+        return;
+      }
     }
   }
   
   exeFile = [[EIExeFile alloc] initWithExeFileURL:url];
-  if (!exeFile) goto cleanup;
-  if (QLThumbnailRequestIsCancelled(thumbnail)) goto cleanup;
+  if (!exeFile) return;
+  if (QLThumbnailRequestIsCancelled(thumbnail)) return;
   
   icon = [exeFile icon];
-  if (!icon) goto cleanup;
-  if (![icon isValid]) goto cleanup;
-  if (QLThumbnailRequestIsCancelled(thumbnail)) goto cleanup;
+  if (!icon) return;
+  if (![icon isValid]) return;
+  if (QLThumbnailRequestIsCancelled(thumbnail)) return;
   
   rect.origin = NSZeroPoint;
   rect.size = NSSizeFromCGSize(maxSize);
   qlres = [icon CGImageForProposedRect:&rect context:nil hints:nil];
   QLThumbnailRequestSetImage(thumbnail, qlres, NULL);
   
+  mdirf = MDItemCreateWithURL(kCFAllocatorDefault, (CFURLRef)url);
   if (mdirf) {
     finfo = CFBridgingRelease(MDItemCopyAttribute(mdirf, (CFStringRef)@"kMDItemFSFinderFlags"));
     if (!([finfo integerValue] & kHasCustomIcon))
       [[NSWorkspace sharedWorkspace] setIcon:icon forFile:[url path] options:0];
-  }
-  
-cleanup:
-  if (mdirf)
     CFRelease(mdirf);
+  }
 }
 
 
