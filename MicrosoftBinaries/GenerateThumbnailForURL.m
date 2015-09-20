@@ -26,11 +26,11 @@
 #define MAX_NETWORK_PREVIEW ((1024*1024*5))
 
 
-BOOL QWAIsFileOnNetworkDrive(CFURLRef url) {
+BOOL QWAIsFileOnNetworkDrive(NSURL *url) {
   NSURL *volume;
   NSNumber *local;
   
-  if (![(NSURL*)url getResourceValue:&volume forKey:NSURLVolumeURLKey error:nil])
+  if (![url getResourceValue:&volume forKey:NSURLVolumeURLKey error:nil])
     return NO;
   
   if (![volume getResourceValue:&local forKey:NSURLVolumeIsLocalKey error:nil])
@@ -41,7 +41,7 @@ BOOL QWAIsFileOnNetworkDrive(CFURLRef url) {
 
 
 void QWAGenerateThumbnailForURL(QLThumbnailRequestRef thumbnail,
-  CFURLRef url, CFStringRef contentTypeUTI, CGSize maxSize) {
+  NSURL *url, CFStringRef contentTypeUTI, CGSize maxSize) {
   MDItemRef mdirf;
   NSNumber *fsize;
   EIExeFile *exeFile;
@@ -64,7 +64,7 @@ void QWAGenerateThumbnailForURL(QLThumbnailRequestRef thumbnail,
     }
   }
   
-  exeFile = [[EIExeFile alloc] initWithExeFileURL:(NSURL*)url];
+  exeFile = [[EIExeFile alloc] initWithExeFileURL:url];
   if (!exeFile) goto cleanup;
   if (QLThumbnailRequestIsCancelled(thumbnail)) goto cleanup;
   
@@ -81,7 +81,7 @@ void QWAGenerateThumbnailForURL(QLThumbnailRequestRef thumbnail,
   if (mdirf) {
     finfo = CFBridgingRelease(MDItemCopyAttribute(mdirf, (CFStringRef)@"kMDItemFSFinderFlags"));
     if (!([finfo integerValue] & kHasCustomIcon))
-      [[NSWorkspace sharedWorkspace] setIcon:icon forFile:[(NSURL*)url path] options:0];
+      [[NSWorkspace sharedWorkspace] setIcon:icon forFile:[url path] options:0];
   }
   
 cleanup:
@@ -100,7 +100,7 @@ OSStatus GenerateThumbnailForURL(void *thisInterface, QLThumbnailRequestRef thum
   CFURLRef url, CFStringRef contentTypeUTI, CFDictionaryRef options, CGSize maxSize) {
   
   @autoreleasepool {
-    QWAGenerateThumbnailForURL(thumbnail, url, contentTypeUTI, maxSize);
+    QWAGenerateThumbnailForURL(thumbnail, (__bridge NSURL*)url, contentTypeUTI, maxSize);
   }
   return noErr;
 }

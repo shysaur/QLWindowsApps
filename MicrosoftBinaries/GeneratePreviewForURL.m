@@ -85,28 +85,27 @@ NSString *QWAHTMLVersionInfoForExeFile(EIExeFile *exeFile) {
 }
 
 
-NSString *QWAGetBase64EncodedImageForExeFile(EIExeFile *exeFile, CFStringRef contentTypeUTI, CFURLRef url) {
-  NSImage *icon = nil;
+NSString *QWAGetBase64EncodedImageForExeFile(EIExeFile *exeFile, CFStringRef contentTypeUTI, NSURL *url) {
+  NSImage *icon;
   NSData *image;
   
   if (UTTypeEqual(contentTypeUTI, (CFStringRef)@"com.microsoft.windows-executable"))
     icon = [exeFile icon];
   if (!icon || ![icon isValid])
-    icon = [[NSWorkspace sharedWorkspace] iconForFile:[(__bridge NSURL*)url path]];
+    icon = [[NSWorkspace sharedWorkspace] iconForFile:[url path]];
   image = [icon TIFFRepresentation];
   return [image base64EncodedStringWithOptions:0];
 }
 
 
-void QWAGeneratePreviewForURL(QLPreviewRequestRef preview,
-  CFURLRef url, CFStringRef contentTypeUTI) {
+void QWAGeneratePreviewForURL(QLPreviewRequestRef preview, NSURL *url, CFStringRef contentTypeUTI) {
   EIExeFile *exeFile;
   NSMutableString *html;
   NSDictionary *props;
   
   html = [NSMutableString string];
   
-  exeFile = [[EIExeFile alloc] initWithExeFileURL:(__bridge NSURL*)url];
+  exeFile = [[EIExeFile alloc] initWithExeFileURL:url];
   if (!exeFile) return;
   if (QLPreviewRequestIsCancelled(preview)) return;
   
@@ -128,7 +127,7 @@ void QWAGeneratePreviewForURL(QLPreviewRequestRef preview,
   [html appendString:@"<div id=\"exename\">"];
   if ([exeFile is16Bit])
     [html appendString:@"<div class=\"badge\">16 bit</div>"];
-  [html appendFormat:@"<h1>%@</h1></div>", [(__bridge NSURL*)url lastPathComponent]];
+  [html appendFormat:@"<h1>%@</h1></div>", [url lastPathComponent]];
   
   /* Version info */
   [html appendString:@"<div id=\"info\">"];
@@ -157,7 +156,7 @@ OSStatus GeneratePreviewForURL(void *thisInterface, QLPreviewRequestRef preview,
   CFURLRef url, CFStringRef contentTypeUTI, CFDictionaryRef options) {
 
   @autoreleasepool {
-    QWAGeneratePreviewForURL(preview, url, contentTypeUTI);
+    QWAGeneratePreviewForURL(preview, (__bridge NSURL*)url, contentTypeUTI);
   }
   return noErr;
 }
