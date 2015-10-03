@@ -40,6 +40,15 @@ BOOL QWAIsFileOnNetworkDrive(NSURL *url) {
 }
 
 
+BOOL QWAIsIconChangeEnabled(void) {
+  static NSUserDefaults *ud;
+  
+  if (!ud)
+    ud = [[NSUserDefaults alloc] initWithSuiteName:@"com.danielecattaneo.qlgenerator.qlwindowsapps"];
+  return ![ud boolForKey:@"DisableIconChange"];
+}
+
+
 void QWAGenerateThumbnailForURL(QLThumbnailRequestRef thumbnail,
   NSURL *url, CFStringRef contentTypeUTI, CGSize maxSize) {
   MDItemRef mdirf;
@@ -77,12 +86,14 @@ void QWAGenerateThumbnailForURL(QLThumbnailRequestRef thumbnail,
   qlres = [icon CGImageForProposedRect:&rect context:nil hints:nil];
   QLThumbnailRequestSetImage(thumbnail, qlres, NULL);
   
-  mdirf = MDItemCreateWithURL(kCFAllocatorDefault, (CFURLRef)url);
-  if (mdirf) {
-    finfo = CFBridgingRelease(MDItemCopyAttribute(mdirf, (CFStringRef)@"kMDItemFSFinderFlags"));
-    if (!([finfo integerValue] & kHasCustomIcon))
-      [[NSWorkspace sharedWorkspace] setIcon:icon forFile:[url path] options:0];
-    CFRelease(mdirf);
+  if (QWAIsIconChangeEnabled()) {
+    mdirf = MDItemCreateWithURL(kCFAllocatorDefault, (CFURLRef)url);
+    if (mdirf) {
+      finfo = CFBridgingRelease(MDItemCopyAttribute(mdirf, (CFStringRef)@"kMDItemFSFinderFlags"));
+      if (!([finfo integerValue] & kHasCustomIcon))
+        [[NSWorkspace sharedWorkspace] setIcon:icon forFile:[url path] options:0];
+      CFRelease(mdirf);
+    }
   }
 }
 
