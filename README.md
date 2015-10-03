@@ -37,6 +37,14 @@ Because of this, filesystems that do not support Finder metadata writing
 (like native NTFS) are stuck in QL-framed land, and I can't do anything about
 it.
 
+A side effect of this is that the file's modification date changes. If you
+don't mind about the thumbnail frame, you can disable setting the custom
+icon by executing this command in Terminal.app:
+
+```Shell
+defaults write com.danielecattaneo.qlgenerator.qlwindowsapps DisableIconChange 1
+```
+
 ### 16-bit binary trouble
 
 Like it's said in the icoutils webpage, "There is no relocation support for
