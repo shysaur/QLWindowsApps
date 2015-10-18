@@ -20,7 +20,11 @@ Features
   
 ### Supported OS X versions
 
-QLWindowsApps was tested on OS X Leopard and later, up to OS X Yosemite.
+QLWindowsApps 1.1.0 was tested on OS X Mavericks and later, up to OS X El
+Capitan.
+
+If you are using an older OS X version, you can download QLWindowsApps 1.0.2, 
+which works on OS X Leopard and later.
   
 
 Known Issues
