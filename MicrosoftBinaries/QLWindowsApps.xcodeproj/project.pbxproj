@@ -25,7 +25,7 @@
 		011D85F11643F5B7008A2601 /* MicrosoftBinaries_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 011D85F01643F5B7008A2601 /* MicrosoftBinaries_Prefix.pch */; };
 		012A7D36171C8F880019A298 /* VersioninfoNames.strings in Resources */ = {isa = PBXBuildFile; fileRef = 012A7D38171C8F880019A298 /* VersioninfoNames.strings */; };
 		012E612819F419AB008ED670 /* libOSXIcotools.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 012E612719F419AB008ED670 /* libOSXIcotools.a */; };
-		0136A4751BC0023B002C31EF /* PreviewStyleElCapitan.css in Resources */ = {isa = PBXBuildFile; fileRef = 0136A4741BC0023B002C31EF /* PreviewStyleElCapitan.css */; settings = {ASSET_TAGS = (); }; };
+		0136A4751BC0023B002C31EF /* PreviewStyleElCapitan.css in Resources */ = {isa = PBXBuildFile; fileRef = 0136A4741BC0023B002C31EF /* PreviewStyleElCapitan.css */; };
 		014A65521664081800A175EA /* PreviewStyleLion.css in Resources */ = {isa = PBXBuildFile; fileRef = 014A65511664081800A175EA /* PreviewStyleLion.css */; };
 		01979BC81AD073D100C8DE20 /* QLWindowsApps.qlgenerator in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8D576316048677EA00EA77CD /* QLWindowsApps.qlgenerator */; };
 		01ED4F2719F4255F008ABEB1 /* PreviewStyleYosemite.css in Resources */ = {isa = PBXBuildFile; fileRef = 01ED4F2619F4255F008ABEB1 /* PreviewStyleYosemite.css */; };
@@ -179,7 +179,7 @@
 		089C1669FE841209C02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0700;
+				LastUpgradeCheck = 0730;
 				TargetAttributes = {
 					011D72DA1AD0726600368CBB = {
 						CreatedOnToolsVersion = 6.2;
@@ -334,6 +334,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = MicrosoftBinaries;
 				SDKROOT = macosx;
 				USER_HEADER_SEARCH_PATHS = "\"$(PROJECT_DIR)/../OSXIcotools\"/**";
