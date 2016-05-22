@@ -13,8 +13,6 @@
 		014CD1F416E5167400185054 /* EIVersionInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 014CD1F016E5167400185054 /* EIVersionInfo.m */; };
 		014CD26B16E5168100185054 /* common.h in Headers */ = {isa = PBXBuildFile; fileRef = 014CD1F616E5168000185054 /* common.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		014CD26C16E5168100185054 /* comparison.h in Headers */ = {isa = PBXBuildFile; fileRef = 014CD1F716E5168000185054 /* comparison.h */; };
-		014CD26D16E5168100185054 /* error.c in Sources */ = {isa = PBXBuildFile; fileRef = 014CD1F816E5168000185054 /* error.c */; };
-		014CD26E16E5168100185054 /* error.h in Headers */ = {isa = PBXBuildFile; fileRef = 014CD1F916E5168000185054 /* error.h */; };
 		014CD27116E5168100185054 /* intutil.c in Sources */ = {isa = PBXBuildFile; fileRef = 014CD1FC16E5168000185054 /* intutil.c */; };
 		014CD27216E5168100185054 /* intutil.h in Headers */ = {isa = PBXBuildFile; fileRef = 014CD1FD16E5168000185054 /* intutil.h */; };
 		014CD27316E5168100185054 /* io-utils.c in Sources */ = {isa = PBXBuildFile; fileRef = 014CD1FE16E5168000185054 /* io-utils.c */; };
@@ -38,32 +36,28 @@
 		014CD2D916E5168100185054 /* restypes.c in Sources */ = {isa = PBXBuildFile; fileRef = 014CD26816E5168100185054 /* restypes.c */; };
 		014CD2DA16E5168100185054 /* restypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 014CD26916E5168100185054 /* restypes.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		014CD2DB16E5168100185054 /* wrestool.h in Headers */ = {isa = PBXBuildFile; fileRef = 014CD26A16E5168100185054 /* wrestool.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		0197FD461BAF031000FCD44E /* dirname.h in Headers */ = {isa = PBXBuildFile; fileRef = 0197FD431BAF031000FCD44E /* dirname.h */; settings = {ASSET_TAGS = (); }; };
-		0197FD471BAF031000FCD44E /* basename.c in Sources */ = {isa = PBXBuildFile; fileRef = 0197FD441BAF031000FCD44E /* basename.c */; settings = {ASSET_TAGS = (); }; };
-		0197FD481BAF031000FCD44E /* dirname.c in Sources */ = {isa = PBXBuildFile; fileRef = 0197FD451BAF031000FCD44E /* dirname.c */; settings = {ASSET_TAGS = (); }; };
-		0197FD4A1BAF036B00FCD44E /* basename-lgpl.c in Sources */ = {isa = PBXBuildFile; fileRef = 0197FD491BAF036B00FCD44E /* basename-lgpl.c */; settings = {ASSET_TAGS = (); }; };
-		0197FD4C1BAF037000FCD44E /* dirname-lgpl.c in Sources */ = {isa = PBXBuildFile; fileRef = 0197FD4B1BAF037000FCD44E /* dirname-lgpl.c */; settings = {ASSET_TAGS = (); }; };
-		0197FD4F1BAF039A00FCD44E /* progname.h in Headers */ = {isa = PBXBuildFile; fileRef = 0197FD4D1BAF039A00FCD44E /* progname.h */; settings = {ASSET_TAGS = (); }; };
-		0197FD501BAF039A00FCD44E /* progname.c in Sources */ = {isa = PBXBuildFile; fileRef = 0197FD4E1BAF039A00FCD44E /* progname.c */; settings = {ASSET_TAGS = (); }; };
-		0197FD521BAF04FE00FCD44E /* dosname.h in Headers */ = {isa = PBXBuildFile; fileRef = 0197FD511BAF04FE00FCD44E /* dosname.h */; settings = {ASSET_TAGS = (); }; };
-		0197FD581BAF053500FCD44E /* xalloc-oversized.h in Headers */ = {isa = PBXBuildFile; fileRef = 0197FD531BAF053500FCD44E /* xalloc-oversized.h */; settings = {ASSET_TAGS = (); }; };
-		0197FD591BAF053500FCD44E /* xalloc.h in Headers */ = {isa = PBXBuildFile; fileRef = 0197FD541BAF053500FCD44E /* xalloc.h */; settings = {ASSET_TAGS = (); }; };
-		0197FD5A1BAF053500FCD44E /* xalloc-die.c in Sources */ = {isa = PBXBuildFile; fileRef = 0197FD551BAF053500FCD44E /* xalloc-die.c */; settings = {ASSET_TAGS = (); }; };
-		0197FD5B1BAF053500FCD44E /* xasprintf.c in Sources */ = {isa = PBXBuildFile; fileRef = 0197FD561BAF053500FCD44E /* xasprintf.c */; settings = {ASSET_TAGS = (); }; };
-		0197FD5C1BAF053500FCD44E /* xmalloc.c in Sources */ = {isa = PBXBuildFile; fileRef = 0197FD571BAF053500FCD44E /* xmalloc.c */; settings = {ASSET_TAGS = (); }; };
-		0197FD5F1BAF054D00FCD44E /* exitfail.h in Headers */ = {isa = PBXBuildFile; fileRef = 0197FD5D1BAF054D00FCD44E /* exitfail.h */; settings = {ASSET_TAGS = (); }; };
-		0197FD601BAF054D00FCD44E /* exitfail.c in Sources */ = {isa = PBXBuildFile; fileRef = 0197FD5E1BAF054D00FCD44E /* exitfail.c */; settings = {ASSET_TAGS = (); }; };
-		0197FD621BAF057300FCD44E /* gettext.h in Headers */ = {isa = PBXBuildFile; fileRef = 0197FD611BAF057300FCD44E /* gettext.h */; settings = {ASSET_TAGS = (); }; };
-		0197FD651BAF058800FCD44E /* xvasprintf.h in Headers */ = {isa = PBXBuildFile; fileRef = 0197FD631BAF058800FCD44E /* xvasprintf.h */; settings = {ASSET_TAGS = (); }; };
-		0197FD661BAF058800FCD44E /* xvasprintf.c in Sources */ = {isa = PBXBuildFile; fileRef = 0197FD641BAF058800FCD44E /* xvasprintf.c */; settings = {ASSET_TAGS = (); }; };
-		0197FD691BAF05A700FCD44E /* xsize.h in Headers */ = {isa = PBXBuildFile; fileRef = 0197FD671BAF05A700FCD44E /* xsize.h */; settings = {ASSET_TAGS = (); }; };
-		0197FD6A1BAF05A700FCD44E /* xsize.c in Sources */ = {isa = PBXBuildFile; fileRef = 0197FD681BAF05A700FCD44E /* xsize.c */; settings = {ASSET_TAGS = (); }; };
-		0197FD6D1BAF05BE00FCD44E /* xstrndup.h in Headers */ = {isa = PBXBuildFile; fileRef = 0197FD6B1BAF05BE00FCD44E /* xstrndup.h */; settings = {ASSET_TAGS = (); }; };
-		0197FD6E1BAF05BE00FCD44E /* xstrndup.c in Sources */ = {isa = PBXBuildFile; fileRef = 0197FD6C1BAF05BE00FCD44E /* xstrndup.c */; settings = {ASSET_TAGS = (); }; };
-		0197FD701BAF05DE00FCD44E /* minmax.h in Headers */ = {isa = PBXBuildFile; fileRef = 0197FD6F1BAF05DE00FCD44E /* minmax.h */; settings = {ASSET_TAGS = (); }; };
-		0197FD721BAF05F800FCD44E /* byteswap.h in Headers */ = {isa = PBXBuildFile; fileRef = 0197FD711BAF05F800FCD44E /* byteswap.h */; settings = {ASSET_TAGS = (); }; };
-		0197FD751BAF061800FCD44E /* error.h in Headers */ = {isa = PBXBuildFile; fileRef = 0197FD731BAF061800FCD44E /* error.h */; settings = {ASSET_TAGS = (); }; };
-		0197FD761BAF061800FCD44E /* error.c in Sources */ = {isa = PBXBuildFile; fileRef = 0197FD741BAF061800FCD44E /* error.c */; settings = {ASSET_TAGS = (); }; };
+		0197FD461BAF031000FCD44E /* dirname.h in Headers */ = {isa = PBXBuildFile; fileRef = 0197FD431BAF031000FCD44E /* dirname.h */; };
+		0197FD471BAF031000FCD44E /* basename.c in Sources */ = {isa = PBXBuildFile; fileRef = 0197FD441BAF031000FCD44E /* basename.c */; };
+		0197FD481BAF031000FCD44E /* dirname.c in Sources */ = {isa = PBXBuildFile; fileRef = 0197FD451BAF031000FCD44E /* dirname.c */; };
+		0197FD4A1BAF036B00FCD44E /* basename-lgpl.c in Sources */ = {isa = PBXBuildFile; fileRef = 0197FD491BAF036B00FCD44E /* basename-lgpl.c */; };
+		0197FD4C1BAF037000FCD44E /* dirname-lgpl.c in Sources */ = {isa = PBXBuildFile; fileRef = 0197FD4B1BAF037000FCD44E /* dirname-lgpl.c */; };
+		0197FD521BAF04FE00FCD44E /* dosname.h in Headers */ = {isa = PBXBuildFile; fileRef = 0197FD511BAF04FE00FCD44E /* dosname.h */; };
+		0197FD581BAF053500FCD44E /* xalloc-oversized.h in Headers */ = {isa = PBXBuildFile; fileRef = 0197FD531BAF053500FCD44E /* xalloc-oversized.h */; };
+		0197FD591BAF053500FCD44E /* xalloc.h in Headers */ = {isa = PBXBuildFile; fileRef = 0197FD541BAF053500FCD44E /* xalloc.h */; };
+		0197FD5A1BAF053500FCD44E /* xalloc-die.c in Sources */ = {isa = PBXBuildFile; fileRef = 0197FD551BAF053500FCD44E /* xalloc-die.c */; };
+		0197FD5B1BAF053500FCD44E /* xasprintf.c in Sources */ = {isa = PBXBuildFile; fileRef = 0197FD561BAF053500FCD44E /* xasprintf.c */; };
+		0197FD5C1BAF053500FCD44E /* xmalloc.c in Sources */ = {isa = PBXBuildFile; fileRef = 0197FD571BAF053500FCD44E /* xmalloc.c */; };
+		0197FD621BAF057300FCD44E /* gettext.h in Headers */ = {isa = PBXBuildFile; fileRef = 0197FD611BAF057300FCD44E /* gettext.h */; };
+		0197FD651BAF058800FCD44E /* xvasprintf.h in Headers */ = {isa = PBXBuildFile; fileRef = 0197FD631BAF058800FCD44E /* xvasprintf.h */; };
+		0197FD661BAF058800FCD44E /* xvasprintf.c in Sources */ = {isa = PBXBuildFile; fileRef = 0197FD641BAF058800FCD44E /* xvasprintf.c */; };
+		0197FD691BAF05A700FCD44E /* xsize.h in Headers */ = {isa = PBXBuildFile; fileRef = 0197FD671BAF05A700FCD44E /* xsize.h */; };
+		0197FD6A1BAF05A700FCD44E /* xsize.c in Sources */ = {isa = PBXBuildFile; fileRef = 0197FD681BAF05A700FCD44E /* xsize.c */; };
+		0197FD6D1BAF05BE00FCD44E /* xstrndup.h in Headers */ = {isa = PBXBuildFile; fileRef = 0197FD6B1BAF05BE00FCD44E /* xstrndup.h */; };
+		0197FD6E1BAF05BE00FCD44E /* xstrndup.c in Sources */ = {isa = PBXBuildFile; fileRef = 0197FD6C1BAF05BE00FCD44E /* xstrndup.c */; };
+		0197FD701BAF05DE00FCD44E /* minmax.h in Headers */ = {isa = PBXBuildFile; fileRef = 0197FD6F1BAF05DE00FCD44E /* minmax.h */; };
+		0197FD721BAF05F800FCD44E /* byteswap.h in Headers */ = {isa = PBXBuildFile; fileRef = 0197FD711BAF05F800FCD44E /* byteswap.h */; };
+		01B383601CE7B89200A2B383 /* error.c in Sources */ = {isa = PBXBuildFile; fileRef = 01B3835E1CE7B89200A2B383 /* error.c */; };
+		01B383611CE7B89200A2B383 /* error.h in Headers */ = {isa = PBXBuildFile; fileRef = 01B3835F1CE7B89200A2B383 /* error.h */; };
 		01C5D1401AD82F00009C800F /* config.h in Headers */ = {isa = PBXBuildFile; fileRef = 01C5D13F1AD82F00009C800F /* config.h */; };
 /* End PBXBuildFile section */
 
@@ -76,8 +70,6 @@
 		014CD1F016E5167400185054 /* EIVersionInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EIVersionInfo.m; sourceTree = "<group>"; };
 		014CD1F616E5168000185054 /* common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = common.h; sourceTree = "<group>"; };
 		014CD1F716E5168000185054 /* comparison.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = comparison.h; sourceTree = "<group>"; };
-		014CD1F816E5168000185054 /* error.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = error.c; sourceTree = "<group>"; };
-		014CD1F916E5168000185054 /* error.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = error.h; sourceTree = "<group>"; };
 		014CD1FC16E5168000185054 /* intutil.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = intutil.c; sourceTree = "<group>"; };
 		014CD1FD16E5168000185054 /* intutil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = intutil.h; sourceTree = "<group>"; };
 		014CD1FE16E5168000185054 /* io-utils.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "io-utils.c"; sourceTree = "<group>"; };
@@ -106,16 +98,12 @@
 		0197FD451BAF031000FCD44E /* dirname.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = dirname.c; sourceTree = "<group>"; };
 		0197FD491BAF036B00FCD44E /* basename-lgpl.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "basename-lgpl.c"; sourceTree = "<group>"; };
 		0197FD4B1BAF037000FCD44E /* dirname-lgpl.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "dirname-lgpl.c"; sourceTree = "<group>"; };
-		0197FD4D1BAF039A00FCD44E /* progname.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = progname.h; sourceTree = "<group>"; };
-		0197FD4E1BAF039A00FCD44E /* progname.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = progname.c; sourceTree = "<group>"; };
 		0197FD511BAF04FE00FCD44E /* dosname.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = dosname.h; sourceTree = "<group>"; };
 		0197FD531BAF053500FCD44E /* xalloc-oversized.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "xalloc-oversized.h"; sourceTree = "<group>"; };
 		0197FD541BAF053500FCD44E /* xalloc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = xalloc.h; sourceTree = "<group>"; };
 		0197FD551BAF053500FCD44E /* xalloc-die.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "xalloc-die.c"; sourceTree = "<group>"; };
 		0197FD561BAF053500FCD44E /* xasprintf.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = xasprintf.c; sourceTree = "<group>"; };
 		0197FD571BAF053500FCD44E /* xmalloc.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = xmalloc.c; sourceTree = "<group>"; };
-		0197FD5D1BAF054D00FCD44E /* exitfail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = exitfail.h; sourceTree = "<group>"; };
-		0197FD5E1BAF054D00FCD44E /* exitfail.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = exitfail.c; sourceTree = "<group>"; };
 		0197FD611BAF057300FCD44E /* gettext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = gettext.h; sourceTree = "<group>"; };
 		0197FD631BAF058800FCD44E /* xvasprintf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = xvasprintf.h; sourceTree = "<group>"; };
 		0197FD641BAF058800FCD44E /* xvasprintf.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = xvasprintf.c; sourceTree = "<group>"; };
@@ -125,8 +113,8 @@
 		0197FD6C1BAF05BE00FCD44E /* xstrndup.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = xstrndup.c; sourceTree = "<group>"; };
 		0197FD6F1BAF05DE00FCD44E /* minmax.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = minmax.h; sourceTree = "<group>"; };
 		0197FD711BAF05F800FCD44E /* byteswap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = byteswap.h; sourceTree = "<group>"; };
-		0197FD731BAF061800FCD44E /* error.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = error.h; sourceTree = "<group>"; };
-		0197FD741BAF061800FCD44E /* error.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = error.c; sourceTree = "<group>"; };
+		01B3835E1CE7B89200A2B383 /* error.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = error.c; sourceTree = "<group>"; };
+		01B3835F1CE7B89200A2B383 /* error.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = error.h; sourceTree = "<group>"; };
 		01C5D13F1AD82F00009C800F /* config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = config.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -177,8 +165,8 @@
 			children = (
 				014CD1F616E5168000185054 /* common.h */,
 				014CD1F716E5168000185054 /* comparison.h */,
-				014CD1F816E5168000185054 /* error.c */,
-				014CD1F916E5168000185054 /* error.h */,
+				01B3835E1CE7B89200A2B383 /* error.c */,
+				01B3835F1CE7B89200A2B383 /* error.h */,
 				014CD1FC16E5168000185054 /* intutil.c */,
 				014CD1FD16E5168000185054 /* intutil.h */,
 				014CD1FE16E5168000185054 /* io-utils.c */,
@@ -218,8 +206,6 @@
 				0197FD441BAF031000FCD44E /* basename.c */,
 				0197FD4B1BAF037000FCD44E /* dirname-lgpl.c */,
 				0197FD451BAF031000FCD44E /* dirname.c */,
-				0197FD4D1BAF039A00FCD44E /* progname.h */,
-				0197FD4E1BAF039A00FCD44E /* progname.c */,
 				0197FD531BAF053500FCD44E /* xalloc-oversized.h */,
 				0197FD541BAF053500FCD44E /* xalloc.h */,
 				0197FD551BAF053500FCD44E /* xalloc-die.c */,
@@ -231,10 +217,6 @@
 				0197FD681BAF05A700FCD44E /* xsize.c */,
 				0197FD6B1BAF05BE00FCD44E /* xstrndup.h */,
 				0197FD6C1BAF05BE00FCD44E /* xstrndup.c */,
-				0197FD5D1BAF054D00FCD44E /* exitfail.h */,
-				0197FD5E1BAF054D00FCD44E /* exitfail.c */,
-				0197FD731BAF061800FCD44E /* error.h */,
-				0197FD741BAF061800FCD44E /* error.c */,
 				0197FD611BAF057300FCD44E /* gettext.h */,
 				0197FD6F1BAF05DE00FCD44E /* minmax.h */,
 				0197FD711BAF05F800FCD44E /* byteswap.h */,
@@ -276,12 +258,11 @@
 				0197FD721BAF05F800FCD44E /* byteswap.h in Headers */,
 				014CD1F116E5167400185054 /* EIExeFile.h in Headers */,
 				0197FD651BAF058800FCD44E /* xvasprintf.h in Headers */,
-				0197FD751BAF061800FCD44E /* error.h in Headers */,
+				01B383611CE7B89200A2B383 /* error.h in Headers */,
 				014CD1F316E5167400185054 /* EIVersionInfo.h in Headers */,
 				014CD26B16E5168100185054 /* common.h in Headers */,
 				014CD26C16E5168100185054 /* comparison.h in Headers */,
 				0197FD621BAF057300FCD44E /* gettext.h in Headers */,
-				014CD26E16E5168100185054 /* error.h in Headers */,
 				014CD27216E5168100185054 /* intutil.h in Headers */,
 				0197FD701BAF05DE00FCD44E /* minmax.h in Headers */,
 				014CD27416E5168100185054 /* io-utils.h in Headers */,
@@ -292,14 +273,12 @@
 				014CD27A16E5168100185054 /* string-utils.h in Headers */,
 				014CD27E16E5168100185054 /* win32-endian.h in Headers */,
 				014CD27F16E5168100185054 /* win32.h in Headers */,
-				0197FD5F1BAF054D00FCD44E /* exitfail.h in Headers */,
 				01C5D1401AD82F00009C800F /* config.h in Headers */,
 				0197FD691BAF05A700FCD44E /* xsize.h in Headers */,
 				0197FD581BAF053500FCD44E /* xalloc-oversized.h in Headers */,
 				014CD2D416E5168100185054 /* fileread.h in Headers */,
 				014CD2D516E5168100185054 /* osxwres.h in Headers */,
 				014CD2D816E5168100185054 /* restable.h in Headers */,
-				0197FD4F1BAF039A00FCD44E /* progname.h in Headers */,
 				014CD2DA16E5168100185054 /* restypes.h in Headers */,
 				0197FD591BAF053500FCD44E /* xalloc.h in Headers */,
 				014CD2DB16E5168100185054 /* wrestool.h in Headers */,
@@ -359,13 +338,11 @@
 				014CD1F216E5167400185054 /* EIExeFile.m in Sources */,
 				014CD1F416E5167400185054 /* EIVersionInfo.m in Sources */,
 				0197FD661BAF058800FCD44E /* xvasprintf.c in Sources */,
-				014CD26D16E5168100185054 /* error.c in Sources */,
 				0197FD5A1BAF053500FCD44E /* xalloc-die.c in Sources */,
 				0197FD471BAF031000FCD44E /* basename.c in Sources */,
 				014CD27116E5168100185054 /* intutil.c in Sources */,
 				014CD27316E5168100185054 /* io-utils.c in Sources */,
 				014CD27516E5168100185054 /* llist.c in Sources */,
-				0197FD501BAF039A00FCD44E /* progname.c in Sources */,
 				0197FD5B1BAF053500FCD44E /* xasprintf.c in Sources */,
 				0197FD4C1BAF037000FCD44E /* dirname-lgpl.c in Sources */,
 				0197FD4A1BAF036B00FCD44E /* basename-lgpl.c in Sources */,
@@ -377,11 +354,10 @@
 				014CD2D316E5168100185054 /* fileread.c in Sources */,
 				0197FD6A1BAF05A700FCD44E /* xsize.c in Sources */,
 				0197FD5C1BAF053500FCD44E /* xmalloc.c in Sources */,
-				0197FD761BAF061800FCD44E /* error.c in Sources */,
+				01B383601CE7B89200A2B383 /* error.c in Sources */,
 				014CD2D616E5168100185054 /* osxwres.m in Sources */,
 				014CD2D716E5168100185054 /* restable.c in Sources */,
 				014CD2D916E5168100185054 /* restypes.c in Sources */,
-				0197FD601BAF054D00FCD44E /* exitfail.c in Sources */,
 				0197FD6E1BAF05BE00FCD44E /* xstrndup.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

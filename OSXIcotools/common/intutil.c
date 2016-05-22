@@ -22,27 +22,6 @@
 #include <inttypes.h>	/* Gnulib/? */
 #include "intutil.h"	/* common */
 
-#define INT_STR_FUNC(n,t,m) \
-    char * \
-    n(t value) \
-    { \
-	sprintf(intstr, "%" m, value); \
-	return intstr; \
-    }
-
-/* Why 23 characters? */
-/* 2^64-1 in octal is 22 chars + null byte = 23 */
-static char intstr[23];
-
-INT_STR_FUNC(uint64_str, uint64_t, PRIu64);
-INT_STR_FUNC(uint32_str, uint32_t, PRIu32);
-INT_STR_FUNC(uint16_str, uint16_t, PRIu16);
-INT_STR_FUNC(uint8_str, uint8_t, PRIu8);
-INT_STR_FUNC(int32_str, int32_t, PRIi32);
-INT_STR_FUNC(int64_str, int64_t, PRIi64);
-INT_STR_FUNC(int16_str, int16_t, PRIi16);
-INT_STR_FUNC(int8_str, int8_t, PRIi8);
-
 /* These are probably used very seldom, so they are disabled. */
 #if 0
 INT_STR_FUNC(uintptr_str, uintptr_t, PRIuPTR);

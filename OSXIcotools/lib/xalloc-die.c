@@ -17,13 +17,10 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
 #include <config.h>
-
+#include <stdio.h>
 #include "xalloc.h"
 
 #include <stdlib.h>
-
-#include "error.h"
-#include "exitfail.h"
 
 #include "gettext.h"
 #define _(msgid) gettext (msgid)
@@ -31,7 +28,7 @@
 void
 xalloc_die (void)
 {
-  error (exit_failure, 0, "%s", _("memory exhausted"));
+  fprintf(stderr, "memory exhausted");
 
   /* _Noreturn cannot be given to error, since it may return if
      its first argument is 0.  To help compilers understand the

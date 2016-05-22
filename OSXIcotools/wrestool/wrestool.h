@@ -29,16 +29,6 @@
 #include <errno.h>		/* C89 */
 #include <getopt.h>		/* GNU Libc/Gnulib */
 
-//#include "../common/win32.h"
-//#include "../common/fileread.h
-//#include "../common/util.h"
-//#include "../common/common.h"
-
-/*
- * External Variables
- */
-
-extern char *prgname;
 
 /*
  * Structures 
@@ -98,10 +88,8 @@ void print_resources_callback (WinLibrary *, WinResource *, WinResource *, WinRe
 
 /* extract.c */
 void *extract_resource (WinLibrary *, WinResource *, int *, bool *, char *, char *, bool);
-void extract_resources_callback (WinLibrary *, WinResource *, WinResource *, WinResource *, WinResource *);
 void set_raw_extraction (bool);
 void set_output_dir(char *);
-char *get_destination_name (WinLibrary *, char *, char *, char *);
 
 
 #endif

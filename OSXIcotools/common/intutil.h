@@ -22,15 +22,6 @@
 #include <stdbool.h>	/* Gnulib/C99/POSIX */
 #include <stdint.h>	/* Gnulib/C99/POSIX */
 
-char *uint64_str(uint64_t value);
-char *uint32_str(uint32_t value);
-char *uint16_str(uint16_t value);
-char *uint8_str(uint8_t value);
-char *int64_str(int64_t value);
-char *int32_str(int32_t value);
-char *int16_str(int16_t value);
-char *int8_str(int8_t value);
-
 bool parse_int8(const char *instr, int8_t *outint);
 bool parse_int16(const char *instr, int16_t *outint);
 bool parse_int32(const char *instr, int32_t *outint);

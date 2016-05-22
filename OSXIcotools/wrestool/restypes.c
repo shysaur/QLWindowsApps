@@ -22,7 +22,7 @@
 #include "wrestool.h"
 #include "common/common.h"
 
-static char *res_types[] = {
+static const char *res_types[] = {
     /* 0x01: */
     "cursor", "bitmap", "icon", "menu", "dialog", "string",
     "fontdir", "font", "accelerator", "rcdata", "messagelist",

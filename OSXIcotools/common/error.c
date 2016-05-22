@@ -28,24 +28,13 @@
 #define _(s) gettext(s)
 #include "xvasprintf.h"	/* Gnulib */
 #include "xalloc.h"	/* Gnulib */
-#include "progname.h"	/* Gnulib */
 #include "error.h"
 
-struct MessageHeader {
-	struct MessageHeader *old;
-	char *message;
-};
-
-void (*program_termination_hook)(void) = NULL;
-static char *error_message = NULL;
-static struct MessageHeader *message_header = NULL;
 
 static inline const char *
 get_message_header(void)
 {
-	if (message_header != NULL)
-		return message_header->message;
-	return program_name;
+	return "OSXIcotools";
 }
 
 static void
@@ -69,25 +58,6 @@ v_warn_errno(const char *msg, va_list ap)
 }
 
 /**
- * Free all global memory allocated by the error facilities
- * provided here.
- */
-void
-free_error(void)
-{
-	struct MessageHeader *hdr;
-	struct MessageHeader *old_hdr;
-
-	for (hdr = message_header; hdr != NULL; hdr = old_hdr) {
-		free(hdr->message);
-		old_hdr = hdr->old;
-		free(hdr);
-	}
-	if (error_message != NULL)
-		free(error_message);
-}
-
-/**
  * This function should be called when an internal error has
  * occured. It will display a more verbose message, asking
  * the user to mail the program author.
@@ -101,19 +71,16 @@ internal_error(const char *msg, ...)
 	va_list ap;
 
 	va_start(ap, msg);
-	if (program_termination_hook != NULL)
-		program_termination_hook();
 	fprintf(stderr, _("\
 An internal error has occured. Please report this error by sending the\n\
 output below to %s.\n\
 \n\
 Program: %s\n\
 Version: %s\n\
-Error: "), PACKAGE_BUGREPORT, program_name, VERSION);
+Error: "), PACKAGE_BUGREPORT, "OSXIcotools", VERSION);
 	vfprintf(stderr, msg, ap);
 	va_end(ap);
 
-	free_error();
 	exit(1);
 }
 
@@ -129,12 +96,9 @@ die(const char *msg, ...)
 	va_list ap;
 	
 	va_start(ap, msg);
-	if (program_termination_hook != NULL)
-		program_termination_hook();
 	v_warn(msg, ap);
 	va_end(ap);
 
-	free_error();
 	exit(1);
 }
 
@@ -152,12 +116,9 @@ die_errno(const char *msg, ...)
 	va_list ap;
 	
 	va_start(ap, msg);
-	if (program_termination_hook != NULL)
-		program_termination_hook();
 	v_warn_errno(msg, ap);
 	va_end(ap);
 
-	free_error();
 	exit(1);
 }
 
@@ -195,95 +156,3 @@ warn_errno(const char *msg, ...)
 	va_end(ap);
 }
 
-/**
- * Set the current message header.
- */
-void
-set_message_header(const char *msg, ...)
-{
-	va_list ap;
-	struct MessageHeader *hdr;
-
-	hdr = malloc(sizeof(struct MessageHeader));
-	if (hdr == NULL)
-		xalloc_die();
-	hdr->old = message_header;
-	va_start(ap, msg);
-	if (vasprintf(&hdr->message, msg, ap) < 0)
-		xalloc_die();
-	message_header = hdr;
-	va_end(ap);
-}
-
-/**
- * Restore the message header to the default.
- */
-void
-restore_message_header(void)
-{
-	if (message_header != NULL) {
-		struct MessageHeader *old;
-		old = message_header->old;
-		free(message_header->message);
-		free(message_header);
-		message_header = old;
-	}
-}
-
-/**
- * Set a global error message.
- */
-void
-set_error(const char *format, ...)
-{
-	va_list ap;
-
-	if (error_message != NULL)
-		free(error_message);
-
-	if (format != NULL) {
-		va_start(ap, format);
-		if (vasprintf(&error_message, format, ap) < 0)
-			xalloc_die();
-		va_end(ap);
-	} else {
-		error_message = NULL;
-	}
-}
-
-/**
- * Return the global error message.
- * The returned value cannot be modified and should never
- * be freed.
- */
-const char *
-get_error(void)
-{
-	return error_message;
-}
-
-/**
- * Remove and return the global error message.
- * The returned value may be modified and should
- * be freed when no longer needed.
- */
-char *
-remove_error(void)
-{
-	char *msg = error_message;
-	error_message = NULL;
-	return msg;
-}
-
-/**
- * Die printing the current error message.
- */
-void
-die_error(void)
-{
-	if (program_termination_hook != NULL)
-		program_termination_hook();
-	warn(error_message);
-	free_error();
-	exit(1);
-}

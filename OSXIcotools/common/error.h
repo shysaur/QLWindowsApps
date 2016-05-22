@@ -23,22 +23,11 @@
 #include <stddef.h>	/* C89 */
 #include <errno.h>	/* C89 */
 
-extern void (*program_termination_hook)(void);
-
 void internal_error(const char *msg, ...) __attribute__ ((noreturn));
 void die(const char *msg, ...) __attribute__ ((noreturn));
 void die_errno(const char *msg, ...) __attribute__ ((noreturn));
 void warn(const char *msg, ...);
 void warn_errno(const char *msg, ...);
-void set_message_header(const char *msg, ...);
-void restore_message_header(void);
-
-void set_error(const char *msg, ...);
-const char *get_error(void);
-char *remove_error(void);
-void die_error(void) __attribute__ ((noreturn));
-
-void free_error(void);
 
 #define errstr strerror(errno)
 
