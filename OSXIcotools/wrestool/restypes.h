@@ -20,7 +20,7 @@
 #ifndef RESTYPES_H
 #define RESTYPES_H
 
-char *res_type_id_to_string (int);
-char *res_type_string_to_id (char *);
+const char *res_type_id_to_string (int);
+const char *res_type_string_to_id (char *);
 
 #endif

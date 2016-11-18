@@ -1,7 +1,7 @@
 /* restypes.c - Resource type exchange functions for wrestool
  *
  * Copyright (C) 1998 Oskar Liljeblad
- * Copyright (C) 2012 Daniele Cattaneo
+ * Copyright (C) 2012, 2016 Daniele Cattaneo
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -38,12 +38,12 @@ static const char *res_types[] = {
  *   Translate a numeric resource type to it's corresponding string type.
  *   (For informative-ness.)
  */
-char *res_type_id_to_string (int id)
+const char *res_type_id_to_string (int id)
 {
     if (id == 241)
-	return "toolbar";
+		return "toolbar";
     if (id > 0 && id <= RES_TYPE_COUNT)
-	return res_types[id-1];
+		return res_types[id-1];
     return NULL;
 }
 
@@ -51,9 +51,9 @@ char *res_type_id_to_string (int id)
  *   Translate a resource type string to integer.
  *   (Used to convert the --type option.)
  */
-char *res_type_string_to_id (char *type)
+const char *res_type_string_to_id (char *type)
 {
-    static char *res_type_ids[] = {
+    static const char *res_type_ids[] = {
 	"-1", "-2", "-3", "-4", "-5", "-6", "-7", "-8", "-9", "-10",
 	"-11", "-12", NULL, "-14", NULL, "-16", "-17", NULL, "-19",
 	"-20", "-21", "-22"

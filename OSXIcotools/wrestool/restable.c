@@ -104,7 +104,7 @@ print_resources_callback (WinLibrary *fi, WinResource *wr,
                           WinResource *type_wr, WinResource *name_wr,
 						  WinResource *lang_wr)
 {
-	char *type, *offset;
+	const char *type, *offset;
 	int32_t id, size;
 
 	/* get named resource type if possible */
