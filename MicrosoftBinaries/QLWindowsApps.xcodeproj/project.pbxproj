@@ -21,14 +21,14 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		011116931DDFB5F2008BF5CA /* PreviewTemplateElCapitan.html in Resources */ = {isa = PBXBuildFile; fileRef = 011116901DDFB5F2008BF5CA /* PreviewTemplateElCapitan.html */; };
+		011116941DDFB5F2008BF5CA /* PreviewTemplateLion.html in Resources */ = {isa = PBXBuildFile; fileRef = 011116911DDFB5F2008BF5CA /* PreviewTemplateLion.html */; };
+		011116951DDFB5F2008BF5CA /* PreviewTemplateYosemite.html in Resources */ = {isa = PBXBuildFile; fileRef = 011116921DDFB5F2008BF5CA /* PreviewTemplateYosemite.html */; };
 		011D85CA1643EBAE008A2601 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 011D85C91643EBAE008A2601 /* Cocoa.framework */; };
 		011D85F11643F5B7008A2601 /* MicrosoftBinaries_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 011D85F01643F5B7008A2601 /* MicrosoftBinaries_Prefix.pch */; };
 		012A7D36171C8F880019A298 /* VersioninfoNames.strings in Resources */ = {isa = PBXBuildFile; fileRef = 012A7D38171C8F880019A298 /* VersioninfoNames.strings */; };
 		012E612819F419AB008ED670 /* libOSXIcotools.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 012E612719F419AB008ED670 /* libOSXIcotools.a */; };
-		0136A4751BC0023B002C31EF /* PreviewStyleElCapitan.css in Resources */ = {isa = PBXBuildFile; fileRef = 0136A4741BC0023B002C31EF /* PreviewStyleElCapitan.css */; };
-		014A65521664081800A175EA /* PreviewStyleLion.css in Resources */ = {isa = PBXBuildFile; fileRef = 014A65511664081800A175EA /* PreviewStyleLion.css */; };
 		01979BC81AD073D100C8DE20 /* QLWindowsApps.qlgenerator in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8D576316048677EA00EA77CD /* QLWindowsApps.qlgenerator */; };
-		01ED4F2719F4255F008ABEB1 /* PreviewStyleYosemite.css in Resources */ = {isa = PBXBuildFile; fileRef = 01ED4F2619F4255F008ABEB1 /* PreviewStyleYosemite.css */; };
 		2C05A19C06CAA52B00D84F6F /* GeneratePreviewForURL.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C05A19B06CAA52B00D84F6F /* GeneratePreviewForURL.m */; };
 		61E3BCFB0870B4F2002186A0 /* GenerateThumbnailForURL.m in Sources */ = {isa = PBXBuildFile; fileRef = 61E3BCFA0870B4F2002186A0 /* GenerateThumbnailForURL.m */; };
 		8D576312048677EA00EA77CD /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 08FB77B6FE84183AC02AAC07 /* main.c */; settings = {ATTRIBUTES = (); }; };
@@ -51,15 +51,15 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		011116901DDFB5F2008BF5CA /* PreviewTemplateElCapitan.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = PreviewTemplateElCapitan.html; sourceTree = "<group>"; };
+		011116911DDFB5F2008BF5CA /* PreviewTemplateLion.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = PreviewTemplateLion.html; sourceTree = "<group>"; };
+		011116921DDFB5F2008BF5CA /* PreviewTemplateYosemite.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = PreviewTemplateYosemite.html; sourceTree = "<group>"; };
 		011D85C91643EBAE008A2601 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		011D85F01643F5B7008A2601 /* MicrosoftBinaries_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MicrosoftBinaries_Prefix.pch; sourceTree = "<group>"; };
 		012A7D37171C8F880019A298 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/VersioninfoNames.strings; sourceTree = "<group>"; };
 		012A7D39171C91260019A298 /* it */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		012A7D3A171C91260019A298 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/VersioninfoNames.strings; sourceTree = "<group>"; };
 		012E612719F419AB008ED670 /* libOSXIcotools.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libOSXIcotools.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		0136A4741BC0023B002C31EF /* PreviewStyleElCapitan.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = PreviewStyleElCapitan.css; sourceTree = "<group>"; };
-		014A65511664081800A175EA /* PreviewStyleLion.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = PreviewStyleLion.css; sourceTree = "<group>"; };
-		01ED4F2619F4255F008ABEB1 /* PreviewStyleYosemite.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = PreviewStyleYosemite.css; sourceTree = "<group>"; };
 		089C167EFE841241C02AAC07 /* en */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		08FB77B6FE84183AC02AAC07 /* main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		0AA1909FFE8422F4C02AAC07 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = /System/Library/Frameworks/CoreFoundation.framework; sourceTree = "<absolute>"; };
@@ -110,9 +110,9 @@
 		089C167CFE841241C02AAC07 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				014A65511664081800A175EA /* PreviewStyleLion.css */,
-				01ED4F2619F4255F008ABEB1 /* PreviewStyleYosemite.css */,
-				0136A4741BC0023B002C31EF /* PreviewStyleElCapitan.css */,
+				011116901DDFB5F2008BF5CA /* PreviewTemplateElCapitan.html */,
+				011116911DDFB5F2008BF5CA /* PreviewTemplateLion.html */,
+				011116921DDFB5F2008BF5CA /* PreviewTemplateYosemite.html */,
 				8D576317048677EA00EA77CD /* Info.plist */,
 				8D5B49A704867FD3000E48DA /* InfoPlist.strings */,
 				012A7D38171C8F880019A298 /* VersioninfoNames.strings */,
@@ -213,10 +213,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D5B49A804867FD3000E48DA /* InfoPlist.strings in Resources */,
-				014A65521664081800A175EA /* PreviewStyleLion.css in Resources */,
 				012A7D36171C8F880019A298 /* VersioninfoNames.strings in Resources */,
-				0136A4751BC0023B002C31EF /* PreviewStyleElCapitan.css in Resources */,
-				01ED4F2719F4255F008ABEB1 /* PreviewStyleYosemite.css in Resources */,
+				011116951DDFB5F2008BF5CA /* PreviewTemplateYosemite.html in Resources */,
+				011116931DDFB5F2008BF5CA /* PreviewTemplateElCapitan.html in Resources */,
+				011116941DDFB5F2008BF5CA /* PreviewTemplateLion.html in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

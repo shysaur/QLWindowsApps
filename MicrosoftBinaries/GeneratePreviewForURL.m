@@ -25,18 +25,18 @@
 #import "EIVersionInfo.h"
 
 
-NSString *QWAGetCascadingStyleSheet(void) {
+NSString *QWAGetTemplate(void) {
   NSBundle *mbundle;
   NSString *csspath;
   
   mbundle = [NSBundle bundleWithIdentifier:@"com.danielecattaneo.qlgenerator.qlwindowsapps"];
 
   if (floor(NSAppKitVersionNumber) < NSAppKitVersionNumber10_10) {
-    csspath = [mbundle pathForResource:@"PreviewStyleLion" ofType:@"css"];
+    csspath = [mbundle pathForResource:@"PreviewTemplateLion" ofType:@"html"];
   } else if (floor(NSAppKitVersionNumber) <= NSAppKitVersionNumber10_10_Max) {
-    csspath = [mbundle pathForResource:@"PreviewStyleYosemite" ofType:@"css"];
+    csspath = [mbundle pathForResource:@"PreviewTemplateYosemite" ofType:@"html"];
   } else {
-    csspath = [mbundle pathForResource:@"PreviewStyleElCapitan" ofType:@"css"];
+    csspath = [mbundle pathForResource:@"PreviewTemplateElCapitan" ofType:@"html"];
   }
   
   return [NSString stringWithContentsOfFile:csspath encoding:NSUTF8StringEncoding error:nil];
@@ -54,7 +54,7 @@ NSString *QWAHTMLVersionInfoForExeFile(EIExeFile *exeFile) {
   NSString *temp, *node, *vpath;
   
   mbundle = [NSBundle bundleWithIdentifier:@"com.danielecattaneo.qlgenerator.qlwindowsapps"];
-  html = [@"<table id=\"vertable\"><tbody>" mutableCopy];
+  html = [@"<tbody>" mutableCopy];
   vir = [exeFile versionInfo];
   
   queryHeader = @"\\StringFileInfo\\*";
@@ -79,7 +79,7 @@ NSString *QWAHTMLVersionInfoForExeFile(EIExeFile *exeFile) {
     [html appendString:@"</td></tr>"];
   }
   
-  [html appendString:@"</tbody></table>"];
+  [html appendString:@"</tbody>"];
   return html;
 }
 
@@ -97,43 +97,64 @@ NSString *QWAGetBase64EncodedImageForExeFile(EIExeFile *exeFile, CFStringRef con
 }
 
 
+void QWAReplaceHtmlPlaceholders(NSMutableString *html, NSDictionary *ph)
+{
+  NSRegularExpression *phregex, *nameregex;
+  NSArray<NSTextCheckingResult *> *phres, *nameres;
+  NSRange rem;
+  
+  phregex = [NSRegularExpression regularExpressionWithPattern:
+             @"\<\!---([^-]*)--\>" options:0 error:nil];
+  nameregex = [NSRegularExpression regularExpressionWithPattern:
+               @"\@([A-Z]+)\@" options:0 error:nil];
+  
+  phres = [phregex matchesInString:html options:0 range:NSMakeRange(0, html.length)];
+  for (NSTextCheckingResult *phi in [phres reverseObjectEnumerator]) {
+    NSRange crange = [phi rangeAtIndex:1];
+    NSMutableString *tag = [[html substringWithRange:crange] mutableCopy];
+    
+    nameres = [nameregex matchesInString:tag options:0 range:NSMakeRange(0, tag.length)];
+    for (NSTextCheckingResult *name in [nameres reverseObjectEnumerator]) {
+      NSRange nrange = [name rangeAtIndex:1];
+      NSString *repl = [ph objectForKey:[tag substringWithRange:nrange]];
+      if (repl)
+        [tag replaceCharactersInRange:name.range withString:repl];
+    }
+    
+    [html replaceCharactersInRange:phi.range withString:tag];
+  }
+}
+
+
 void QWAGeneratePreviewForURL(QLPreviewRequestRef preview, NSURL *url, CFStringRef contentTypeUTI) {
   EIExeFile *exeFile;
   NSMutableString *html;
   NSDictionary *props;
-  
-  html = [NSMutableString string];
+  NSMutableDictionary *elem;
+  NSString *icon;
   
   exeFile = [[EIExeFile alloc] initWithExeFileURL:url];
   if (!exeFile) return;
   if (QLPreviewRequestIsCancelled(preview)) return;
   
-  /* Header: use an inline style sheet */
-  [html appendString:@"<html><head><style type=\"text/css\">"];
-  [html appendString:QWAGetCascadingStyleSheet()];
-  [html appendString:@"</style></head><body>"];
-  
+  html = [QWAGetTemplate() mutableCopy];
+  elem = [NSMutableDictionary dictionary];
   if (QLPreviewRequestIsCancelled(preview)) return;
   
-  /* Icon div */
-  [html appendString:@"<div id=\"icon\"><img id=\"icon_img\" src=\"data:image/tiff;base64,"];
-  [html appendString:QWAGetBase64EncodedImageForExeFile(exeFile, contentTypeUTI, url)];
-  [html appendString:@"\"></div>"];
-  
+  /* Icon */
+  icon = QWAGetBase64EncodedImageForExeFile(exeFile, contentTypeUTI, url);
+  [elem setObject:icon forKey:@"ICON"];
   if (QLPreviewRequestIsCancelled(preview)) return;
   
   /* File name and 16-bit badge */
-  [html appendString:@"<div id=\"exename\">"];
-  [html appendFormat:@"<div class=\"badge\">%d bit</div>", [exeFile bitness]];
-  [html appendFormat:@"<h1>%@</h1></div>", [url lastPathComponent]];
+  [elem setObject:[NSString stringWithFormat:@"%d bit", [exeFile bitness]] forKey:@"BADGE"];
+  [elem setObject:[url lastPathComponent] forKey:@"NAME"];
   
   /* Version info */
-  [html appendString:@"<div id=\"info\">"];
-  [html appendString:QWAHTMLVersionInfoForExeFile(exeFile)];
-  [html appendString:@"</div>"];
+  [elem setObject:QWAHTMLVersionInfoForExeFile(exeFile) forKey:@"TABLEBODY"];
   
-  /* Trailer */
-  [html appendString:@"</body></html>"];
+  /* Generate HTML */
+  QWAReplaceHtmlPlaceholders(html, elem);
   
   props = @{(NSString *)kQLPreviewPropertyTextEncodingNameKey : @"UTF-8",
             (NSString *)kQLPreviewPropertyMIMETypeKey : @"text/html"};
