@@ -129,7 +129,7 @@
     return nil;
   }
   
-  return [[EIVersionInfo alloc] initWithData:verdata is16Bit:[self is16Bit]];
+  return [[EIVersionInfo alloc] initWithData:verdata is16Bit:(fl.binary_type == NE_BINARY)];
 }
 
 
@@ -138,8 +138,9 @@
 }
 
 
-- (BOOL)is16Bit {
-  return !(fl.is_PE_binary);
+- (int)bitness {
+  static const int bitnesses[] = {16, 32, 64};
+  return bitnesses[fl.binary_type];
 }
 
 

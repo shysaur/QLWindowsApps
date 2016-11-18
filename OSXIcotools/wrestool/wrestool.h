@@ -34,12 +34,16 @@
  * Structures 
  */
 
+#define NE_BINARY		0
+#define PE_BINARY		1
+#define PEPLUS_BINARY	2
+
 typedef struct _WinLibrary {
 	char *name;
 	FILE *file;
 	char *memory;
 	uint8_t *first_resource;
-	bool is_PE_binary;
+	int binary_type;
 	int total_size;
 } WinLibrary;
 

@@ -36,6 +36,6 @@
 - (NSImage *)icon;
 - (EIVersionInfo *)versionInfo;
 - (NSURL *)url;
-- (BOOL)is16Bit;
+- (int)bitness;
 
 @end

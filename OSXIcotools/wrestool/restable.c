@@ -196,7 +196,7 @@ decode_pe_resource_id (WinLibrary *fi, WinResource *wr, uint32_t value)
 void *
 get_resource_entry (WinLibrary *fi, WinResource *wr, int *size)
 {
-	if (fi->is_PE_binary) {
+	if (fi->binary_type == PE_BINARY || fi->binary_type == PEPLUS_BINARY) {
 		Win32ImageResourceDataEntry *dataent;
 
 		dataent = (Win32ImageResourceDataEntry *) wr->children;
@@ -356,7 +356,7 @@ list_resources (WinLibrary *fi, WinResource *res, int *count)
 	if (res != NULL && !res->is_directory)
 		return NULL;
 
-	if (fi->is_PE_binary) {
+	if (fi->binary_type == PE_BINARY || fi->binary_type == PEPLUS_BINARY) {
 		return list_pe_resources(fi, (Win32ImageResourceDirectory *)
 				 (res == NULL ? fi->first_resource : res->children),
 				 (res == NULL ? 0 : res->level+1),
@@ -403,7 +403,7 @@ read_library (WinLibrary *fi)
 			return false;
 		}
 
-		fi->is_PE_binary = false;
+		fi->binary_type = NE_BINARY;
 		alignshift = (uint16_t *) ((uint8_t *) NE_HEADER(fi->memory) + header->rsrctab);
 		fi->first_resource = ((uint8_t *) alignshift) + sizeof(uint16_t);
 		RETURN_IF_BAD_POINTER(false, *(Win16NETypeInfo *) fi->first_resource);
@@ -450,6 +450,7 @@ read_library (WinLibrary *fi)
 
 		if (pe_header->optional_header.magic == 0x20B) {  /* PE32+ */
 			/* find resource directory */
+			fi->binary_type = PEPLUS_BINARY;
 			RETURN_IF_BAD_POINTER(false, peplus_header->optional_header.data_directory[IMAGE_DIRECTORY_ENTRY_RESOURCE]);
 			dir = peplus_header->optional_header.data_directory + IMAGE_DIRECTORY_ENTRY_RESOURCE;
 			if (dir->size == 0) {
@@ -458,6 +459,7 @@ read_library (WinLibrary *fi)
 			}
 		} else {  /* PE32 */
 			/* find resource directory */
+			fi->binary_type = PE_BINARY;
 			RETURN_IF_BAD_POINTER(false, pe_header->optional_header.data_directory[IMAGE_DIRECTORY_ENTRY_RESOURCE]);
 			dir = pe_header->optional_header.data_directory + IMAGE_DIRECTORY_ENTRY_RESOURCE;
 			if (dir->size == 0) {
@@ -467,7 +469,6 @@ read_library (WinLibrary *fi)
 		}
 
 		fi->first_resource = ((uint8_t *) fi->memory) + dir->virtual_address;
-		fi->is_PE_binary = true;
 		return true;
 	}
 

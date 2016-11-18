@@ -61,7 +61,7 @@ NSString *QWAHTMLVersionInfoForExeFile(EIExeFile *exeFile) {
   resSrch = [vir querySubNodesUnder:queryHeader error:NULL];
   if (!resSrch) return @"";
   
-  if ([exeFile is16Bit])
+  if ([exeFile bitness] == 16)
     resEnc = NSWindowsCP1252StringEncoding;
   else
     resEnc = NSUTF16LittleEndianStringEncoding;
@@ -124,8 +124,7 @@ void QWAGeneratePreviewForURL(QLPreviewRequestRef preview, NSURL *url, CFStringR
   
   /* File name and 16-bit badge */
   [html appendString:@"<div id=\"exename\">"];
-  if ([exeFile is16Bit])
-    [html appendString:@"<div class=\"badge\">16 bit</div>"];
+  [html appendFormat:@"<div class=\"badge\">%d bit</div>", [exeFile bitness]];
   [html appendFormat:@"<h1>%@</h1></div>", [url lastPathComponent]];
   
   /* Version info */
