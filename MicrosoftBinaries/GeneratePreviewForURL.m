@@ -23,6 +23,7 @@
 #import <Cocoa/Cocoa.h>
 #import "EIExeFile.h"
 #import "EIVersionInfo.h"
+#import "Utils.h"
 
 
 NSString *QWAGetTemplate(void) {
@@ -31,12 +32,18 @@ NSString *QWAGetTemplate(void) {
   
   mbundle = [NSBundle bundleWithIdentifier:@"com.danielecattaneo.qlgenerator.qlwindowsapps"];
 
-  if (floor(NSAppKitVersionNumber) < NSAppKitVersionNumber10_10) {
-    csspath = [mbundle pathForResource:@"PreviewTemplateLion" ofType:@"html"];
-  } else if (floor(NSAppKitVersionNumber) <= NSAppKitVersionNumber10_10_Max) {
-    csspath = [mbundle pathForResource:@"PreviewTemplateYosemite" ofType:@"html"];
-  } else {
-    csspath = [mbundle pathForResource:@"PreviewTemplateElCapitan" ofType:@"html"];
+  NSString *name = [QWAUserDefaults() objectForKey:@"StyleName"];
+  if ([name isKindOfClass:[NSString class]])
+    csspath = [mbundle pathForResource:name ofType:@"html"];
+  
+  if (csspath == nil) {
+    if (floor(NSAppKitVersionNumber) < NSAppKitVersionNumber10_10) {
+      csspath = [mbundle pathForResource:@"PreviewTemplateLion" ofType:@"html"];
+    } else if (floor(NSAppKitVersionNumber) <= NSAppKitVersionNumber10_10_Max) {
+      csspath = [mbundle pathForResource:@"PreviewTemplateYosemite" ofType:@"html"];
+    } else {
+      csspath = [mbundle pathForResource:@"PreviewTemplateElCapitan" ofType:@"html"];
+    }
   }
   
   return [NSString stringWithContentsOfFile:csspath encoding:NSUTF8StringEncoding error:nil];

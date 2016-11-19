@@ -19,3 +19,4 @@ DerivedData
 testing_samples
 *.pkg
 build
+MicrosoftBinaries/style_tests
