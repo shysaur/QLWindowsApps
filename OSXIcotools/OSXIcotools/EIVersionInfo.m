@@ -22,6 +22,12 @@
  *  http://blogs.msdn.com/b/oldnewthing/archive/2006/12/20/1332035.aspx (16 bit)
  */
 
+/* Note: -stringWithCharacters:length: in NSString (like 
+ * CFStringCreateWithCharacters, which is the function that actually does
+ * the job under the hood) does NOT take a number of characters as length
+ * parameter (as the documentation claims), but a number of CODE POINTS 
+ * (bytes / 2). */
+
 #import "EIVersionInfo.h"
 
 
@@ -42,6 +48,7 @@ typedef struct {
 } VERSIONNODE16_HEADER;
 
 
+/* Returns a number of code points */
 int EIUTF16CheckedStringLen(const unichar* string, const unichar *maxptr, BOOL expectTerm) {
   int len;
   
