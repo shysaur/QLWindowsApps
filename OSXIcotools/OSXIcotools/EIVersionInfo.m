@@ -50,22 +50,22 @@ typedef struct {
 
 /* Returns a number of code points */
 int EIUTF16CheckedStringLen(const unichar* string, const unichar *maxptr, BOOL expectTerm) {
-  int len;
+  const unichar *initial;
   
-  for (len = 0; string < maxptr; len++)
-    if (*(string++) == '\0')
-      return len;
-  return expectTerm ? -1 : len - 1;
+  for (initial = string; ((void*)string) + 1 < (void*)maxptr; string++)
+    if (*string == '\0')
+      return (int)(string - initial);
+  return expectTerm ? -1 : (int)(string - initial);
 }
 
 
 int EICheckedStringLen(const char *str, const char *maxptr, BOOL expectTerm) {
-  int len;
+  const char *initial;
   
-  for (len = 0; str < maxptr; len++)
-    if (*(str++) == '\0')
-      return len;
-  return expectTerm ? -1 : len - 1;
+  for (initial = str; str < maxptr; str++)
+    if (*str == '\0')
+      return (int)(str - initial);
+  return expectTerm ? -1 : (int)(str - initial);
 }
 
 
