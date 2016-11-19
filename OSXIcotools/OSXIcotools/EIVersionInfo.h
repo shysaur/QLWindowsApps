@@ -37,6 +37,7 @@ typedef enum {
 - (NSData *)data;
 
 - (NSData*)queryValue:(NSString*)subBlock error:(EIVERSION_ERR*)err;
+- (NSString *)queryStringValue:(NSString *)subBlock error:(EIVERSION_ERR *)err;
 - (NSArray*)querySubNodesUnder:(NSString*)subBlock error:(EIVERSION_ERR*)err;
 
 @end

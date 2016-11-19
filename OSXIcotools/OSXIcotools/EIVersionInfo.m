@@ -42,23 +42,23 @@ typedef struct {
 } VERSIONNODE16_HEADER;
 
 
-int EIUTF16CheckedStringLen(const unichar* string, const unichar *maxptr) {
+int EIUTF16CheckedStringLen(const unichar* string, const unichar *maxptr, BOOL expectTerm) {
   int len;
   
   for (len = 0; string < maxptr; len++)
     if (*(string++) == '\0')
       return len;
-  return -1;  //absurd string length
+  return expectTerm ? -1 : len - 1;
 }
 
 
-int EICheckedStringLen(const char *str, const char *maxptr) {
+int EICheckedStringLen(const char *str, const char *maxptr, BOOL expectTerm) {
   int len;
   
   for (len = 0; str < maxptr; len++)
     if (*(str++) == '\0')
       return len;
-  return -1;
+  return expectTerm ? -1 : len - 1;
 }
 
 
@@ -96,7 +96,7 @@ NSData *EIResTreeRead32(NSArray *path, int level, NSData *block, EIVERSION_ERR *
   /* Search for the right node in this level */
   found = NO;
   while ((void*)vnh < be) {
-    nameLen = EIUTF16CheckedStringLen(wszName, be);
+    nameLen = EIUTF16CheckedStringLen(wszName, be, YES);
     if (nameLen < 0) ERR_RET(EIV_WRONGFORMAT);
     
     nodeName = [NSString stringWithCharacters:wszName length:nameLen];
@@ -158,7 +158,7 @@ NSData *EIResTreeRead16(NSArray *path, int level, NSData* block, EIVERSION_ERR *
   /* Search for the right node in this level */
   found = NO;
   while ((void*)vnh < be) {
-    sl = EICheckedStringLen(wszName, be);
+    sl = EICheckedStringLen(wszName, be, YES);
     if (sl < 0) ERR_RET(EIV_WRONGFORMAT);
     nodeName = [NSString stringWithCString:wszName encoding:NSWindowsCP1252StringEncoding];
         
@@ -214,6 +214,28 @@ NSData *EIResTreeRead16(NSArray *path, int level, NSData* block, EIVERSION_ERR *
 }
 
 
+- (NSString *)queryStringValue:(NSString *)subBlock error:(EIVERSION_ERR *)err {
+  NSData *raw;
+  NSStringEncoding resEnc;
+  uint8_t *bytes;
+  int l;
+  
+  raw = [self queryValue:subBlock error:err];
+  if (!raw)
+    return nil;
+  bytes = [raw bytes];
+  
+  if (win16Block) {
+    l = EICheckedStringLen(bytes, bytes + [raw length], NO);
+    return [[NSString alloc] initWithBytes:bytes length:l
+            encoding:NSWindowsCP1252StringEncoding];
+  }
+  
+  l = EIUTF16CheckedStringLen(bytes, bytes + [raw length], NO);
+  return [NSString stringWithCharacters:bytes length:l];
+}
+
+
 // Like VerQueryValue(pBlock, lpSubBlock, lplpBuffer, puLen);
 - (NSData *)queryValue:(NSString *)subBlock error:(EIVERSION_ERR *)err {
   NSData *res;
@@ -262,7 +284,7 @@ NSData *EIResTreeRead16(NSArray *path, int level, NSData* block, EIVERSION_ERR *
   
   wszName = (char*)(vnh + 1);
   while ((void*)vnh < be) {
-    sl = EICheckedStringLen(wszName, be);
+    sl = EICheckedStringLen(wszName, be, YES);
     if (sl < 0) ERR_RET(EIV_WRONGFORMAT);
     
     nodeName = [NSString stringWithCString:wszName encoding:NSWindowsCP1252StringEncoding];
@@ -294,7 +316,7 @@ NSData *EIResTreeRead16(NSArray *path, int level, NSData* block, EIVERSION_ERR *
   
   wszName = (unichar *)(vnh + 1);
   while ((void*)vnh < be) {
-    nameLen = EIUTF16CheckedStringLen(wszName, be);
+    nameLen = EIUTF16CheckedStringLen(wszName, be, YES);
     if (nameLen < 0) ERR_RET(EIV_WRONGFORMAT);
     
     nodeName = [NSString stringWithCharacters:wszName length:nameLen];
