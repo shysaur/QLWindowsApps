@@ -1,92 +1,100 @@
-<!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8">
     <style type="text/css">
-      #icon {
-        position: absolute;
-        width: 235px;
-        height: 235px;
-        top: 15px;
-        left: 15px;
-      }
-      #exename {  /*r*/
-        overflow: auto;
-        position: absolute;
-        padding: 15px 20px 0px 265px;
-        top: 0px;
-        bottom: 0px;
-        left: 0px;
-        right: 0px;
-        background-image: -webkit-linear-gradient(top, #FDFDFD 0%, #ECECEC 100%);
-        z-index: -1;
-      }
-      h1 { /*r*/
-        font-size: 19px;
-        line-height: 28px;
-        text-indent: 15px;
-        border-bottom-width: 1px;
-        border-bottom-style: solid;
-        border-bottom-color: #CCC;
-      }
-      #icon_img {
-        position: absolute;
-        width: 219px;
-        height: 219px;
-        top: 8px;
-        left: 8px;
-      }
-      #vertable {
-        font-size: 10pt;
-      }
-      #info {
-        overflow: auto;
-        position: absolute;
-        bottom: 30px;
-        left: 270px;
-        top: 70px;
-        right: 22px;
-        min-height: 165px;
-      }
-      td {
-        border-style: none;
-      }
-      body {   /*r*/
+      body {
         font-family: "Lucida Grande";
+        background-image: -webkit-linear-gradient(top, #FDFDFD 0%, #ECECEC 100%);
         color: #222;
         margin: 0px;
         min-width: 640px;
       }
-      #prgversion {  /*r*/
-        font-size: 9px;
-        color: rgba(0, 0, 0, 0.5);
-        position: absolute;
-        text-align: right;
+      .vercenteredcontainer {
+        display: table;
+        height: 100%;
         width: 100%
       }
-      .badge {  /*r*/
+      .vercentered {
+        display: table-cell;
+        vertical-align: middle;
+      }
+      #iconcont {
+        top: 0; 
+        left: 0; 
+        position: fixed;
+        background-image: -webkit-linear-gradient(top, #FDFDFD 0%, #ECECEC 100%);
+      }
+      #icon {
+        position: relative;
+        width: 251px;
+      }
+      #icon_img {
+        position: relative;
+        width: 219px;
+        height: 219px;
+        left: 8px;
+      }
+      #data {
+        position: relative; 
+        padding-left: 251px;
+      }
+      #exename {
+        position: relative;
+        overflow: auto;
+        padding: 0px 10px 0px 0px;
+      }
+      .badge {
         font-size: 10px;
-        background-color: #36f;
         padding: 2px 6px 2px 6px;
         -webkit-border-radius: 8px;
         position: relative;
         float: right;
-        margin: 0px 3px 0px 3px;
-        top: 18px;
-        color: white;
+        margin: 0px 10px 0px 3px;
+        top: 20px;
+        color: #888;
+        border: 1px solid #888;
+      }
+      h1 {
+        font-size: 19px;
+        line-height: 28px;
+        text-indent: 15px;
+        border-bottom: 1px solid #CCC;
+        height: 34px;
+        font-weight: bold;
+      }
+      #info {
+        overflow: auto;
+        position: relative;
+        min-height: 165px;
+        padding-left: 12px;
+        padding-right: 24px;
+      }
+      #vertable {
+        font-size: 10pt;
+        height: 162px;
+      }
+      td {
+        border-style: none;
+        padding-right: 15px;
       }
     </style>
   </head>
   <body>
-    <div id="icon">
-      <!---<img id="icon_img" src="data:image/tiff;base64,@IMAGE@">-->
+    <div class="vercenteredcontainer" id="iconcont">
+      <div id="icon" class="vercentered">
+        <!---<img id="icon_img" src="data:image/tiff;base64,@ICON@">-->
+      </div>
     </div>
-    <div id="exename">
-      <div class="badge"><!---@BADGE@--></div>
-      <h1><!---@NAME@--></h1>
-    </div>
-    <div id="info">
-      <table id="vertable"><!---@TABLEBODY@--></table>
+    <div class="vercenteredcontainer">
+      <div id="data" class="vercentered">
+        <div id="exename">
+          <div class="badge"><!---@BADGE@--></div>
+          <h1><!---@NAME@--></h1>
+        </div>
+        <div id="info">
+          <table id="vertable"><!---@TABLEBODY@--></table>
+        </div>
+      </div>
     </div>
   </body>
 </html>
