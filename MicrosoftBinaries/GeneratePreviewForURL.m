@@ -56,7 +56,6 @@ NSString *QWAHTMLVersionInfoForExeFile(EIExeFile *exeFile) {
   NSString* queryHeader;
   NSArray *resSrch;
   NSBundle *mbundle;
-  NSStringEncoding resEnc;
   NSString *value, *node, *vpath;
   
   mbundle = [NSBundle bundleWithIdentifier:@"com.danielecattaneo.qlgenerator.qlwindowsapps"];
@@ -101,12 +100,11 @@ void QWAReplaceHtmlPlaceholders(NSMutableString *html, NSDictionary *ph)
 {
   NSRegularExpression *phregex, *nameregex;
   NSArray<NSTextCheckingResult *> *phres, *nameres;
-  NSRange rem;
   
   phregex = [NSRegularExpression regularExpressionWithPattern:
-             @"\<\!---([^-]*)--\>" options:0 error:nil];
+             @"<!---([^-]*)-->" options:0 error:nil];
   nameregex = [NSRegularExpression regularExpressionWithPattern:
-               @"\@([A-Z]+)\@" options:0 error:nil];
+               @"@([A-Z]+)@" options:0 error:nil];
   
   phres = [phregex matchesInString:html options:0 range:NSMakeRange(0, html.length)];
   for (NSTextCheckingResult *phi in [phres reverseObjectEnumerator]) {
