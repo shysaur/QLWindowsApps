@@ -30,12 +30,6 @@
 }
 
 
-- (void)dealloc {
-  [list release];
-  [super dealloc];
-}
-
-
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)aTableView {
   return [list count];
 }
@@ -52,7 +46,6 @@
   NSString *node, *keyPath, *value;
   NSStringEncoding resEnc;
   
-  [list release];
   list = [[NSMutableArray alloc] init];
   
   resSrch = [vir querySubNodesUnder:@"\\StringFileInfo\\*" error:NULL];
@@ -69,7 +62,6 @@
     if (item) {
       value = [[NSString alloc] initWithData:item encoding:resEnc];
       [list addObject:[NSString stringWithFormat:@"%@: %@", node, value]];
-      [value release];
     }
   }
 }

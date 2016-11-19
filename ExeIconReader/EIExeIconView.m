@@ -28,7 +28,6 @@
 - (void)setImageFromExe:(NSURL *)exefile {
   NSImage *icoImage;
   
-  [exf release];
   exf = [[EIExeFile alloc] initWithExeFileURL:exefile];
   
   if (exf) {
@@ -41,7 +40,7 @@
 
 
 - (EIExeFile *)exeFile {
-  return [[exf retain] autorelease];
+  return exf;
 }
 
 
