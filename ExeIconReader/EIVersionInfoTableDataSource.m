@@ -42,27 +42,17 @@
 
 - (void)loadFromVersionInfo:(EIVersionInfo*)vir {
   NSArray *resSrch;
-  NSData* item;
   NSString *node, *keyPath, *value;
-  NSStringEncoding resEnc;
   
   list = [[NSMutableArray alloc] init];
   
   resSrch = [vir querySubNodesUnder:@"\\StringFileInfo\\*" error:NULL];
   
-  if ([vir is16bit])
-    resEnc = NSWindowsCP1252StringEncoding;
-  else
-    resEnc = NSUTF16LittleEndianStringEncoding;
-  
   for (node in resSrch) {
     keyPath = [NSString stringWithFormat:@"\\StringFileInfo\\*\\%@", node];
-    item = [vir queryValue:keyPath error:NULL];
-    
-    if (item) {
-      value = [[NSString alloc] initWithData:item encoding:resEnc];
+    value = [vir queryStringValue:keyPath error:NULL];
+    if (value)
       [list addObject:[NSString stringWithFormat:@"%@: %@", node, value]];
-    }
   }
 }
 

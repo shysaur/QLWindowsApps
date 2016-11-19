@@ -57,8 +57,7 @@ NSString *QWAHTMLVersionInfoForExeFile(EIExeFile *exeFile) {
   NSArray *resSrch;
   NSBundle *mbundle;
   NSStringEncoding resEnc;
-  NSData *item;
-  NSString *temp, *node, *vpath;
+  NSString *value, *node, *vpath;
   
   mbundle = [NSBundle bundleWithIdentifier:@"com.danielecattaneo.qlgenerator.qlwindowsapps"];
   html = [@"<tbody>" mutableCopy];
@@ -68,21 +67,15 @@ NSString *QWAHTMLVersionInfoForExeFile(EIExeFile *exeFile) {
   resSrch = [vir querySubNodesUnder:queryHeader error:NULL];
   if (!resSrch) return @"";
   
-  if ([exeFile bitness] == 16)
-    resEnc = NSWindowsCP1252StringEncoding;
-  else
-    resEnc = NSUTF16LittleEndianStringEncoding;
-  
   for (node in resSrch) {
     vpath = [NSString stringWithFormat:@"%@\\%@", queryHeader, node];
-    item = [vir queryValue:vpath error:NULL];
-    if (!item) continue;
+    value = [vir queryStringValue:vpath error:NULL];
+    if (!value) continue;
     
-    temp = [[NSString alloc] initWithData:item encoding:resEnc];
     [html appendString:@"<tr><td>"];
     [html appendString:NSLocalizedStringFromTableInBundle(node, @"VersioninfoNames", mbundle, nil)];
     [html appendString:@"</td><td>"];
-    [html appendString:temp];
+    [html appendString:value];
     [html appendString:@"</td></tr>"];
   }
   
