@@ -20,5 +20,6 @@
 
 
 NSUserDefaults *QWAUserDefaults();
+void QWAChangeIcon(NSURL *url, NSImage *icon);
 
 

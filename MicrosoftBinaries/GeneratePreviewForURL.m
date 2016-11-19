@@ -87,8 +87,11 @@ NSString *QWAGetBase64EncodedImageForExeFile(EIExeFile *exeFile, CFStringRef con
   NSImage *icon;
   NSData *image;
   
-  if (UTTypeEqual(contentTypeUTI, (CFStringRef)@"com.microsoft.windows-executable"))
+  if (UTTypeEqual(contentTypeUTI, (CFStringRef)@"com.microsoft.windows-executable")) {
     icon = [exeFile icon];
+    QWAChangeIcon(url, icon);
+  }
+  
   if (!icon || ![icon isValid])
     icon = [[NSWorkspace sharedWorkspace] iconForFile:[url path]];
   image = [icon TIFFRepresentation];

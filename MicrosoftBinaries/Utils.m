@@ -31,3 +31,26 @@ NSUserDefaults *QWAUserDefaults()
   return pluginDefaults;
 }
 
+
+void QWAChangeIcon(NSURL *url, NSImage *icon)
+{
+  MDItemRef mdirf;
+  NSNumber *finfo;
+  
+  if (!icon || ![icon isValid])
+    return;
+  
+  if ([QWAUserDefaults() boolForKey:@"DisableIconChange"])
+    return;
+  
+  mdirf = MDItemCreateWithURL(kCFAllocatorDefault, (CFURLRef)url);
+  if (!mdirf)
+    return;
+  
+  finfo = CFBridgingRelease(MDItemCopyAttribute(mdirf, (CFStringRef)@"kMDItemFSFinderFlags"));
+  if (!([finfo integerValue] & kHasCustomIcon))
+    [[NSWorkspace sharedWorkspace] setIcon:icon forFile:[url path] options:0];
+  
+  CFRelease(mdirf);
+}
+
