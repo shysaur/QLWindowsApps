@@ -21,6 +21,7 @@
 #include <QuickLook/QuickLook.h>
 #import <Cocoa/Cocoa.h>
 #import "EIExeFile.h"
+#import "Utils.h"
 
 
 #define MAX_NETWORK_PREVIEW ((1024*1024*5))
@@ -41,11 +42,7 @@ BOOL QWAIsFileOnNetworkDrive(NSURL *url) {
 
 
 BOOL QWAIsIconChangeEnabled(void) {
-  static NSUserDefaults *ud;
-  
-  if (!ud)
-    ud = [[NSUserDefaults alloc] initWithSuiteName:@"com.danielecattaneo.qlgenerator.qlwindowsapps"];
-  return ![ud boolForKey:@"DisableIconChange"];
+  return ![QWAUserDefaults() boolForKey:@"DisableIconChange"];
 }
 
 
