@@ -20,8 +20,7 @@ Features
   
 ### Supported OS X versions
 
-QLWindowsApps 1.1.0 was tested on OS X Mavericks and later, up to OS X El
-Capitan.
+QLWindowsApps 1.2.0 was tested on OS X Mavericks and later, up to OS X Sierra.
 
 If you are using an older OS X version, you can download QLWindowsApps 1.0.2, 
 which works on OS X Leopard and later.
@@ -63,7 +62,7 @@ Copyright & License
 -------------------
 
 The icoutils are copyright (c) 1998 Oskar Liljeblad.
-QLWindowsApps is copyright (c) 2012-2015 Daniele Cattaneo.
+QLWindowsApps is copyright (c) 2012-2016 Daniele Cattaneo.
 
 This program is free software: you can redistribute it and/or modify it under
 the terms of the GNU General Public License as published by the Free Software
