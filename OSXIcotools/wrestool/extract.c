@@ -201,10 +201,19 @@ extract_group_icon_cursor_resource(WinLibrary *fi, WinResource *wr, char *lang,
 		memcpy(&fileicondir->entries[c-skipped], &icondir->entries[c],
 			sizeof(Win32CursorIconFileDirEntry)-sizeof(uint32_t));
 
+		/* don't trust the size specified in ICONDIRENTRY because there are
+		 * some people who manage to get it wrong, believe it or not */
+		if (size >= sizeof(Win32BitmapInfoHeader)) {
+			const uint8_t pngh[8] = {137, 80, 78, 71, 13, 10, 26, 10};
+			if (memcmp(data, pngh, 8) != 0) {
+				Win32BitmapInfoHeader *bim = data;
+				fileicondir->entries[c-skipped].width = bim->width;
+				fileicondir->entries[c-skipped].height = bim->height / 2;
+			}
+		}
+		
 		/* special treatment for cursors */
 		if (!is_icon) {
-			fileicondir->entries[c-skipped].width = icondir->entries[c].res_info.cursor.width;
-			fileicondir->entries[c-skipped].height = icondir->entries[c].res_info.cursor.height / 2;
 			fileicondir->entries[c-skipped].color_count = 0;
 			fileicondir->entries[c-skipped].reserved = 0;
 		}
