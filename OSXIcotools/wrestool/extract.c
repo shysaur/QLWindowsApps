@@ -206,7 +206,7 @@ extract_group_icon_cursor_resource(WinLibrary *fi, WinResource *wr, char *lang,
 		if (size >= sizeof(Win32BitmapInfoHeader)) {
 			const uint8_t pngh[8] = {137, 80, 78, 71, 13, 10, 26, 10};
 			if (memcmp(data, pngh, 8) != 0) {
-				Win32BitmapInfoHeader *bim = data;
+				Win32BitmapInfoHeader *bim = (Win32BitmapInfoHeader *)data;
 				fileicondir->entries[c-skipped].width = bim->width;
 				fileicondir->entries[c-skipped].height = bim->height / 2;
 			}
