@@ -68,7 +68,7 @@ LList *llist_clone(LList *list);
 void **llist_to_array(LList *list);
 void **llist_to_null_terminated_array(LList *list);
 
-void llist_iterate(LList *list, void (*iterator_func)());
+void llist_iterate(LList *list, void (*iterator_func)(void *));
 void llist_iterator(LList *list, LListIterator *it);
 
 void llist_reverse(LList *list);

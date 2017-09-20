@@ -445,7 +445,7 @@ llist_is_empty(LList *list)
 }
 
 void
-llist_iterate(LList *list, void (*iterator_func)())
+llist_iterate(LList *list, void (*iterator_func)(void *))
 {
 	LNode *entry;
 	for (entry = list->first; entry != NULL; entry = entry->next)
