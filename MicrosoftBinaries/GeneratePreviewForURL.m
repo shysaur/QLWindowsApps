@@ -26,6 +26,28 @@
 #import "Utils.h"
 
 
+NSString *QWAEscapeStringForHtml(NSString *str)
+{
+  NSMutableString *res = [[NSMutableString alloc] init];
+  NSScanner *scan = [NSScanner scannerWithString:str];
+  NSCharacterSet *safe = [NSCharacterSet alphanumericCharacterSet];
+  [scan setCharactersToBeSkipped:nil];
+  
+  while (![scan isAtEnd]) {
+    NSString *tmp;
+    if ([scan scanCharactersFromSet:safe intoString:&tmp])
+      [res appendString:tmp];
+    if ([scan scanUpToCharactersFromSet:safe intoString:&tmp]) {
+      NSInteger n = [tmp length];
+      for (NSInteger i = 0; i < n; i++) {
+        [res appendFormat:@"&#x%X;", [tmp characterAtIndex:i]];
+      }
+    }
+  }
+  return [res copy];
+}
+
+
 NSString *QWAGetTemplate(void) {
   NSBundle *mbundle;
   NSString *csspath;
@@ -72,9 +94,10 @@ NSString *QWAHTMLVersionInfoForExeFile(EIExeFile *exeFile) {
     if (!value) continue;
     
     [html appendString:@"<tr><td>"];
-    [html appendString:NSLocalizedStringFromTableInBundle(node, @"VersioninfoNames", mbundle, nil)];
+    NSString *tmp = NSLocalizedStringFromTableInBundle(node, @"VersioninfoNames", mbundle, nil);
+    [html appendString:QWAEscapeStringForHtml(tmp)];
     [html appendString:@"</td><td>"];
-    [html appendString:value];
+    [html appendString:QWAEscapeStringForHtml(value)];
     [html appendString:@"</td></tr>"];
   }
   
@@ -149,7 +172,7 @@ void QWAGeneratePreviewForURL(QLPreviewRequestRef preview, NSURL *url, CFStringR
   
   /* File name and 16-bit badge */
   [elem setObject:[NSString stringWithFormat:@"%d bit", [exeFile bitness]] forKey:@"BADGE"];
-  [elem setObject:[url lastPathComponent] forKey:@"NAME"];
+  [elem setObject:QWAEscapeStringForHtml([url lastPathComponent]) forKey:@"NAME"];
   
   /* Version info */
   [elem setObject:QWAHTMLVersionInfoForExeFile(exeFile) forKey:@"TABLEBODY"];
