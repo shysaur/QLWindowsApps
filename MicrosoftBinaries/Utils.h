@@ -19,7 +19,7 @@
 #import <Foundation/Foundation.h>
 
 
-NSUserDefaults *QWAUserDefaults();
+NSUserDefaults *QWAUserDefaults(void);
 void QWAChangeIcon(NSURL *url, NSImage *icon);
 
 
