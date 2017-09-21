@@ -42,7 +42,7 @@
 		01979BC71AD073B800C8DE20 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
-			dstPath = "~/Library/QuickLook";
+			dstPath = "${HOME}/Library/QuickLook";
 			dstSubfolderSpec = 0;
 			files = (
 				01979BC81AD073D100C8DE20 /* QLWindowsApps.qlgenerator in CopyFiles */,
