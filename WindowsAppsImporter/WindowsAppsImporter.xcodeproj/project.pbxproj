@@ -320,7 +320,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				HEADER_SEARCH_PATHS = "\"$(PROJECT_DIR)/../OSXIcotools\"/**";
 				INFOPLIST_FILE = WindowsAppsImporter/Info.plist;
-				INSTALL_PATH = "@executable_path/../Contents/Library/Spotlight";
+				INSTALL_PATH = /Library/Spotlight;
 				LIBRARY_STYLE = BUNDLE;
 				PRODUCT_BUNDLE_IDENTIFIER = com.danielecattaneo.WindowsAppsImporter;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -336,7 +336,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				HEADER_SEARCH_PATHS = "\"$(PROJECT_DIR)/../OSXIcotools\"/**";
 				INFOPLIST_FILE = WindowsAppsImporter/Info.plist;
-				INSTALL_PATH = "@executable_path/../Contents/Library/Spotlight";
+				INSTALL_PATH = /Library/Spotlight;
 				LIBRARY_STYLE = BUNDLE;
 				PRODUCT_BUNDLE_IDENTIFIER = com.danielecattaneo.WindowsAppsImporter;
 				PRODUCT_NAME = "$(TARGET_NAME)";
