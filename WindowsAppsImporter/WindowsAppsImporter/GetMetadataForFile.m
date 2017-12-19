@@ -46,7 +46,7 @@ BOOL EIMetadataForFile(NSURL *url, NSMutableDictionary *attr)
   for (NSString *node in resSrch) {
     NSString *vpath = [NSString stringWithFormat:@"%@\\%@", queryHeader, node];
     NSString *value = [vir queryStringValue:vpath error:NULL];
-    if (!value)
+    if (!value || [@"" isEqual:value])
       continue;
     
     NSString *destkey;
