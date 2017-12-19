@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<installer-gui-script minSpecVersion="1">
+    <title>WindowsAppsImporter</title> 
+
+    <pkg-ref id="com.danielecattaneo.WindowsAppsImporter"/>
+    <license file="gpl-3.0-standalone.html" uti="public.html"/>
+    <options customize="never" require-scripts="false"/>
+    <domains enable_anywhere="false" enable_currentUserHome="true" enable_localSystem="true"/>
+    <choices-outline>
+        <line choice="default">
+            <line choice="com.danielecattaneo.WindowsAppsImporter"/>
+        </line>
+    </choices-outline>
+    <choice id="default"/>
+    <choice id="com.danielecattaneo.WindowsAppsImporter" visible="false">
+        <pkg-ref id="com.danielecattaneo.WindowsAppsImporter"/>
+    </choice>
+    <pkg-ref id="com.danielecattaneo.WindowsAppsImporter" version="" onConclusion="none">WindowsAppsImporter.pkg</pkg-ref>
+</installer-gui-script>

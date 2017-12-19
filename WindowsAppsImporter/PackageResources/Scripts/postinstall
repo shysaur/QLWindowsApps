@@ -1,0 +1,10 @@
+#!/bin/bash -x
+macosv=($(sw_vers -productVersion | sed 's/\./ /g'))
+echo macos version ${macosv[*]}
+if [[ ${macosv[1]} -gt 12 ]]; then
+  com='/usr/bin/mdutil -r '
+else
+  com='/usr/bin/mdimport -d3 -r '
+fi;
+su $USER -c "${com}$2/Library/Spotlight/WindowsAppsImporter.mdimporter; echo returned \$?";
+exit 0
