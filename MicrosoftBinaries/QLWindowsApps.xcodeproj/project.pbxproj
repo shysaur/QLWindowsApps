@@ -7,15 +7,15 @@
 	objects = {
 
 /* Begin PBXAggregateTarget section */
-		011D72DA1AD0726600368CBB /* TestInstall */ = {
+		011D72DA1AD0726600368CBB /* QLTestInstall */ = {
 			isa = PBXAggregateTarget;
-			buildConfigurationList = 011D72DD1AD0726600368CBB /* Build configuration list for PBXAggregateTarget "TestInstall" */;
+			buildConfigurationList = 011D72DD1AD0726600368CBB /* Build configuration list for PBXAggregateTarget "QLTestInstall" */;
 			buildPhases = (
 				01979BC71AD073B800C8DE20 /* CopyFiles */,
 			);
 			dependencies = (
 			);
-			name = TestInstall;
+			name = QLTestInstall;
 			productName = TestInstall;
 		};
 /* End PBXAggregateTarget section */
@@ -96,8 +96,11 @@
 				089C1671FE841209C02AAC07 /* External Frameworks and Libraries */,
 				19C28FB6FE9D52B211CA2CBB /* Products */,
 			);
+			indentWidth = 2;
 			name = MicrosoftBinaries;
 			sourceTree = "<group>";
+			tabWidth = 2;
+			usesTabs = 0;
 		};
 		089C1671FE841209C02AAC07 /* External Frameworks and Libraries */ = {
 			isa = PBXGroup;
@@ -207,7 +210,7 @@
 			projectRoot = "";
 			targets = (
 				8D57630D048677EA00EA77CD /* QLWindowsApps */,
-				011D72DA1AD0726600368CBB /* TestInstall */,
+				011D72DA1AD0726600368CBB /* QLTestInstall */,
 			);
 		};
 /* End PBXProject section */
@@ -411,7 +414,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		011D72DD1AD0726600368CBB /* Build configuration list for PBXAggregateTarget "TestInstall" */ = {
+		011D72DD1AD0726600368CBB /* Build configuration list for PBXAggregateTarget "QLTestInstall" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				011D72DB1AD0726600368CBB /* Debug */,

@@ -1,0 +1,381 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 48;
+	objects = {
+
+/* Begin PBXAggregateTarget section */
+		017A01481FE915CB00F7E866 /* MDTestInstall */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 017A014B1FE915CB00F7E866 /* Build configuration list for PBXAggregateTarget "MDTestInstall" */;
+			buildPhases = (
+				017A014E1FE915DC00F7E866 /* CopyFiles */,
+			);
+			dependencies = (
+			);
+			name = MDTestInstall;
+			productName = MDTestInstall;
+		};
+/* End PBXAggregateTarget section */
+
+/* Begin PBXBuildFile section */
+		017A014F1FE915F300F7E866 /* WindowsAppsImporter.mdimporter in CopyFiles */ = {isa = PBXBuildFile; fileRef = 019DD1D61FE5BCE400C9E07B /* WindowsAppsImporter.mdimporter */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		019DD1DB1FE5BCE500C9E07B /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 019DD1DA1FE5BCE500C9E07B /* main.c */; };
+		019DD1DD1FE5BCE500C9E07B /* GetMetadataForFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 019DD1DC1FE5BCE500C9E07B /* GetMetadataForFile.m */; };
+		019DD1EA1FE5C75D00C9E07B /* libOSXIcotools.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 019DD1EB1FE5C75D00C9E07B /* libOSXIcotools.a */; };
+		019DD1ED1FE5D74C00C9E07B /* schema.xml in Resources */ = {isa = PBXBuildFile; fileRef = 019DD1EC1FE5D74C00C9E07B /* schema.xml */; };
+		01D7169E1FE813A4003D90DF /* schema.strings in Resources */ = {isa = PBXBuildFile; fileRef = 01D7169D1FE813A4003D90DF /* schema.strings */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		017A014E1FE915DC00F7E866 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "${HOME}/Library/Spotlight";
+			dstSubfolderSpec = 0;
+			files = (
+				017A014F1FE915F300F7E866 /* WindowsAppsImporter.mdimporter in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		019DD1D61FE5BCE400C9E07B /* WindowsAppsImporter.mdimporter */ = {isa = PBXFileReference; explicitFileType = "wrapper.spotlight-importer"; includeInIndex = 0; path = WindowsAppsImporter.mdimporter; sourceTree = BUILT_PRODUCTS_DIR; };
+		019DD1DA1FE5BCE500C9E07B /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
+		019DD1DC1FE5BCE500C9E07B /* GetMetadataForFile.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GetMetadataForFile.m; sourceTree = "<group>"; };
+		019DD1E21FE5BCE500C9E07B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		019DD1EB1FE5C75D00C9E07B /* libOSXIcotools.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libOSXIcotools.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		019DD1EC1FE5D74C00C9E07B /* schema.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = schema.xml; sourceTree = "<group>"; };
+		01D7169D1FE813A4003D90DF /* schema.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = schema.strings; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		019DD1D31FE5BCE400C9E07B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				019DD1EA1FE5C75D00C9E07B /* libOSXIcotools.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		019DD1CD1FE5BCE400C9E07B = {
+			isa = PBXGroup;
+			children = (
+				019DD1D81FE5BCE500C9E07B /* WindowsAppsImporter */,
+				019DD1E91FE5C74D00C9E07B /* Frameworks */,
+				019DD1D71FE5BCE400C9E07B /* Products */,
+			);
+			indentWidth = 2;
+			sourceTree = "<group>";
+			tabWidth = 2;
+			usesTabs = 0;
+		};
+		019DD1D71FE5BCE400C9E07B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				019DD1D61FE5BCE400C9E07B /* WindowsAppsImporter.mdimporter */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		019DD1D81FE5BCE500C9E07B /* WindowsAppsImporter */ = {
+			isa = PBXGroup;
+			children = (
+				019DD1DC1FE5BCE500C9E07B /* GetMetadataForFile.m */,
+				019DD1E21FE5BCE500C9E07B /* Info.plist */,
+				019DD1D91FE5BCE500C9E07B /* Supporting Files */,
+			);
+			path = WindowsAppsImporter;
+			sourceTree = "<group>";
+		};
+		019DD1D91FE5BCE500C9E07B /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				019DD1EC1FE5D74C00C9E07B /* schema.xml */,
+				01D7169D1FE813A4003D90DF /* schema.strings */,
+				019DD1DA1FE5BCE500C9E07B /* main.c */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		019DD1E91FE5C74D00C9E07B /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				019DD1EB1FE5C75D00C9E07B /* libOSXIcotools.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		019DD1D51FE5BCE400C9E07B /* WindowsAppsImporter */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 019DD1E51FE5BCE500C9E07B /* Build configuration list for PBXNativeTarget "WindowsAppsImporter" */;
+			buildPhases = (
+				019DD1D21FE5BCE400C9E07B /* Sources */,
+				019DD1D31FE5BCE400C9E07B /* Frameworks */,
+				019DD1D41FE5BCE400C9E07B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = WindowsAppsImporter;
+			productName = WindowsAppsImporter;
+			productReference = 019DD1D61FE5BCE400C9E07B /* WindowsAppsImporter.mdimporter */;
+			productType = "com.apple.product-type.spotlight-importer";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		019DD1CE1FE5BCE400C9E07B /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0920;
+				ORGANIZATIONNAME = danielecattaneo;
+				TargetAttributes = {
+					017A01481FE915CB00F7E866 = {
+						CreatedOnToolsVersion = 9.2;
+						ProvisioningStyle = Automatic;
+					};
+					019DD1D51FE5BCE400C9E07B = {
+						CreatedOnToolsVersion = 9.2;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 019DD1D11FE5BCE400C9E07B /* Build configuration list for PBXProject "WindowsAppsImporter" */;
+			compatibilityVersion = "Xcode 8.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 019DD1CD1FE5BCE400C9E07B;
+			productRefGroup = 019DD1D71FE5BCE400C9E07B /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				019DD1D51FE5BCE400C9E07B /* WindowsAppsImporter */,
+				017A01481FE915CB00F7E866 /* MDTestInstall */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		019DD1D41FE5BCE400C9E07B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				019DD1ED1FE5D74C00C9E07B /* schema.xml in Resources */,
+				01D7169E1FE813A4003D90DF /* schema.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		019DD1D21FE5BCE400C9E07B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				019DD1DB1FE5BCE500C9E07B /* main.c in Sources */,
+				019DD1DD1FE5BCE500C9E07B /* GetMetadataForFile.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		017A01491FE915CB00F7E866 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		017A014A1FE915CB00F7E866 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		019DD1E31FE5BCE500C9E07B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		019DD1E41FE5BCE500C9E07B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		019DD1E61FE5BCE500C9E07B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				HEADER_SEARCH_PATHS = "\"$(PROJECT_DIR)/../OSXIcotools\"/**";
+				INFOPLIST_FILE = WindowsAppsImporter/Info.plist;
+				INSTALL_PATH = "@executable_path/../Contents/Library/Spotlight";
+				LIBRARY_STYLE = BUNDLE;
+				PRODUCT_BUNDLE_IDENTIFIER = com.danielecattaneo.WindowsAppsImporter;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				WRAPPER_EXTENSION = mdimporter;
+			};
+			name = Debug;
+		};
+		019DD1E71FE5BCE500C9E07B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				HEADER_SEARCH_PATHS = "\"$(PROJECT_DIR)/../OSXIcotools\"/**";
+				INFOPLIST_FILE = WindowsAppsImporter/Info.plist;
+				INSTALL_PATH = "@executable_path/../Contents/Library/Spotlight";
+				LIBRARY_STYLE = BUNDLE;
+				PRODUCT_BUNDLE_IDENTIFIER = com.danielecattaneo.WindowsAppsImporter;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				WRAPPER_EXTENSION = mdimporter;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		017A014B1FE915CB00F7E866 /* Build configuration list for PBXAggregateTarget "MDTestInstall" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				017A01491FE915CB00F7E866 /* Debug */,
+				017A014A1FE915CB00F7E866 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		019DD1D11FE5BCE400C9E07B /* Build configuration list for PBXProject "WindowsAppsImporter" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				019DD1E31FE5BCE500C9E07B /* Debug */,
+				019DD1E41FE5BCE500C9E07B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		019DD1E51FE5BCE500C9E07B /* Build configuration list for PBXNativeTarget "WindowsAppsImporter" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				019DD1E61FE5BCE500C9E07B /* Debug */,
+				019DD1E71FE5BCE500C9E07B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 019DD1CE1FE5BCE400C9E07B /* Project object */;
+}

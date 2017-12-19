@@ -13,4 +13,7 @@
    <FileRef
       location = "group:MicrosoftBinaries/QLWindowsApps.xcodeproj">
    </FileRef>
+   <FileRef
+      location = "group:WindowsAppsImporter/WindowsAppsImporter.xcodeproj">
+   </FileRef>
 </Workspace>

@@ -1,0 +1,17 @@
+/* 
+  schema.strings
+  WindowsAppsImporter
+
+  Created by Daniele Cattaneo on 18/12/17.
+  Copyright © 2017 danielecattaneo. All rights reserved.
+*/
+
+"com_danielecattaneo_windowsappsimporter_companyname" = "Company Name";
+"com_danielecattaneo_windowsappsimporter_filedescription" = "File Description";
+"com_danielecattaneo_windowsappsimporter_fileversion" = "File Version";
+"com_danielecattaneo_windowsappsimporter_internalname" = "Internal Name";
+"com_danielecattaneo_windowsappsimporter_legaltrademarks" = "Legal Trademarks";
+"com_danielecattaneo_windowsappsimporter_originalfilename" = "Original Filename";
+"com_danielecattaneo_windowsappsimporter_privatebuild" = "Private Build";
+"com_danielecattaneo_windowsappsimporter_productname" = "Product Name";
+"com_danielecattaneo_windowsappsimporter_specialbuild" = "Special Build";

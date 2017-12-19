@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<schema version="1.0" xmlns="http://www.apple.com/metadata"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.apple.com/metadata
+file:///System/Library/Frameworks/CoreServices.framework/Frameworks/Metadata.framework/Resources/MetadataSchema.xsd">
+  <attributes>
+    <attribute name="com_danielecattaneo_windowsappsimporter_companyname" type="CFString"/>
+    <attribute name="com_danielecattaneo_windowsappsimporter_filedescription" type="CFString"/>
+    <attribute name="com_danielecattaneo_windowsappsimporter_fileversion" type="CFString"/>
+    <attribute name="com_danielecattaneo_windowsappsimporter_internalname" type="CFString"/>
+    <attribute name="com_danielecattaneo_windowsappsimporter_legaltrademarks" type="CFString"/>
+    <attribute name="com_danielecattaneo_windowsappsimporter_originalfilename" type="CFString"/>
+    <attribute name="com_danielecattaneo_windowsappsimporter_privatebuild" type="CFString"/>
+    <attribute name="com_danielecattaneo_windowsappsimporter_productname" type="CFString"/>
+    <attribute name="com_danielecattaneo_windowsappsimporter_specialbuild" type="CFString"/>
+  </attributes>
+  
+  <types>
+    
+    <type name="com.microsoft.windows-executable">
+      <allattrs>
+        kMDItemCopyright
+        kMDItemComment
+        com_danielecattaneo_windowsappsimporter_companyname
+        com_danielecattaneo_windowsappsimporter_filedescription
+        com_danielecattaneo_windowsappsimporter_fileversion
+        com_danielecattaneo_windowsappsimporter_internalname
+        com_danielecattaneo_windowsappsimporter_legaltrademarks
+        com_danielecattaneo_windowsappsimporter_originalfilename
+        com_danielecattaneo_windowsappsimporter_privatebuild
+        com_danielecattaneo_windowsappsimporter_productname
+        com_danielecattaneo_windowsappsimporter_specialbuild
+      </allattrs>
+      <displayattrs>
+        kMDItemCopyright
+        kMDItemComment
+        com_danielecattaneo_windowsappsimporter_companyname
+        com_danielecattaneo_windowsappsimporter_filedescription
+        com_danielecattaneo_windowsappsimporter_fileversion
+        com_danielecattaneo_windowsappsimporter_internalname
+        com_danielecattaneo_windowsappsimporter_legaltrademarks
+        com_danielecattaneo_windowsappsimporter_originalfilename
+        com_danielecattaneo_windowsappsimporter_privatebuild
+        com_danielecattaneo_windowsappsimporter_productname
+      </displayattrs>
+    </type>
+    
+    <type name="com.microsoft.windows-dynamic-link-library">
+      <allattrs>
+        kMDItemCopyright
+        kMDItemComment
+        com_danielecattaneo_windowsappsimporter_companyname
+        com_danielecattaneo_windowsappsimporter_filedescription
+        com_danielecattaneo_windowsappsimporter_fileversion
+        com_danielecattaneo_windowsappsimporter_internalname
+        com_danielecattaneo_windowsappsimporter_legaltrademarks
+        com_danielecattaneo_windowsappsimporter_originalfilename
+        com_danielecattaneo_windowsappsimporter_privatebuild
+        com_danielecattaneo_windowsappsimporter_productname
+      </allattrs>
+      <displayattrs>
+        kMDItemCopyright
+        kMDItemComment
+        com_danielecattaneo_windowsappsimporter_companyname
+        com_danielecattaneo_windowsappsimporter_filedescription
+        com_danielecattaneo_windowsappsimporter_fileversion
+        com_danielecattaneo_windowsappsimporter_internalname
+        com_danielecattaneo_windowsappsimporter_legaltrademarks
+        com_danielecattaneo_windowsappsimporter_originalfilename
+        com_danielecattaneo_windowsappsimporter_privatebuild
+        com_danielecattaneo_windowsappsimporter_productname
+      </displayattrs>
+    </type>
+  </types>
+</schema>
