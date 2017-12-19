@@ -21,17 +21,20 @@ xcodebuild -workspace "$PWD/QLWindowsApps.xcworkspace" \
            DSTROOT="$PWD/build/Package/Root"
 
 # Extract the version number from the project...
-ver=$(/usr/libexec/PlistBuddy -c "Print:CFBundleShortVersionString" "MicrosoftBinaries/Info.plist")
+ver=$(git describe | sed 's/release_//')
+if [[ ! ( $? -eq 0 ) ]]; then
+  ver=$(/usr/libexec/PlistBuddy -c "Print:CFBundleShortVersionString" "MicrosoftBinaries/Info.plist")
+fi
 
 # Make the package with pkgbuild and the product distribution with productbuild...
 echo pkgbuild...
 pkgbuild --identifier       com.danielecattaneo.qlgenerator.qlwindowsapps   \
          --version          "$ver"   \
          --root             build/Package/Root   \
-         --scripts          ./PackageResources/Scripts \
+         --scripts          ./MicrosoftBinaries/PackageResources/Scripts \
          "./QLWindowsApps.pkg"   
-productbuild --distribution     ./PackageResources/Distribution.xml   \
-             --resources        ./PackageResources/Resources \
+productbuild --distribution     ./MicrosoftBinaries/PackageResources/Distribution.xml   \
+             --resources        ./MicrosoftBinaries/PackageResources/Resources \
              --package-path     ./ \
              "./QLWindowsApps-$ver.pkg"
 rm ./QLWindowsApps.pkg
