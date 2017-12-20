@@ -59,6 +59,7 @@
 		01B383601CE7B89200A2B383 /* error.c in Sources */ = {isa = PBXBuildFile; fileRef = 01B3835E1CE7B89200A2B383 /* error.c */; };
 		01B383611CE7B89200A2B383 /* error.h in Headers */ = {isa = PBXBuildFile; fileRef = 01B3835F1CE7B89200A2B383 /* error.h */; };
 		01C5D1401AD82F00009C800F /* config.h in Headers */ = {isa = PBXBuildFile; fileRef = 01C5D13F1AD82F00009C800F /* config.h */; };
+		01DAFFFA1FEB040700AD532F /* extract.h in Headers */ = {isa = PBXBuildFile; fileRef = 01DAFFF91FEB040700AD532F /* extract.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -116,6 +117,7 @@
 		01B3835E1CE7B89200A2B383 /* error.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = error.c; sourceTree = "<group>"; };
 		01B3835F1CE7B89200A2B383 /* error.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = error.h; sourceTree = "<group>"; };
 		01C5D13F1AD82F00009C800F /* config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = config.h; sourceTree = "<group>"; };
+		01DAFFF91FEB040700AD532F /* extract.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = extract.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -138,9 +140,9 @@
 		014CD1E216E5161600185054 /* OSXIcotools */ = {
 			isa = PBXGroup;
 			children = (
+				014CD20C16E5168000185054 /* lib */,
 				014CD1F516E5168000185054 /* common */,
 				014CD20816E5168000185054 /* icotool */,
-				014CD20C16E5168000185054 /* lib */,
 				014CD26016E5168100185054 /* wrestool */,
 				01C5D13F1AD82F00009C800F /* config.h */,
 				014CD1ED16E5167400185054 /* EIExeFile.h */,
@@ -230,16 +232,17 @@
 		014CD26016E5168100185054 /* wrestool */ = {
 			isa = PBXGroup;
 			children = (
+				014CD26A16E5168100185054 /* wrestool.h */,
 				014CD26116E5168100185054 /* extract.c */,
+				01DAFFF91FEB040700AD532F /* extract.h */,
 				014CD26216E5168100185054 /* fileread.c */,
 				014CD26316E5168100185054 /* fileread.h */,
-				014CD26516E5168100185054 /* osxwres.m */,
-				014CD26416E5168100185054 /* osxwres.h */,
 				014CD26616E5168100185054 /* restable.c */,
 				014CD26716E5168100185054 /* restable.h */,
 				014CD26816E5168100185054 /* restypes.c */,
 				014CD26916E5168100185054 /* restypes.h */,
-				014CD26A16E5168100185054 /* wrestool.h */,
+				014CD26516E5168100185054 /* osxwres.m */,
+				014CD26416E5168100185054 /* osxwres.h */,
 			);
 			indentWidth = 4;
 			path = wrestool;
@@ -255,6 +258,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0197FD6D1BAF05BE00FCD44E /* xstrndup.h in Headers */,
+				01DAFFFA1FEB040700AD532F /* extract.h in Headers */,
 				0197FD721BAF05F800FCD44E /* byteswap.h in Headers */,
 				014CD1F116E5167400185054 /* EIExeFile.h in Headers */,
 				0197FD651BAF058800FCD44E /* xvasprintf.h in Headers */,

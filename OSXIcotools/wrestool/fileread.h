@@ -21,6 +21,7 @@
 
 #include <stdbool.h>		/* POSIX/Gnulib */
 #include "common/common.h"
+#include "wrestool.h"
 
 #define RETURN_IF_BAD_POINTER(r, x) \
 	if (!check_offset(fi->memory, fi->total_size, fi->name, &(x), sizeof(x))) { \
@@ -33,6 +34,10 @@
 		return (r); \
 	}
 
+#define MZ_HEADER(x)	((DOSImageHeader *)(x))
+#define NE_HEADER(x)	((OS2ImageHeader *)PE_HEADER(x))
+
+bool read_library (WinLibrary *);
 bool check_offset(char *, int, char *, void *, int);
 
 #endif

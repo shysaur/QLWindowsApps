@@ -22,12 +22,14 @@
 #include "common/intutil.h"
 #include "wrestool.h"
 
-bool compare_resource_id (WinResource *, char *);
 
-/* what is each entry in this directory level for? type, name or language? */
-#define WINRESOURCE_BY_LEVEL(x) ((x)==0 ? type_wr : ((x)==1 ? name_wr : lang_wr))
+typedef void (*DoResourceCallback) (WinLibrary *, WinResource *, WinResource *, WinResource *, WinResource *);
 
-/* does the id of this entry match the specified id? */
-#define LEVEL_MATCHES(x) (x == NULL || x ## _wr->id[0] == '\0' || compare_resource_id(x ## _wr, x))
+WinResource *list_resources (WinLibrary *, WinResource *, int *);
+WinResource *find_resource (WinLibrary *, char *, char *, char *, int *);
+void *get_resource_entry (WinLibrary *, WinResource *, int *);
+void do_resources (WinLibrary *, char *, char *, char *, DoResourceCallback);
+void print_resources_callback (WinLibrary *, WinResource *, WinResource *, WinResource *, WinResource *);
+
 
 #endif

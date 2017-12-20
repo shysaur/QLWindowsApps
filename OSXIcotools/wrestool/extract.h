@@ -1,7 +1,7 @@
-/* osxwres.h - wrestool bridge for Mac OS X
+/* extract.h
  *
  * Copyright (C) 1998 Oskar Liljeblad
- * Copyright (C) 2012 Daniele Cattaneo
+ * Copyright (C) 2017 Daniele Cattaneo
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,19 +17,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef OSXWRES_H
-#define OSXWRES_H
+#ifndef EXTRACT_H
+#define EXTRACT_H
 
 #include "wrestool.h"
-#include "restable.h"
-#include "fileread.h"
 
-typedef enum {
-  EXTR_NOERR = 0,     //No error occured
-  EXTR_FAIL = 1,      //Error in extracting resource
-  EXTR_NOTFOUND = 2   //Resource not found
-} extract_error;
 
-NSData *get_resource_data (WinLibrary *, char *, char *, char *, extract_error *);
+void *extract_resource(WinLibrary *, WinResource *, int *, bool *, char *, char *, bool);
+void set_raw_extraction(bool);
+void set_output_dir(char *);
 
-#endif
+
+#endif /* extract_h */

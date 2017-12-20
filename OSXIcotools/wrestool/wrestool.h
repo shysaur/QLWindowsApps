@@ -30,10 +30,6 @@
 #include <getopt.h>		/* GNU Libc/Gnulib */
 
 
-/*
- * Structures 
- */
-
 #define NE_BINARY		0
 #define PE_BINARY		1
 #define PEPLUS_BINARY	2
@@ -57,43 +53,6 @@ typedef struct _WinResource {
 } WinResource;
 
 #define WINRES_ID_MAXLEN (256)
-
-/*
- * Definitions
- */
-
-#define ACTION_LIST 				1	/* command: list resources */
-#define ACTION_EXTRACT				2	/* command: extract resources */
-#define CALLBACK_STOP				0	/* results of ResourceCallback */
-#define CALLBACK_CONTINUE			1
-#define CALLBACK_CONTINUE_RECURS	2
-
-#define MZ_HEADER(x)	((DOSImageHeader *)(x))
-#define NE_HEADER(x)	((OS2ImageHeader *)PE_HEADER(x))
-#define NE_TYPEINFO_NEXT(x) ((Win16NETypeInfo *)((uint8_t *)(x) + sizeof(Win16NETypeInfo) + \
-						    ((Win16NETypeInfo *)x)->count * sizeof(Win16NENameInfo)))
-#define NE_RESOURCE_NAME_IS_NUMERIC (0x8000)
-
-#define STRIP_RES_ID_FORMAT(x) (x != NULL && (x[0] == '-' || x[0] == '+') ? ++x : x)
-
-typedef void (*DoResourceCallback) (WinLibrary *, WinResource *, WinResource *, WinResource *, WinResource *);
-
-/*
- * Function Prototypes
- */
-
-/* resource.c */
-WinResource *list_resources (WinLibrary *, WinResource *, int *);
-bool read_library (WinLibrary *);
-WinResource *find_resource (WinLibrary *, char *, char *, char *, int *);
-void *get_resource_entry (WinLibrary *, WinResource *, int *);
-void do_resources (WinLibrary *, char *, char *, char *, DoResourceCallback);
-void print_resources_callback (WinLibrary *, WinResource *, WinResource *, WinResource *, WinResource *);
-
-/* extract.c */
-void *extract_resource (WinLibrary *, WinResource *, int *, bool *, char *, char *, bool);
-void set_raw_extraction (bool);
-void set_output_dir(char *);
 
 
 #endif

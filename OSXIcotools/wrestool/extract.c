@@ -28,12 +28,19 @@
 #include "win32.h"
 #include "win32-endian.h"
 #include "fileread.h"
-#include "wrestool.h"
+#include "extract.h"
 #include "io-utils.h"
 #include "string-utils.h"
 #include "dirname.h"
 #include "restypes.h"
+#include "restable.h"
+#include "fileread.h"
+
+
 #define SET_IF_NULL(x,def) ((x) = ((x) == NULL ? (def) : (x)))
+
+#define STRIP_RES_ID_FORMAT(x) (x != NULL && (x[0] == '-' || x[0] == '+') ? ++x : x)
+
 
 static void *extract_group_icon_cursor_resource(WinLibrary *, WinResource *, char *, int *, bool);
 static void *extract_bitmap_resource(WinLibrary *, WinResource *, int *);

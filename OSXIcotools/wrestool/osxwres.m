@@ -22,6 +22,7 @@
 #include "restypes.h"
 #include "restable.h"
 #include "common/common.h"
+#include "extract.h"
 
 
 NSData *
