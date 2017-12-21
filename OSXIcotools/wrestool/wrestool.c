@@ -30,6 +30,7 @@ WinLibrary *new_winlibrary_from_file(const char *fn)
 	fl->name = strdup(fn);
 	if (!fl->name) {
 		fprintf(stderr, "malloc failed");
+		free(fl);
 		return NULL;
 	}
 	
@@ -37,12 +38,15 @@ WinLibrary *new_winlibrary_from_file(const char *fn)
 	fl->file = fopen(fl->name, "rb");
 	if (fl->file == NULL) {
 		fprintf(stderr, "%s error opening file", fl->name);
+		free(fl->name);
+		free(fl);
 		return NULL;
 	}
 	
 	/* identify file and find resource table */
 	if (!read_library(fl)) {
 		/* error reported by read_library */
+		free_winlibrary(fl);
 		return NULL;
 	}
 	
