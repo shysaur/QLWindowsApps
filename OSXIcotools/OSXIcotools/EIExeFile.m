@@ -18,10 +18,10 @@
  */
 
 #import "EIExeFile.h"
+#import "EIVersionInfo.h"
 #include <stdlib.h>
-#include "io-utils.h"
-#include "osxwres.h"
-#include "EIVersionInfo.h"
+#include "wrestool.h"
+
 
 
 #ifdef DEBUG
@@ -38,47 +38,9 @@
   self = [super init];
   if (!self) return nil;
   
-  /* initiate stuff */
-  fl.file = NULL;
-  fl.memory = NULL;
-
-  url = exeFile;
-  fl.name = strdup([url fileSystemRepresentation]);
-  if (!fl.name) {
-    NSLog(@"malloc failed");
+  fl = new_winlibrary_from_file([exeFile fileSystemRepresentation]);
+  if (!fl)
     return nil;
-  }
-  
-  /* get file size */
-  fl.total_size = (int)file_size(fl.name);
-  if (fl.total_size == -1) {
-    NSLog(@"%s total size = -1", fl.name);
-    return nil;
-  }
-  if (fl.total_size == 0) {
-    EILog(@"%s: file has a size of 0", fl.name);
-    return nil;
-  }
-
-  /* open file */
-  fl.file = fopen(fl.name, "rb");
-  if (fl.file == NULL) {
-    NSLog(@"%s error opening file", fl.name);
-    return nil;
-  }
-  
-  /* read all of file */
-  fl.memory = malloc(fl.total_size);
-  if (fread(fl.memory, fl.total_size, 1, fl.file) != 1) {
-    NSLog(@"%s error reading file contents", fl.name);
-    return nil;
-  }
-
-  /* identify file and find resource table */
-  if (!read_library (&fl)) {
-    /* error reported by read_library */
-    return nil;
-  }
   
   return self;
 }
@@ -86,13 +48,13 @@
 
 - (NSImage*)icon {
   extract_error err;
-  NSData *icodata = get_resource_data(&fl, "14", NULL, NULL, &err);
+  NSData *icodata = get_resource_data(fl, "14", NULL, NULL, &err);
     
   if (err) {
     if (err == EXTR_NOTFOUND)
-      EILog(@"%s: suitable resource not found", fl.name);
+      EILog(@"%s: suitable resource not found", fl->name);
     else
-      NSLog(@"%s: error in extracting resource", fl.name);
+      NSLog(@"%s: error in extracting resource", fl->name);
     return nil;
   }
 
@@ -111,25 +73,25 @@
   
   sprintf(sysLocaleStr, "%d", sysLocale);
   //try with the current selected locale in the OS
-  NSData *verdata = get_resource_data(&fl, "16", NULL, sysLocaleStr, &err);
+  NSData *verdata = get_resource_data(fl, "16", NULL, sysLocaleStr, &err);
   if (err) {
     //if failure, try the en-US locale (the majority of apps, if they're not neutral, use this)
-    verdata = get_resource_data(&fl, "16", NULL, "1033", &err);
+    verdata = get_resource_data(fl, "16", NULL, "1033", &err);
     if (err) {
       //else, pick the first locale we find, and go with it.
-      verdata = get_resource_data(&fl, "16", NULL, NULL, &err);
+      verdata = get_resource_data(fl, "16", NULL, NULL, &err);
     }
   }
   
   if (err) {
     if (err == EXTR_NOTFOUND)
-      EILog(@"%s: suitable resource not found", fl.name);
+      EILog(@"%s: suitable resource not found", fl->name);
     else
-      NSLog(@"%s: error in extracting resource", fl.name);
+      NSLog(@"%s: error in extracting resource", fl->name);
     return nil;
   }
   
-  return [[EIVersionInfo alloc] initWithData:verdata is16Bit:(fl.binary_type == NE_BINARY)];
+  return [[EIVersionInfo alloc] initWithData:verdata is16Bit:(fl->binary_type == NE_BINARY)];
 }
 
 
@@ -140,15 +102,13 @@
 
 - (int)bitness {
   static const int bitnesses[] = {16, 32, 64};
-  return bitnesses[fl.binary_type];
+  return bitnesses[fl->binary_type];
 }
 
 
 - (void)dealloc {
-  if (fl.file)
-    fclose(fl.file);
-  free(fl.memory);
-  free(fl.name);
+  if (fl)
+    free_winlibrary(fl);
 }
 
 

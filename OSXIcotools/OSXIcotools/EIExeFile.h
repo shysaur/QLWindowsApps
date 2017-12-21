@@ -26,7 +26,7 @@
 
 
 @interface EIExeFile : NSObject {
-  WinLibrary fl;
+  WinLibrary *fl;
   NSURL *url;
 }
 

@@ -55,4 +55,8 @@ typedef struct _WinResource {
 #define WINRES_ID_MAXLEN (256)
 
 
+WinLibrary *new_winlibrary_from_file(const char *fn);
+void free_winlibrary(WinLibrary *fl);
+
+
 #endif
