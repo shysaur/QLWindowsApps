@@ -39,7 +39,8 @@
 		return (r); \
 	}
 
-bool read_library (WinLibrary *);
+bool load_library(WinLibrary *);
+void unload_library(WinLibrary *);
 bool check_offset(char *, off_t, char *, void *, off_t);
 
 #endif

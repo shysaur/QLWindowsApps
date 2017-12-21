@@ -44,8 +44,8 @@ WinLibrary *new_winlibrary_from_file(const char *fn)
 	}
 	
 	/* identify file and find resource table */
-	if (!read_library(fl)) {
-		/* error reported by read_library */
+	if (!load_library(fl)) {
+		/* error reported by load_library */
 		free_winlibrary(fl);
 		return NULL;
 	}
@@ -56,9 +56,9 @@ WinLibrary *new_winlibrary_from_file(const char *fn)
 
 void free_winlibrary(WinLibrary *fl)
 {
+	unload_library(fl);
 	if (fl->file)
     	fclose(fl->file);
-  	free(fl->memory);
   	free(fl->name);
 }
 

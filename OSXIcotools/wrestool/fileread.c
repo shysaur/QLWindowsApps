@@ -33,8 +33,8 @@
 
 
 static off_t calc_vma_size (WinLibrary *);
-static bool read_ne_library(WinLibrary *);
-static bool read_pe_library(WinLibrary *);
+static bool load_ne_library(WinLibrary *);
+static bool load_pe_library(WinLibrary *);
 
 
 /* check_offset:
@@ -59,13 +59,13 @@ check_offset(char *memory, off_t total_size, char *name, void *offset, off_t siz
 }
 
 
-/* read_library:
+/* load_library:
  *
  * Read header and get resource directory offset in a Windows library
  * (AKA module).
  */
 bool
-read_library (WinLibrary *fi)
+load_library (WinLibrary *fi)
 {
 	fseek(fi->file, 0, SEEK_END);
 	fi->total_size = ftello(fi->file);
@@ -103,13 +103,13 @@ read_library (WinLibrary *fi)
 	/* check for OS2/Win16 header signature `NE' */
 	RETURN_IF_BAD_POINTER(fi, false, NE_HEADER(fi->memory)->magic);
 	if (NE_HEADER(fi->memory)->magic == IMAGE_OS2_SIGNATURE) {
-		return read_ne_library(fi);
+		return load_ne_library(fi);
 	}
 
 	/* check for NT header signature `PE' */
 	RETURN_IF_BAD_POINTER(fi, false, PE_HEADER(fi->memory)->signature);
 	if (PE_HEADER(fi->memory)->signature == IMAGE_NT_SIGNATURE) {
-		return read_pe_library(fi);
+		return load_pe_library(fi);
 	}
 
 	/* other (unknown) header signature was found */
@@ -158,7 +158,7 @@ calc_vma_size (WinLibrary *fi)
 }
 
 
-static bool read_ne_library(WinLibrary *fi)
+static bool load_ne_library(WinLibrary *fi)
 {
 	OS2ImageHeader *header = NE_HEADER(fi->memory);
 	uint16_t *alignshift;
@@ -179,7 +179,7 @@ static bool read_ne_library(WinLibrary *fi)
 }
 
 
-static bool read_pe_library(WinLibrary *fi)
+static bool load_pe_library(WinLibrary *fi)
 {
 	WinLibrary fi_new = *fi;
 	
@@ -246,4 +246,12 @@ fail:
 	free(fi_new.memory);
 	return false;
 }
+
+
+void unload_library(WinLibrary *fi)
+{
+	free(fi->memory);
+}
+
+
 
