@@ -21,6 +21,7 @@
 #include <stdlib.h>		/* C89 */
 #include <string.h>		/* C89 */
 #include <stdbool.h>		/* POSIX/Gnulib */
+#include <sys/mman.h>
 #include "gettext.h"			/* Gnulib */
 #define _(s) gettext(s)
 #define N_(s) gettext_noop(s)
@@ -80,8 +81,8 @@ load_library (WinLibrary *fi)
 	}
 	
 	/* read all of file */
-	fi->memory = malloc(fi->total_size);
-	if (fread(fi->memory, fi->total_size, 1, fi->file) != 1) {
+	fi->memory = mmap(NULL, fi->total_size, PROT_READ, MAP_FILE | MAP_PRIVATE, fileno(fi->file), 0);
+	if (fi->memory == NULL) {
 		fprintf(stderr, "%s error reading file contents", fi->name);
 		return false;
 	}
@@ -189,7 +190,11 @@ static bool load_pe_library(WinLibrary *fi)
 		/* calc_vma_size has reported error */
 		return false;
 	}
-	fi_new.memory = xmalloc(fi_new.total_size);
+	fi_new.memory = mmap(NULL, fi_new.total_size, PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0);
+	if (fi_new.memory == MAP_FAILED) {
+		warn("mmap failed; errno = %d, %s", errno, errstr);
+		return false;
+	}
 
 	/* relocate memory, start from last section */
 	Win32ImageNTHeaders *pe_header = PE_HEADER(fi->memory);
@@ -210,9 +215,18 @@ static bool load_pe_library(WinLibrary *fi)
 		IF_BAD_OFFSET(fi, fi->memory + pe_sec->pointer_to_raw_data, pe_sec->size_of_raw_data)
 			goto fail;
 		
-		memcpy(fi_new.memory + pe_sec->virtual_address,
-			fi->memory + pe_sec->pointer_to_raw_data,
-			pe_sec->size_of_raw_data);
+		void *dest = fi_new.memory + pe_sec->virtual_address;
+		off_t size = pe_sec->size_of_raw_data;
+		off_t offset = pe_sec->pointer_to_raw_data;
+		void *res = mmap(dest, size,
+			PROT_READ, MAP_FILE | MAP_FIXED | MAP_PRIVATE,
+			fileno(fi_new.file), offset);
+		if (res == MAP_FAILED) {
+			/* As in PE files there is no requirement for sections in the file
+			 * to be aligned in the same way as they are required to be aligned
+			 * in memory, this code path will be hit very frequently */
+			memcpy(dest, fi->memory + offset, size);
+		}
 	}
 
 	Win32ImageDataDirectory *dir;
@@ -238,19 +252,19 @@ static bool load_pe_library(WinLibrary *fi)
 	}
 	fi_new.first_resource = ((uint8_t *)fi_new.memory) + dir->virtual_address;
 	
-	free(fi->memory);
+	munmap(fi->memory, fi->total_size);
 	*fi = fi_new;
 	return true;
 	
 fail:
-	free(fi_new.memory);
+	munmap(fi_new.memory, fi_new.total_size);
 	return false;
 }
 
 
 void unload_library(WinLibrary *fi)
 {
-	free(fi->memory);
+	munmap(fi->memory, fi->total_size);
 }
 
 
