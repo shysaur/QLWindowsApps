@@ -23,18 +23,18 @@
 #include "common/common.h"
 #include "wrestool.h"
 
-#define IF_BAD_POINTER(fi, r, x) \
+#define IF_BAD_POINTER(fi, x) \
 	if (!check_offset((fi)->memory, (fi)->total_size, (fi)->name, &(x), sizeof(x)))
-#define IF_BAD_OFFSET(fi, r, x, s) \
+#define IF_BAD_OFFSET(fi, x, s) \
 	if (!check_offset((fi)->memory, (fi)->total_size, (fi)->name, x, s))
 
 #define RETURN_IF_BAD_POINTER(fi, r, x) \
-	IF_BAD_POINTER(fi, r, x) { \
+	IF_BAD_POINTER(fi, x) { \
 		/*printf("bad_pointer in %s:%d\n", __FILE__, __LINE__);*/ \
 		return (r); \
 	}
 #define RETURN_IF_BAD_OFFSET(fi, r, x, s) \
-	IF_BAD_OFFSET(fi, r, x, s) { \
+	IF_BAD_OFFSET(fi, x, s) { \
 		/*printf("bad_offset in %s:%d\n", __FILE__, __LINE__);*/ \
 		return (r); \
 	}

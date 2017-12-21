@@ -181,61 +181,69 @@ static bool read_ne_library(WinLibrary *fi)
 
 static bool read_pe_library(WinLibrary *fi)
 {
-	Win32ImageSectionHeader *pe_sec;
-	Win32ImageDataDirectory *dir;
-	Win32ImageNTHeaders *pe_header;
-	PE32plusImageNTHeaders *peplus_header;
-	int d;
-
+	WinLibrary fi_new = *fi;
+	
 	/* allocate new memory */
-	fi->total_size = calc_vma_size(fi);
-	if (fi->total_size == 0) {
+	fi_new.total_size = calc_vma_size(fi);
+	if (fi_new.total_size == 0) {
 		/* calc_vma_size has reported error */
 		return false;
 	}
-	fi->memory = xrealloc(fi->memory, fi->total_size);
+	fi_new.memory = xmalloc(fi_new.total_size);
 
 	/* relocate memory, start from last section */
-	pe_header = PE_HEADER(fi->memory);
-	RETURN_IF_BAD_POINTER(fi, false, pe_header->file_header.number_of_sections);
-	peplus_header = (PE32plusImageNTHeaders*)pe_header;
+	Win32ImageNTHeaders *pe_header = PE_HEADER(fi->memory);
+	IF_BAD_POINTER(fi, pe_header->file_header.number_of_sections)
+		goto fail;
+	PE32plusImageNTHeaders *peplus_header = (PE32plusImageNTHeaders*)pe_header;
 	
 	/* we don't need to do OFFSET checking for the sections.
 	 * calc_vma_size has already done that */
-	for (d = pe_header->file_header.number_of_sections - 1; d >= 0 ; d--) {
-		pe_sec = PE_SECTIONS(fi->memory) + d;
-		if (pe_sec->characteristics & IMAGE_SCN_CNT_UNINITIALIZED_DATA) continue;
-		//if (pe_sec->virtual_address + pe_sec->size_of_raw_data > fi->total_size)
-		RETURN_IF_BAD_OFFSET(fi, 0, fi->memory + pe_sec->virtual_address, pe_sec->size_of_raw_data);
-		RETURN_IF_BAD_OFFSET(fi, 0, fi->memory + pe_sec->pointer_to_raw_data, pe_sec->size_of_raw_data);
-		if (pe_sec->virtual_address != pe_sec->pointer_to_raw_data) {
-			memmove(fi->memory + pe_sec->virtual_address,
-					fi->memory + pe_sec->pointer_to_raw_data,
-					pe_sec->size_of_raw_data);
-		}
+	for (int d = pe_header->file_header.number_of_sections - 1; d >= 0 ; d--) {
+		Win32ImageSectionHeader *pe_sec = PE_SECTIONS(fi->memory) + d;
+		
+		if (pe_sec->characteristics & IMAGE_SCN_CNT_UNINITIALIZED_DATA)
+			continue;
+		
+		IF_BAD_OFFSET(&fi_new, fi_new.memory + pe_sec->virtual_address, pe_sec->size_of_raw_data)
+			goto fail;
+		IF_BAD_OFFSET(fi, fi->memory + pe_sec->pointer_to_raw_data, pe_sec->size_of_raw_data)
+			goto fail;
+		
+		memcpy(fi_new.memory + pe_sec->virtual_address,
+			fi->memory + pe_sec->pointer_to_raw_data,
+			pe_sec->size_of_raw_data);
 	}
 
+	Win32ImageDataDirectory *dir;
 	if (pe_header->optional_header.magic == 0x20B) {  /* PE32+ */
 		/* find resource directory */
-		fi->binary_type = PEPLUS_BINARY;
-		RETURN_IF_BAD_POINTER(fi, false, peplus_header->optional_header.data_directory[IMAGE_DIRECTORY_ENTRY_RESOURCE]);
+		fi_new.binary_type = PEPLUS_BINARY;
+		IF_BAD_POINTER(fi, peplus_header->optional_header.data_directory[IMAGE_DIRECTORY_ENTRY_RESOURCE])
+			goto fail;
+		
 		dir = peplus_header->optional_header.data_directory + IMAGE_DIRECTORY_ENTRY_RESOURCE;
-		if (dir->size == 0) {
-			warn(_("%s: file contains no resources"), fi->name);
-			return false;
-		}
 	} else {  /* PE32 */
 		/* find resource directory */
-		fi->binary_type = PE_BINARY;
-		RETURN_IF_BAD_POINTER(fi, false, pe_header->optional_header.data_directory[IMAGE_DIRECTORY_ENTRY_RESOURCE]);
+		fi_new.binary_type = PE_BINARY;
+		IF_BAD_POINTER(fi, pe_header->optional_header.data_directory[IMAGE_DIRECTORY_ENTRY_RESOURCE])
+			goto fail;
+		
 		dir = pe_header->optional_header.data_directory + IMAGE_DIRECTORY_ENTRY_RESOURCE;
-		if (dir->size == 0) {
-			warn(_("%s: file contains no resources"), fi->name);
-			return false;
-		}
 	}
-
-	fi->first_resource = ((uint8_t *) fi->memory) + dir->virtual_address;
+	
+	if (dir->size == 0) {
+		warn(_("%s: file contains no resources"), fi->name);
+		goto fail;
+	}
+	fi_new.first_resource = ((uint8_t *)fi_new.memory) + dir->virtual_address;
+	
+	free(fi->memory);
+	*fi = fi_new;
 	return true;
+	
+fail:
+	free(fi_new.memory);
+	return false;
 }
 
