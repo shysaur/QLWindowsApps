@@ -35,6 +35,6 @@
 	}
 
 bool read_library (WinLibrary *);
-bool check_offset(char *, int, char *, void *, int);
+bool check_offset(char *, off_t, char *, void *, off_t);
 
 #endif

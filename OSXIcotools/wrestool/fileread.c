@@ -32,7 +32,7 @@
 #include "minmax.h"		/* Gnulib */
 
 
-static int calc_vma_size (WinLibrary *);
+static off_t calc_vma_size (WinLibrary *);
 
 
 /* check_offset:
@@ -41,9 +41,9 @@ static int calc_vma_size (WinLibrary *);
  *   Usually not called directly.
  */
 bool
-check_offset(char *memory, int total_size, char *name, void *offset, int size)
+check_offset(char *memory, off_t total_size, char *name, void *offset, off_t size)
 {
-	int need_size = (int) ((char *) offset - memory + size);
+	off_t need_size = (off_t) ((char *) offset - memory + size);
 
 	/*debug("check_offset: size=%x vs %x offset=%x size=%x\n",
 		need_size, total_size, (char *) offset - memory, size);*/
@@ -65,6 +65,25 @@ check_offset(char *memory, int total_size, char *name, void *offset, int size)
 bool
 read_library (WinLibrary *fi)
 {
+	fseek(fi->file, 0, SEEK_END);
+	fi->total_size = ftello(fi->file);
+	fseek(fi->file, 0, SEEK_SET);
+	if (fi->total_size == -1) {
+		fprintf(stderr, "%s total size = -1", fi->name);
+		return false;
+	}
+	if (fi->total_size == 0) {
+		fprintf(stderr, "%s: file has a size of 0", fi->name);
+		return false;
+	}
+	
+	/* read all of file */
+	fi->memory = malloc(fi->total_size);
+	if (fread(fi->memory, fi->total_size, 1, fi->file) != 1) {
+		fprintf(stderr, "%s error reading file contents", fi->name);
+		return false;
+	}
+	
 	/* check for DOS header signature `MZ' */
 	RETURN_IF_BAD_POINTER(fi, false, MZ_HEADER(fi->memory)->magic);
 	if (MZ_HEADER(fi->memory)->magic == IMAGE_DOS_SIGNATURE) {
@@ -170,7 +189,7 @@ read_library (WinLibrary *fi)
  *   Calculate the total amount of memory needed for a 32-bit Windows
  *   module. Returns -1 if file was too small.
  */
-static int
+static off_t
 calc_vma_size (WinLibrary *fi)
 {
     Win32ImageSectionHeader *seg;

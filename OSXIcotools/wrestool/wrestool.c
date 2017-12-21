@@ -33,28 +33,10 @@ WinLibrary *new_winlibrary_from_file(const char *fn)
 		return NULL;
 	}
 	
-	/* get file size */
-	fl->total_size = (int)file_size(fl->name);
-	if (fl->total_size == -1) {
-		fprintf(stderr, "%s total size = -1", fl->name);
-		return NULL;
-	}
-	if (fl->total_size == 0) {
-		fprintf(stderr, "%s: file has a size of 0", fl->name);
-		return NULL;
-	}
-	
 	/* open file */
 	fl->file = fopen(fl->name, "rb");
 	if (fl->file == NULL) {
 		fprintf(stderr, "%s error opening file", fl->name);
-		return NULL;
-	}
-	
-	/* read all of file */
-	fl->memory = malloc(fl->total_size);
-	if (fread(fl->memory, fl->total_size, 1, fl->file) != 1) {
-		fprintf(stderr, "%s error reading file contents", fl->name);
 		return NULL;
 	}
 	

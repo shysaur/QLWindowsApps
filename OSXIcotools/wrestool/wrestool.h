@@ -40,7 +40,7 @@ typedef struct _WinLibrary {
 	char *memory;
 	uint8_t *first_resource;
 	int binary_type;
-	int total_size;
+	off_t total_size;
 } WinLibrary;
 
 typedef struct _WinResource {
