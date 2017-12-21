@@ -23,19 +23,16 @@
 #include "common/common.h"
 #include "wrestool.h"
 
-#define RETURN_IF_BAD_POINTER(r, x) \
-	if (!check_offset(fi->memory, fi->total_size, fi->name, &(x), sizeof(x))) { \
+#define RETURN_IF_BAD_POINTER(fi, r, x) \
+	if (!check_offset((fi)->memory, (fi)->total_size, (fi)->name, &(x), sizeof(x))) { \
 		/*printf("bad_pointer in %s:%d\n", __FILE__, __LINE__);*/ \
 		return (r); \
 	}
-#define RETURN_IF_BAD_OFFSET(r, x, s) \
-	if (!check_offset(fi->memory, fi->total_size, fi->name, x, s)) { \
+#define RETURN_IF_BAD_OFFSET(fi, r, x, s) \
+	if (!check_offset((fi)->memory, (fi)->total_size, (fi)->name, x, s)) { \
 		/*printf("bad_offset in %s:%d\n", __FILE__, __LINE__);*/ \
 		return (r); \
 	}
-
-#define MZ_HEADER(x)	((DOSImageHeader *)(x))
-#define NE_HEADER(x)	((OS2ImageHeader *)PE_HEADER(x))
 
 bool read_library (WinLibrary *);
 bool check_offset(char *, int, char *, void *, int);

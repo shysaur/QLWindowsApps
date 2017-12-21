@@ -117,7 +117,7 @@ extract_group_icon_cursor_resource(WinLibrary *fi, WinResource *wr, char *lang,
 	}
 
 	/* calculate total size of output file */
-	RETURN_IF_BAD_POINTER(NULL, icondir->count);
+	RETURN_IF_BAD_POINTER(fi, NULL, icondir->count);
 	skipped = 0;
 	for (c = 0 ; c < icondir->count ; c++) {
 		int level;
@@ -125,7 +125,7 @@ extract_group_icon_cursor_resource(WinLibrary *fi, WinResource *wr, char *lang,
 		char name[14];
 		WinResource *fwr;
 
-		RETURN_IF_BAD_POINTER(NULL, icondir->entries[c]);
+		RETURN_IF_BAD_POINTER(fi, NULL, icondir->entries[c]);
 		/*printf("%d. bytes_in_res=%d width=%d height=%d planes=%d bit_count=%d\n", c,
 			icondir->entries[c].bytes_in_res,
 			(is_icon ? icondir->entries[c].res_info.icon.width : icondir->entries[c].res_info.cursor.width),

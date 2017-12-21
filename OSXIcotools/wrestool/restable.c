@@ -186,9 +186,9 @@ decode_pe_resource_id (WinLibrary *fi, WinResource *wr, uint32_t value)
 		  (fi->first_resource + (value & ~IMAGE_RESOURCE_NAME_IS_STRING));
 
 		/* copy each char of the string, and terminate it */
-		RETURN_IF_BAD_POINTER(false, *mem);
+		RETURN_IF_BAD_POINTER(fi, false, *mem);
 		len = mem[0];
-		RETURN_IF_BAD_OFFSET(false, &mem[1], sizeof(uint16_t) * len);
+		RETURN_IF_BAD_OFFSET(fi, false, &mem[1], sizeof(uint16_t) * len);
 
 		len = MIN(mem[0], WINRES_ID_MAXLEN);
 		for (c = 0 ; c < len ; c++)
@@ -210,9 +210,9 @@ get_resource_entry (WinLibrary *fi, WinResource *wr, int *size)
 		Win32ImageResourceDataEntry *dataent;
 
 		dataent = (Win32ImageResourceDataEntry *) wr->children;
-		RETURN_IF_BAD_POINTER(NULL, *dataent);
+		RETURN_IF_BAD_POINTER(fi, NULL, *dataent);
 		*size = dataent->size;
-		RETURN_IF_BAD_OFFSET(NULL, fi->memory + dataent->offset_to_data, *size);
+		RETURN_IF_BAD_OFFSET(fi, NULL, fi->memory + dataent->offset_to_data, *size);
 
 		return fi->memory + dataent->offset_to_data;
 	} else {
@@ -222,7 +222,7 @@ get_resource_entry (WinLibrary *fi, WinResource *wr, int *size)
 		nameinfo = (Win16NENameInfo *) wr->children;
 		sizeshift = *((uint16_t *) fi->first_resource - 1);
 		*size = nameinfo->length << sizeshift;
-		RETURN_IF_BAD_OFFSET(NULL, fi->memory + (nameinfo->offset << sizeshift), *size);
+		RETURN_IF_BAD_OFFSET(fi, NULL, fi->memory + (nameinfo->offset << sizeshift), *size);
 
 		return fi->memory + (nameinfo->offset << sizeshift);
 	}
@@ -241,9 +241,9 @@ decode_ne_resource_id (WinLibrary *fi, WinResource *wr, uint16_t value)
 		                     + value;
 
 		/* copy each char of the string, and terminate it */
-		RETURN_IF_BAD_POINTER(false, *mem);
+		RETURN_IF_BAD_POINTER(fi, false, *mem);
 		len = mem[0];
-		RETURN_IF_BAD_OFFSET(false, &mem[1], sizeof(char) * len);
+		RETURN_IF_BAD_OFFSET(fi, false, &mem[1], sizeof(char) * len);
 		memcpy(wr->id, &mem[1], len);
 		wr->id[len] = '\0';
 	}
@@ -261,7 +261,7 @@ list_pe_resources (WinLibrary *fi, Win32ImageResourceDirectory *pe_res, int leve
 	  = (Win32ImageResourceDirectoryEntry *) (pe_res + 1);
 
 	/* count number of `type' resources */
-	RETURN_IF_BAD_POINTER(NULL, *dirent);
+	RETURN_IF_BAD_POINTER(fi, NULL, *dirent);
 	rescnt = pe_res->number_of_named_entries + pe_res->number_of_id_entries;
 	*count = rescnt;
 
@@ -270,7 +270,7 @@ list_pe_resources (WinLibrary *fi, Win32ImageResourceDirectory *pe_res, int leve
 
 	/* fill in the WinResource's */
 	for (c = 0 ; c < rescnt ; c++) {
-		RETURN_IF_BAD_POINTER(NULL, dirent[c]);
+		RETURN_IF_BAD_POINTER(fi, NULL, dirent[c]);
 		wr[c].this = pe_res;
 		wr[c].level = level;
 		wr[c].is_directory = (dirent[c].u2.s.data_is_directory);
@@ -293,7 +293,7 @@ list_ne_name_resources (WinLibrary *fi, WinResource *typeres, int *count)
 	Win16NENameInfo *nameinfo = (Win16NENameInfo *) typeres->children;
 
 	/* count number of `type' resources */
-	RETURN_IF_BAD_POINTER(NULL, typeinfo->count);
+	RETURN_IF_BAD_POINTER(fi, NULL, typeinfo->count);
 	*count = rescnt = typeinfo->count;
 
 	/* allocate WinResource's */
@@ -301,7 +301,7 @@ list_ne_name_resources (WinLibrary *fi, WinResource *typeres, int *count)
 
 	/* fill in the WinResource's */
 	for (c = 0 ; c < rescnt ; c++) {
-		RETURN_IF_BAD_POINTER(NULL, nameinfo[c]);
+		RETURN_IF_BAD_POINTER(fi, NULL, nameinfo[c]);
 		wr[c].this = nameinfo+c;
 		wr[c].is_directory = false;
 		wr[c].children = nameinfo+c;
@@ -324,14 +324,14 @@ list_ne_type_resources (WinLibrary *fi, int *count)
 
 	/* count number of `type' resources */
 	typeinfo = (Win16NETypeInfo *) fi->first_resource;
-	RETURN_IF_BAD_POINTER(NULL, *typeinfo);
+	RETURN_IF_BAD_POINTER(fi, NULL, *typeinfo);
 	for (rescnt = 0 ; typeinfo->type_id != 0 ; rescnt++) {
 		if (((char *) NE_TYPEINFO_NEXT(typeinfo))+sizeof(uint16_t) > fi->memory + fi->total_size) {
 		    warn(_("%s: resource table invalid, ignoring remaining entries"), fi->name);
 		    break;
 		}
 		typeinfo = NE_TYPEINFO_NEXT(typeinfo);
-		RETURN_IF_BAD_POINTER(NULL, *typeinfo);
+		RETURN_IF_BAD_POINTER(fi, NULL, *typeinfo);
 	}
 	*count = rescnt;
 

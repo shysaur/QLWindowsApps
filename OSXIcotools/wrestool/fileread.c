@@ -66,11 +66,11 @@ bool
 read_library (WinLibrary *fi)
 {
 	/* check for DOS header signature `MZ' */
-	RETURN_IF_BAD_POINTER(false, MZ_HEADER(fi->memory)->magic);
+	RETURN_IF_BAD_POINTER(fi, false, MZ_HEADER(fi->memory)->magic);
 	if (MZ_HEADER(fi->memory)->magic == IMAGE_DOS_SIGNATURE) {
 		DOSImageHeader *mz_header = MZ_HEADER(fi->memory);
 
-		RETURN_IF_BAD_POINTER(false, mz_header->lfanew);
+		RETURN_IF_BAD_POINTER(fi, false, mz_header->lfanew);
 		if (mz_header->lfanew < sizeof (DOSImageHeader)) {
 			warn(_("%s: not a PE or NE library"), fi->name);
 			return false;
@@ -80,13 +80,13 @@ read_library (WinLibrary *fi)
 	}
 
 	/* check for OS2 (Win16) header signature `NE' */
-	RETURN_IF_BAD_POINTER(false, NE_HEADER(fi->memory)->magic);
+	RETURN_IF_BAD_POINTER(fi, false, NE_HEADER(fi->memory)->magic);
 	if (NE_HEADER(fi->memory)->magic == IMAGE_OS2_SIGNATURE) {
 		OS2ImageHeader *header = NE_HEADER(fi->memory);
 		uint16_t *alignshift;
 
-		RETURN_IF_BAD_POINTER(false, header->rsrctab);
-		RETURN_IF_BAD_POINTER(false, header->restab);
+		RETURN_IF_BAD_POINTER(fi, false, header->rsrctab);
+		RETURN_IF_BAD_POINTER(fi, false, header->restab);
 		if (header->rsrctab >= header->restab) {
 			warn(_("%s: no resource directory found"), fi->name);
 			return false;
@@ -95,13 +95,13 @@ read_library (WinLibrary *fi)
 		fi->binary_type = NE_BINARY;
 		alignshift = (uint16_t *) ((uint8_t *) NE_HEADER(fi->memory) + header->rsrctab);
 		fi->first_resource = ((uint8_t *) alignshift) + sizeof(uint16_t);
-		RETURN_IF_BAD_POINTER(false, *(Win16NETypeInfo *) fi->first_resource);
+		RETURN_IF_BAD_POINTER(fi, false, *(Win16NETypeInfo *) fi->first_resource);
 
 		return true;
 	}
 
 	/* check for NT header signature `PE' */
-	RETURN_IF_BAD_POINTER(false, PE_HEADER(fi->memory)->signature);
+	RETURN_IF_BAD_POINTER(fi, false, PE_HEADER(fi->memory)->signature);
 	if (PE_HEADER(fi->memory)->signature == IMAGE_NT_SIGNATURE) {
 		Win32ImageSectionHeader *pe_sec;
 		Win32ImageDataDirectory *dir;
@@ -119,7 +119,7 @@ read_library (WinLibrary *fi)
 
 		/* relocate memory, start from last section */
 		pe_header = PE_HEADER(fi->memory);
-		RETURN_IF_BAD_POINTER(false, pe_header->file_header.number_of_sections);
+		RETURN_IF_BAD_POINTER(fi, false, pe_header->file_header.number_of_sections);
 		peplus_header = (PE32plusImageNTHeaders*)pe_header;
 		
 		/* we don't need to do OFFSET checking for the sections.
@@ -128,8 +128,8 @@ read_library (WinLibrary *fi)
 			pe_sec = PE_SECTIONS(fi->memory) + d;
 			if (pe_sec->characteristics & IMAGE_SCN_CNT_UNINITIALIZED_DATA) continue;
 			//if (pe_sec->virtual_address + pe_sec->size_of_raw_data > fi->total_size)
-			RETURN_IF_BAD_OFFSET(0, fi->memory + pe_sec->virtual_address, pe_sec->size_of_raw_data);
-			RETURN_IF_BAD_OFFSET(0, fi->memory + pe_sec->pointer_to_raw_data, pe_sec->size_of_raw_data);
+			RETURN_IF_BAD_OFFSET(fi, 0, fi->memory + pe_sec->virtual_address, pe_sec->size_of_raw_data);
+			RETURN_IF_BAD_OFFSET(fi, 0, fi->memory + pe_sec->pointer_to_raw_data, pe_sec->size_of_raw_data);
 			if (pe_sec->virtual_address != pe_sec->pointer_to_raw_data) {
 				memmove(fi->memory + pe_sec->virtual_address,
 						fi->memory + pe_sec->pointer_to_raw_data,
@@ -140,7 +140,7 @@ read_library (WinLibrary *fi)
 		if (pe_header->optional_header.magic == 0x20B) {  /* PE32+ */
 			/* find resource directory */
 			fi->binary_type = PEPLUS_BINARY;
-			RETURN_IF_BAD_POINTER(false, peplus_header->optional_header.data_directory[IMAGE_DIRECTORY_ENTRY_RESOURCE]);
+			RETURN_IF_BAD_POINTER(fi, false, peplus_header->optional_header.data_directory[IMAGE_DIRECTORY_ENTRY_RESOURCE]);
 			dir = peplus_header->optional_header.data_directory + IMAGE_DIRECTORY_ENTRY_RESOURCE;
 			if (dir->size == 0) {
 				warn(_("%s: file contains no resources"), fi->name);
@@ -149,7 +149,7 @@ read_library (WinLibrary *fi)
 		} else {  /* PE32 */
 			/* find resource directory */
 			fi->binary_type = PE_BINARY;
-			RETURN_IF_BAD_POINTER(false, pe_header->optional_header.data_directory[IMAGE_DIRECTORY_ENTRY_RESOURCE]);
+			RETURN_IF_BAD_POINTER(fi, false, pe_header->optional_header.data_directory[IMAGE_DIRECTORY_ENTRY_RESOURCE]);
 			dir = pe_header->optional_header.data_directory + IMAGE_DIRECTORY_ENTRY_RESOURCE;
 			if (dir->size == 0) {
 				warn(_("%s: file contains no resources"), fi->name);
@@ -177,7 +177,7 @@ calc_vma_size (WinLibrary *fi)
     int c, segcount, size;
 
     size = 0;
-    RETURN_IF_BAD_POINTER(-1, PE_HEADER(fi->memory)->file_header.number_of_sections);
+    RETURN_IF_BAD_POINTER(fi, -1, PE_HEADER(fi->memory)->file_header.number_of_sections);
     segcount = PE_HEADER(fi->memory)->file_header.number_of_sections;
 
     /* If there are no segments, just process file like it is.
@@ -188,10 +188,10 @@ calc_vma_size (WinLibrary *fi)
     	return fi->total_size;
 
     seg = PE_SECTIONS(fi->memory);
-    RETURN_IF_BAD_POINTER(-1, *seg);
+    RETURN_IF_BAD_POINTER(fi, -1, *seg);
 	
     for (c = 0 ; c < segcount ; c++) {
-    	RETURN_IF_BAD_POINTER(0, *seg);
+    	RETURN_IF_BAD_POINTER(fi, 0, *seg);
 
     	size = MAX(size, seg->virtual_address + seg->size_of_raw_data);
 		/* Pecoff 8.2 pag 24:  VirtualSize is The total size of the section when

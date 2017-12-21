@@ -104,6 +104,9 @@ typedef struct {
     ((Win32ImageNTHeaders*)((uint8_t *)(module) + \
     	(((DOSImageHeader*)(module))->lfanew)))
 
+#define MZ_HEADER(x)	((DOSImageHeader *)(x))
+#define NE_HEADER(x)	((OS2ImageHeader *)PE_HEADER(x))
+
 #define PE_SECTIONS(module) \
     ((Win32ImageSectionHeader *)((uint8_t *) &PE_HEADER(module)->optional_header + \
                            PE_HEADER(module)->file_header.size_of_optional_header))
