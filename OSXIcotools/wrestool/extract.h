@@ -24,8 +24,6 @@
 
 
 void *extract_resource(WinLibrary *, WinResource *, int *, bool *, char *, char *, bool);
-void set_raw_extraction(bool);
-void set_output_dir(char *);
 
 
 #endif /* extract_h */
