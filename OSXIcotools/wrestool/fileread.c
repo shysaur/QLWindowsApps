@@ -202,33 +202,6 @@ static bool load_pe_library(WinLibrary *fi)
 		goto fail;
 	PE32plusImageNTHeaders *peplus_header = (PE32plusImageNTHeaders*)pe_header;
 	
-	/* we don't need to do OFFSET checking for the sections.
-	 * calc_vma_size has already done that */
-	for (int d = pe_header->file_header.number_of_sections - 1; d >= 0 ; d--) {
-		Win32ImageSectionHeader *pe_sec = PE_SECTIONS(fi->memory) + d;
-		
-		if (pe_sec->characteristics & IMAGE_SCN_CNT_UNINITIALIZED_DATA)
-			continue;
-		
-		IF_BAD_OFFSET(&fi_new, fi_new.memory + pe_sec->virtual_address, pe_sec->size_of_raw_data)
-			goto fail;
-		IF_BAD_OFFSET(fi, fi->memory + pe_sec->pointer_to_raw_data, pe_sec->size_of_raw_data)
-			goto fail;
-		
-		void *dest = fi_new.memory + pe_sec->virtual_address;
-		off_t size = pe_sec->size_of_raw_data;
-		off_t offset = pe_sec->pointer_to_raw_data;
-		void *res = mmap(dest, size,
-			PROT_READ, MAP_FILE | MAP_FIXED | MAP_PRIVATE,
-			fileno(fi_new.file), offset);
-		if (res == MAP_FAILED) {
-			/* As in PE files there is no requirement for sections in the file
-			 * to be aligned in the same way as they are required to be aligned
-			 * in memory, this code path will be hit very frequently */
-			memcpy(dest, fi->memory + offset, size);
-		}
-	}
-
 	Win32ImageDataDirectory *dir;
 	if (pe_header->optional_header.magic == 0x20B) {  /* PE32+ */
 		/* find resource directory */
@@ -250,6 +223,41 @@ static bool load_pe_library(WinLibrary *fi)
 		warn(_("%s: file contains no resources"), fi->name);
 		goto fail;
 	}
+	
+	/* we don't need to do OFFSET checking for the sections.
+	 * calc_vma_size has already done that */
+	for (int d = pe_header->file_header.number_of_sections - 1; d >= 0 ; d--) {
+		Win32ImageSectionHeader *pe_sec = PE_SECTIONS(fi->memory) + d;
+		
+		if (pe_sec->characteristics & IMAGE_SCN_CNT_UNINITIALIZED_DATA)
+			continue;
+		
+		/* do not load sections we are not interested in */
+		if ((pe_sec->virtual_address < dir->virtual_address &&
+			pe_sec->virtual_address + pe_sec->size_of_raw_data <= dir->virtual_address) ||
+			(pe_sec->virtual_address >= dir->virtual_address + dir->size))
+			continue;
+		
+		void *dest = fi_new.memory + pe_sec->virtual_address;
+		off_t size = pe_sec->size_of_raw_data;
+		off_t offset = pe_sec->pointer_to_raw_data;
+		
+		IF_BAD_OFFSET(&fi_new, dest, size)
+			goto fail;
+		IF_BAD_OFFSET(fi, fi->memory + offset, size)
+			goto fail;
+		
+		void *res = mmap(dest, size,
+			PROT_READ, MAP_FILE | MAP_FIXED | MAP_PRIVATE,
+			fileno(fi_new.file), offset);
+		if (res == MAP_FAILED) {
+			/* As in PE files there is no requirement for sections in the file
+			 * to be aligned in the same way as they are required to be aligned
+			 * in memory, this code path will be hit very frequently */
+			memcpy(dest, fi->memory + offset, size);
+		}
+	}
+
 	fi_new.first_resource = ((uint8_t *)fi_new.memory) + dir->virtual_address;
 	
 	munmap(fi->memory, fi->total_size);
