@@ -33,6 +33,8 @@
 
 
 static off_t calc_vma_size (WinLibrary *);
+static bool read_ne_library(WinLibrary *);
+static bool read_pe_library(WinLibrary *);
 
 
 /* check_offset:
@@ -98,92 +100,23 @@ read_library (WinLibrary *fi)
 		/* falls through */
 	}
 
-	/* check for OS2 (Win16) header signature `NE' */
+	/* check for OS2/Win16 header signature `NE' */
 	RETURN_IF_BAD_POINTER(fi, false, NE_HEADER(fi->memory)->magic);
 	if (NE_HEADER(fi->memory)->magic == IMAGE_OS2_SIGNATURE) {
-		OS2ImageHeader *header = NE_HEADER(fi->memory);
-		uint16_t *alignshift;
-
-		RETURN_IF_BAD_POINTER(fi, false, header->rsrctab);
-		RETURN_IF_BAD_POINTER(fi, false, header->restab);
-		if (header->rsrctab >= header->restab) {
-			warn(_("%s: no resource directory found"), fi->name);
-			return false;
-		}
-
-		fi->binary_type = NE_BINARY;
-		alignshift = (uint16_t *) ((uint8_t *) NE_HEADER(fi->memory) + header->rsrctab);
-		fi->first_resource = ((uint8_t *) alignshift) + sizeof(uint16_t);
-		RETURN_IF_BAD_POINTER(fi, false, *(Win16NETypeInfo *) fi->first_resource);
-
-		return true;
+		return read_ne_library(fi);
 	}
 
 	/* check for NT header signature `PE' */
 	RETURN_IF_BAD_POINTER(fi, false, PE_HEADER(fi->memory)->signature);
 	if (PE_HEADER(fi->memory)->signature == IMAGE_NT_SIGNATURE) {
-		Win32ImageSectionHeader *pe_sec;
-		Win32ImageDataDirectory *dir;
-		Win32ImageNTHeaders *pe_header;
-		PE32plusImageNTHeaders *peplus_header;
-		int d;
-
-		/* allocate new memory */
-		fi->total_size = calc_vma_size(fi);
-		if (fi->total_size == 0) {
-			/* calc_vma_size has reported error */
-			return false;
-		}
-		fi->memory = xrealloc(fi->memory, fi->total_size);
-
-		/* relocate memory, start from last section */
-		pe_header = PE_HEADER(fi->memory);
-		RETURN_IF_BAD_POINTER(fi, false, pe_header->file_header.number_of_sections);
-		peplus_header = (PE32plusImageNTHeaders*)pe_header;
-		
-		/* we don't need to do OFFSET checking for the sections.
-		 * calc_vma_size has already done that */
-		for (d = pe_header->file_header.number_of_sections - 1; d >= 0 ; d--) {
-			pe_sec = PE_SECTIONS(fi->memory) + d;
-			if (pe_sec->characteristics & IMAGE_SCN_CNT_UNINITIALIZED_DATA) continue;
-			//if (pe_sec->virtual_address + pe_sec->size_of_raw_data > fi->total_size)
-			RETURN_IF_BAD_OFFSET(fi, 0, fi->memory + pe_sec->virtual_address, pe_sec->size_of_raw_data);
-			RETURN_IF_BAD_OFFSET(fi, 0, fi->memory + pe_sec->pointer_to_raw_data, pe_sec->size_of_raw_data);
-			if (pe_sec->virtual_address != pe_sec->pointer_to_raw_data) {
-				memmove(fi->memory + pe_sec->virtual_address,
-						fi->memory + pe_sec->pointer_to_raw_data,
-						pe_sec->size_of_raw_data);
-			}
-		}
-
-		if (pe_header->optional_header.magic == 0x20B) {  /* PE32+ */
-			/* find resource directory */
-			fi->binary_type = PEPLUS_BINARY;
-			RETURN_IF_BAD_POINTER(fi, false, peplus_header->optional_header.data_directory[IMAGE_DIRECTORY_ENTRY_RESOURCE]);
-			dir = peplus_header->optional_header.data_directory + IMAGE_DIRECTORY_ENTRY_RESOURCE;
-			if (dir->size == 0) {
-				warn(_("%s: file contains no resources"), fi->name);
-				return false;
-			}
-		} else {  /* PE32 */
-			/* find resource directory */
-			fi->binary_type = PE_BINARY;
-			RETURN_IF_BAD_POINTER(fi, false, pe_header->optional_header.data_directory[IMAGE_DIRECTORY_ENTRY_RESOURCE]);
-			dir = pe_header->optional_header.data_directory + IMAGE_DIRECTORY_ENTRY_RESOURCE;
-			if (dir->size == 0) {
-				warn(_("%s: file contains no resources"), fi->name);
-				return false;
-			}
-		}
-
-		fi->first_resource = ((uint8_t *) fi->memory) + dir->virtual_address;
-		return true;
+		return read_pe_library(fi);
 	}
 
 	/* other (unknown) header signature was found */
 	warn(_("%s: not a PE or NE library"), fi->name);
 	return false;
 }
+
 
 /* calc_vma_size:
  *   Calculate the total amount of memory needed for a 32-bit Windows
@@ -222,5 +155,87 @@ calc_vma_size (WinLibrary *fi)
     }
 
     return size;
+}
+
+
+static bool read_ne_library(WinLibrary *fi)
+{
+	OS2ImageHeader *header = NE_HEADER(fi->memory);
+	uint16_t *alignshift;
+
+	RETURN_IF_BAD_POINTER(fi, false, header->rsrctab);
+	RETURN_IF_BAD_POINTER(fi, false, header->restab);
+	if (header->rsrctab >= header->restab) {
+		warn(_("%s: no resource directory found"), fi->name);
+		return false;
+	}
+
+	fi->binary_type = NE_BINARY;
+	alignshift = (uint16_t *) ((uint8_t *) NE_HEADER(fi->memory) + header->rsrctab);
+	fi->first_resource = ((uint8_t *) alignshift) + sizeof(uint16_t);
+	RETURN_IF_BAD_POINTER(fi, false, *(Win16NETypeInfo *) fi->first_resource);
+
+	return true;
+}
+
+
+static bool read_pe_library(WinLibrary *fi)
+{
+	Win32ImageSectionHeader *pe_sec;
+	Win32ImageDataDirectory *dir;
+	Win32ImageNTHeaders *pe_header;
+	PE32plusImageNTHeaders *peplus_header;
+	int d;
+
+	/* allocate new memory */
+	fi->total_size = calc_vma_size(fi);
+	if (fi->total_size == 0) {
+		/* calc_vma_size has reported error */
+		return false;
+	}
+	fi->memory = xrealloc(fi->memory, fi->total_size);
+
+	/* relocate memory, start from last section */
+	pe_header = PE_HEADER(fi->memory);
+	RETURN_IF_BAD_POINTER(fi, false, pe_header->file_header.number_of_sections);
+	peplus_header = (PE32plusImageNTHeaders*)pe_header;
+	
+	/* we don't need to do OFFSET checking for the sections.
+	 * calc_vma_size has already done that */
+	for (d = pe_header->file_header.number_of_sections - 1; d >= 0 ; d--) {
+		pe_sec = PE_SECTIONS(fi->memory) + d;
+		if (pe_sec->characteristics & IMAGE_SCN_CNT_UNINITIALIZED_DATA) continue;
+		//if (pe_sec->virtual_address + pe_sec->size_of_raw_data > fi->total_size)
+		RETURN_IF_BAD_OFFSET(fi, 0, fi->memory + pe_sec->virtual_address, pe_sec->size_of_raw_data);
+		RETURN_IF_BAD_OFFSET(fi, 0, fi->memory + pe_sec->pointer_to_raw_data, pe_sec->size_of_raw_data);
+		if (pe_sec->virtual_address != pe_sec->pointer_to_raw_data) {
+			memmove(fi->memory + pe_sec->virtual_address,
+					fi->memory + pe_sec->pointer_to_raw_data,
+					pe_sec->size_of_raw_data);
+		}
+	}
+
+	if (pe_header->optional_header.magic == 0x20B) {  /* PE32+ */
+		/* find resource directory */
+		fi->binary_type = PEPLUS_BINARY;
+		RETURN_IF_BAD_POINTER(fi, false, peplus_header->optional_header.data_directory[IMAGE_DIRECTORY_ENTRY_RESOURCE]);
+		dir = peplus_header->optional_header.data_directory + IMAGE_DIRECTORY_ENTRY_RESOURCE;
+		if (dir->size == 0) {
+			warn(_("%s: file contains no resources"), fi->name);
+			return false;
+		}
+	} else {  /* PE32 */
+		/* find resource directory */
+		fi->binary_type = PE_BINARY;
+		RETURN_IF_BAD_POINTER(fi, false, pe_header->optional_header.data_directory[IMAGE_DIRECTORY_ENTRY_RESOURCE]);
+		dir = pe_header->optional_header.data_directory + IMAGE_DIRECTORY_ENTRY_RESOURCE;
+		if (dir->size == 0) {
+			warn(_("%s: file contains no resources"), fi->name);
+			return false;
+		}
+	}
+
+	fi->first_resource = ((uint8_t *) fi->memory) + dir->virtual_address;
+	return true;
 }
 
