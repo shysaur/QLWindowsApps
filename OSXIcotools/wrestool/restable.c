@@ -30,7 +30,7 @@
 #include "win32.h"
 #include "fileread.h"
 #include "restypes.h"
-#include "common/common.h"
+//#include "common/common.h"
 
 static bool decode_pe_resource_id (WinLibrary *, WinResource *, uint32_t);
 static bool decode_ne_resource_id (WinLibrary *, WinResource *, uint16_t);

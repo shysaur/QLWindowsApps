@@ -24,7 +24,6 @@
 #include "xalloc.h"			/* Gnulib */
 #include "common/error.h"
 #include "common/intutil.h"
-#include "common/common.h"
 #include "win32.h"
 #include "win32-endian.h"
 #include "fileread.h"

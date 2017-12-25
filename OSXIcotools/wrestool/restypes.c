@@ -19,7 +19,7 @@
 
 #include "restypes.h"
 #include "wrestool.h"
-#include "common/common.h"
+
 
 static const char *res_types[] = {
     /* 0x01: */

@@ -20,7 +20,6 @@
 #define FILEREAD_H
 
 #include <stdbool.h>		/* POSIX/Gnulib */
-#include "common/common.h"
 #include "wrestool.h"
 
 #define IF_BAD_POINTER(fi, x) \
