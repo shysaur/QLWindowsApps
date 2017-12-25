@@ -20,7 +20,6 @@
 #include <stdio.h>
 #include "fileread.h"
 #include "wrestool.h"
-#include "io-utils.h"
 
 
 WinLibrary *new_winlibrary_from_file(const char *fn)

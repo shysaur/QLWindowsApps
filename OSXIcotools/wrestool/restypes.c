@@ -18,7 +18,6 @@
  */
 
 #include "restypes.h"
-#include "common/string-utils.h"
 #include "wrestool.h"
 #include "common/common.h"
 

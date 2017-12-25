@@ -29,8 +29,6 @@
 #include "win32-endian.h"
 #include "fileread.h"
 #include "extract.h"
-#include "io-utils.h"
-#include "string-utils.h"
 #include "dirname.h"
 #include "restypes.h"
 #include "restable.h"

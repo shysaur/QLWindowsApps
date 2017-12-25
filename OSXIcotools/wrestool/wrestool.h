@@ -20,6 +20,7 @@
 #ifndef WRESTOOL_H
 #define WRESTOOL_H
 
+#include <stdbool.h>
 #include <unistd.h>		/* POSIX */
 #include <stdarg.h>		/* C89 */
 #include <stdio.h>		/* C89 */
