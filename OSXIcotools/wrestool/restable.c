@@ -128,7 +128,7 @@ print_resources_callback (WinLibrary *fi, WinResource *wr,
 		type = res_type_id_to_string(id);
 
 	/* get offset and size info on resource */
-	offset = get_resource_entry(fi, wr, &size);
+	offset = get_resource_entry(fi, wr, &size, NULL);
 	if (offset == NULL)
 		return;
 
@@ -209,15 +209,15 @@ decode_pe_resource_id (WinLibrary *fi, WinResource *wr, uint32_t value)
 }
  
 void *
-get_resource_entry (WinLibrary *fi, WinResource *wr, int *size)
+get_resource_entry (WinLibrary *fi, WinResource *wr, int *size, wres_error *err)
 {
 	if (fi->binary_type == PE_BINARY || fi->binary_type == PEPLUS_BINARY) {
 		Win32ImageResourceDataEntry *dataent;
 
 		dataent = (Win32ImageResourceDataEntry *) wr->children;
-		RETURN_IF_BAD_POINTER(fi, NULL, *dataent);
+		RET_NULL_AND_SET_ERR_IF_BAD_POINTER(fi, err, *dataent);
 		*size = dataent->size;
-		RETURN_IF_BAD_OFFSET(fi, NULL, fi->memory + dataent->offset_to_data, *size);
+		RET_NULL_AND_SET_ERR_IF_BAD_OFFSET(fi, err, fi->memory + dataent->offset_to_data, *size);
 
 		return fi->memory + dataent->offset_to_data;
 	} else {
@@ -227,7 +227,7 @@ get_resource_entry (WinLibrary *fi, WinResource *wr, int *size)
 		nameinfo = (Win16NENameInfo *) wr->children;
 		sizeshift = *((uint16_t *) fi->first_resource - 1);
 		*size = nameinfo->length << sizeshift;
-		RETURN_IF_BAD_OFFSET(fi, NULL, fi->memory + (nameinfo->offset << sizeshift), *size);
+		RET_NULL_AND_SET_ERR_IF_BAD_OFFSET(fi, err, fi->memory + (nameinfo->offset << sizeshift), *size);
 
 		return fi->memory + (nameinfo->offset << sizeshift);
 	}

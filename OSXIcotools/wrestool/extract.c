@@ -56,10 +56,7 @@ extract_resource (WinLibrary *fi, WinResource *wr, int *size,
 	/* just return pointer to data if raw */
 	if (raw) {
 		*free_it = false;
-		void *res = get_resource_entry(fi, wr, size);
-		if (!res)
-			if (err) *err = WRES_ERROR_PREMATUREEND;
-		return res;
+		return get_resource_entry(fi, wr, size, err);
 	}
 
 	/* find out how to extract */
@@ -79,10 +76,7 @@ extract_resource (WinLibrary *fi, WinResource *wr, int *size,
 		}
 		if (intval == (int) RT_VERSION) {
 			*free_it = false;
-			void *res =  get_resource_entry(fi, wr, size); //no conversion for versioninfo
-			if (!res)
-				if (err) *err = WRES_ERROR_PREMATUREEND;
-			return res;
+			return get_resource_entry(fi, wr, size, err); //no conversion for versioninfo
 		}
 	}
 
@@ -112,11 +106,9 @@ extract_group_icon_cursor_resource(WinLibrary *fi, WinResource *wr, char *lang,
 	int c, size, offset, skipped;
 
 	/* get resource data and size */
-	icondir = (Win32CursorIconDir *) get_resource_entry(fi, wr, &size);
-	if (icondir == NULL) {
-		if (err) *err = WRES_ERROR_PREMATUREEND;
+	icondir = (Win32CursorIconDir *) get_resource_entry(fi, wr, &size, err);
+	if (icondir == NULL)
 		return NULL;
-	}
 
 	/* calculate total size of output file */
 	RET_NULL_AND_SET_ERR_IF_BAD_POINTER(fi, err, icondir->count);
@@ -143,7 +135,7 @@ extract_group_icon_cursor_resource(WinLibrary *fi, WinResource *wr, char *lang,
 		if (fwr == NULL)
 			return NULL;
 
-		if (get_resource_entry(fi, fwr, &iconsize) != NULL) {
+		if (get_resource_entry(fi, fwr, &iconsize, err) != NULL) {
 			if (iconsize == 0) {
 				warn(_("%s: icon resource `%s' is empty, skipping"), fi->name, name);
 				skipped++;
@@ -158,6 +150,9 @@ extract_group_icon_cursor_resource(WinLibrary *fi, WinResource *wr, char *lang,
 			 * hotspot info */
 			if (!is_icon)
 				size -= sizeof(uint16_t)*2;
+		} else {
+			free(fwr);
+			return NULL;
 		}
 		free(fwr);
 	}
@@ -190,11 +185,10 @@ extract_group_icon_cursor_resource(WinLibrary *fi, WinResource *wr, char *lang,
 			return NULL;
 
 		/* get data and size of that resource */
-		data = get_resource_entry(fi, fwr, &size);
-		if (data == NULL) {
-			if (err) *err = WRES_ERROR_PREMATUREEND;
+		data = get_resource_entry(fi, fwr, &size, err);
+		if (data == NULL)
 			return NULL;
-		}
+
 		if (size == 0) {
 		    skipped++;
 		    continue;
@@ -261,11 +255,9 @@ extract_bitmap_resource(WinLibrary *fi, WinResource *wr, int *ressize, wres_erro
     uint32_t offbits;
     int size;
 
-    resentry=(uint8_t *)(get_resource_entry(fi,wr,&size));
-    if (!resentry) {
-		if (err) *err = WRES_ERROR_PREMATUREEND;
+    resentry=(uint8_t *)(get_resource_entry(fi, wr, &size, err));
+    if (!resentry)
 		return NULL;
-    }
 
     /* Bitmap file consists of:
      * 1) File header (14 bytes)

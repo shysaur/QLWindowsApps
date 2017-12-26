@@ -29,7 +29,7 @@ void print_resources_callback (WinLibrary *, WinResource *, WinResource *, WinRe
 
 WinResource *list_resources(WinLibrary *, WinResource *, int *, wres_error *);
 WinResource *find_resource(WinLibrary *, char *, char *, char *, int *, wres_error *);
-void *get_resource_entry(WinLibrary *, WinResource *, int *);
+void *get_resource_entry(WinLibrary *, WinResource *, int *, wres_error *);
 
 
 #endif
