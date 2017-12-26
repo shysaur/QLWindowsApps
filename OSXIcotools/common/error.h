@@ -23,11 +23,11 @@
 #include <stddef.h>	/* C89 */
 #include <errno.h>	/* C89 */
 
-void internal_error(const char *msg, ...) __attribute__ ((noreturn));
-void die(const char *msg, ...) __attribute__ ((noreturn));
-void die_errno(const char *msg, ...) __attribute__ ((noreturn));
-void warn(const char *msg, ...);
-void warn_errno(const char *msg, ...);
+void internal_error(const char *msg, ...) __attribute__((noreturn, deprecated));
+void die(const char *msg, ...) __attribute__((noreturn, deprecated));
+void die_errno(const char *msg, ...) __attribute__((noreturn, deprecated));
+void warn(const char *msg, ...) __attribute((deprecated));
+void warn_errno(const char *msg, ...) __attribute((deprecated));
 
 #define errstr strerror(errno)
 

@@ -22,13 +22,13 @@
 #include "wrestool.h"
 
 
-WinLibrary *new_winlibrary_from_file(const char *fn)
+WinLibrary *new_winlibrary_from_file(const char *fn, wres_error *err)
 {
 	WinLibrary *fl = calloc(sizeof(WinLibrary), 1);
 	
 	fl->name = strdup(fn);
 	if (!fl->name) {
-		fprintf(stderr, "malloc failed");
+		if (err) *err = WRES_ERROR_OUTOFMEMORY;
 		free(fl);
 		return NULL;
 	}
@@ -36,7 +36,7 @@ WinLibrary *new_winlibrary_from_file(const char *fn)
 	/* open file */
 	fl->file = fopen(fl->name, "rb");
 	if (fl->file == NULL) {
-		fprintf(stderr, "%s error opening file", fl->name);
+		if (err) *err = -errno;
 		free(fl->name);
 		free(fl);
 		return NULL;
@@ -46,6 +46,7 @@ WinLibrary *new_winlibrary_from_file(const char *fn)
 	if (!load_library(fl)) {
 		/* error reported by load_library */
 		free_winlibrary(fl);
+		if (err) *err = WRES_ERROR_UNKNOWN;
 		return NULL;
 	}
 	
@@ -59,5 +60,22 @@ void free_winlibrary(WinLibrary *fl)
 	if (fl->file)
     	fclose(fl->file);
   	free(fl->name);
+}
+
+
+const char *wres_strerr(wres_error err)
+{
+	if (err < WRES_ERROR_FIRST || err > WRES_ERROR_LAST)
+		return "unknown error code";
+	
+	if (err >= WRES_ERROR_ERRNO_FIRST && WRES_ERROR_ERRNO_LAST >= err)
+		return strerror(-err);
+	const char *errors[] = {
+		"no error",
+		"unknown error",
+		"out of memory",
+		"suitable resource not found"
+	};
+	return errors[err];
 }
 

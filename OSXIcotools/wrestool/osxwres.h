@@ -24,12 +24,6 @@
 #include "restable.h"
 #include "fileread.h"
 
-typedef enum {
-  EXTR_NOERR = 0,     //No error occured
-  EXTR_FAIL = 1,      //Error in extracting resource
-  EXTR_NOTFOUND = 2   //Resource not found
-} extract_error;
-
-NSData *get_resource_data (WinLibrary *, char *, char *, char *, extract_error *);
+NSData *get_resource_data (WinLibrary *, char *, char *, char *, wres_error *);
 
 #endif

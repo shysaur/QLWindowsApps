@@ -56,8 +56,23 @@ typedef struct _WinResource {
 #define WINRES_ID_MAXLEN (256)
 
 
-WinLibrary *new_winlibrary_from_file(const char *fn);
+typedef int wres_error;
+enum {
+	WRES_ERROR_ERRNO_FIRST = -ELAST,
+	WRES_ERROR_ERRNO_LAST = -1,
+	WRES_ERROR_NONE = 0,
+	WRES_ERROR_UNKNOWN,
+	WRES_ERROR_OUTOFMEMORY,
+	WRES_ERROR_RESNOTFOUND,
+	
+	WRES_ERROR_FIRST = WRES_ERROR_ERRNO_FIRST,
+	WRES_ERROR_LAST = WRES_ERROR_RESNOTFOUND,
+};
+
+
+WinLibrary *new_winlibrary_from_file(const char *fn, wres_error *);
 void free_winlibrary(WinLibrary *fl);
+const char *wres_strerr(wres_error);
 
 
 #endif

@@ -23,7 +23,6 @@
 #include "wrestool.h"
 
 
-
 #ifdef DEBUG
 #  define EILog(...) NSLog(__VA_ARGS__)
 #else
@@ -38,32 +37,42 @@
   self = [super init];
   if (!self) return nil;
   
-  fl = new_winlibrary_from_file([exeFile fileSystemRepresentation]);
-  if (!fl)
+  wres_error err;
+  fl = new_winlibrary_from_file([exeFile fileSystemRepresentation], &err);
+  if (!fl) {
+    [self logError:err];
     return nil;
+  }
   
   return self;
 }
 
 
+- (void)logError:(wres_error)err
+{
+  if (!fl)
+    NSLog(@"%s", wres_strerr(err));
+  else if (err == WRES_ERROR_RESNOTFOUND)
+    EILog(@"%s: %s", fl->name, wres_strerr(err));
+  else
+    NSLog(@"%s: %s", fl->name, wres_strerr(err));
+}
+
+
 - (NSImage*)icon {
-  extract_error err;
+  wres_error err;
   NSData *icodata = get_resource_data(fl, "14", NULL, NULL, &err);
     
-  if (err) {
-    if (err == EXTR_NOTFOUND)
-      EILog(@"%s: suitable resource not found", fl->name);
-    else
-      NSLog(@"%s: error in extracting resource", fl->name);
+  if (!icodata) {
+    [self logError:err];
     return nil;
   }
-
   return [[NSImage alloc] initWithData:icodata];
 }
 
 
 - (EIVersionInfo *)versionInfo {
-  extract_error err;
+  wres_error err;
   uint32_t sysLocale;
   NSString *localeIdent;
   char sysLocaleStr[64];
@@ -73,22 +82,18 @@
   
   sprintf(sysLocaleStr, "%d", sysLocale);
   //try with the current selected locale in the OS
-  NSData *verdata = get_resource_data(fl, "16", NULL, sysLocaleStr, &err);
-  if (err) {
+  NSData *verdata = get_resource_data(fl, "16", NULL, sysLocaleStr, NULL);
+  if (!verdata) {
     //if failure, try the en-US locale (the majority of apps, if they're not neutral, use this)
-    verdata = get_resource_data(fl, "16", NULL, "1033", &err);
-    if (err) {
+    verdata = get_resource_data(fl, "16", NULL, "1033", NULL);
+    if (!verdata) {
       //else, pick the first locale we find, and go with it.
       verdata = get_resource_data(fl, "16", NULL, NULL, &err);
+      if (!verdata) {
+        [self logError:err];
+        return nil;
+      }
     }
-  }
-  
-  if (err) {
-    if (err == EXTR_NOTFOUND)
-      EILog(@"%s: suitable resource not found", fl->name);
-    else
-      NSLog(@"%s: error in extracting resource", fl->name);
-    return nil;
   }
   
   return [[EIVersionInfo alloc] initWithData:verdata is16Bit:(fl->binary_type == NE_BINARY)];

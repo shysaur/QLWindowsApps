@@ -25,7 +25,7 @@
 
 
 NSData *
-get_resource_data (WinLibrary *fi, char *type, char *name, char *lang, extract_error *err)
+get_resource_data (WinLibrary *fi, char *type, char *name, char *lang, wres_error *err)
 {
   int level;
   int size;
@@ -34,21 +34,19 @@ get_resource_data (WinLibrary *fi, char *type, char *name, char *lang, extract_e
   WinResource* wr;
   NSData *icoData;
   
-  *err = EXTR_NOERR;
-  
   if (type == NULL) type = "";
   if (name == NULL) name = "";
   if (lang == NULL) lang = "";
   
   wr = find_resource(fi, type, name, lang, &level);
   if (wr == NULL) {
-    *err = EXTR_NOTFOUND;
+    if (err) *err = WRES_ERROR_UNKNOWN;
     return NULL;
   }
   
   memory = extract_resource(fi, wr, &size, &free_it, type, lang, false);
   if (memory == NULL) {
-    *err = EXTR_FAIL;
+    if (err) *err = WRES_ERROR_RESNOTFOUND;
     return NULL;
   }
   
