@@ -38,7 +38,7 @@
 		return (r); \
 	}
 
-bool load_library(WinLibrary *);
+wres_error load_library(WinLibrary *);
 void unload_library(WinLibrary *);
 bool check_offset(char *, off_t, char *, void *, off_t);
 

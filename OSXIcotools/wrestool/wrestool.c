@@ -43,10 +43,11 @@ WinLibrary *new_winlibrary_from_file(const char *fn, wres_error *err)
 	}
 	
 	/* identify file and find resource table */
-	if (!load_library(fl)) {
+	wres_error e;
+	if ((e = load_library(fl))) {
 		/* error reported by load_library */
 		free_winlibrary(fl);
-		if (err) *err = WRES_ERROR_UNKNOWN;
+		if (err) *err = e;
 		return NULL;
 	}
 	
@@ -65,16 +66,20 @@ void free_winlibrary(WinLibrary *fl)
 
 const char *wres_strerr(wres_error err)
 {
-	if (err < WRES_ERROR_FIRST || err > WRES_ERROR_LAST)
+	if (err < WRES_ERROR_FIRST || WRES_ERROR_LAST < err)
 		return "unknown error code";
 	
 	if (err >= WRES_ERROR_ERRNO_FIRST && WRES_ERROR_ERRNO_LAST >= err)
 		return strerror(-err);
 	const char *errors[] = {
-		"no error",
-		"unknown error",
-		"out of memory",
-		"suitable resource not found"
+		"no error", /* WRES_ERROR_NONE */
+		"unknown error", /* WRES_ERROR_UNKNOWN */
+		"out of memory", /* WRES_ERROR_OUTOFMEMORY */
+		"suitable resource not found", /* WRES_ERROR_RESNOTFOUND */
+		"not a PE or NE executable", /* WRES_ERROR_WRONGFORMAT */
+		"no resource directory found", /* WRES_ERROR_NORESDIR */
+		"corrupt file, premature end", /* WRES_ERROR_PREMATUREEND */
+		"no resources found", /* WRES_ERROR_NORESOURCES */
 	};
 	return errors[err];
 }

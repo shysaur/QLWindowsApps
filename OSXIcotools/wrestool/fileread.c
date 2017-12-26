@@ -33,8 +33,8 @@
 
 
 static off_t calc_vma_size (WinLibrary *);
-static bool load_ne_library(WinLibrary *);
-static bool load_pe_library(WinLibrary *);
+static wres_error load_ne_library(WinLibrary *);
+static wres_error load_pe_library(WinLibrary *);
 
 
 /* check_offset:
@@ -50,10 +50,8 @@ check_offset(char *memory, off_t total_size, char *name, void *offset, off_t siz
 	/*debug("check_offset: size=%x vs %x offset=%x size=%x\n",
 		need_size, total_size, (char *) offset - memory, size);*/
 
-	if (need_size < 0 || need_size > total_size) {
-		warn(_("%s: premature end"), name);
+	if (need_size < 0 || need_size > total_size)
 		return false;
-	}
 
 	return true;
 }
@@ -64,57 +62,47 @@ check_offset(char *memory, off_t total_size, char *name, void *offset, off_t siz
  * Read header and get resource directory offset in a Windows library
  * (AKA module).
  */
-bool
-load_library (WinLibrary *fi)
+wres_error load_library(WinLibrary *fi)
 {
 	fseek(fi->file, 0, SEEK_END);
 	fi->total_size = ftello(fi->file);
 	fseek(fi->file, 0, SEEK_SET);
-	if (fi->total_size == -1) {
-		fprintf(stderr, "%s total size = -1", fi->name);
-		return false;
-	}
-	if (fi->total_size == 0) {
-		fprintf(stderr, "%s: file has a size of 0", fi->name);
-		return false;
-	}
+	if (fi->total_size == -1)
+		return -errno;
+	if (fi->total_size == 0)
+		return WRES_ERROR_WRONGFORMAT;
 	
 	/* read all of file */
 	fi->memory = mmap(NULL, fi->total_size, PROT_READ, MAP_FILE | MAP_PRIVATE, fileno(fi->file), 0);
-	if (fi->memory == NULL) {
-		fprintf(stderr, "%s error reading file contents", fi->name);
-		return false;
-	}
+	if (fi->memory == MAP_FAILED)
+		return -errno;
 	
 	/* check for DOS header signature `MZ' */
-	RETURN_IF_BAD_POINTER(fi, false, MZ_HEADER(fi->memory)->magic);
+	RETURN_IF_BAD_POINTER(fi, WRES_ERROR_WRONGFORMAT, MZ_HEADER(fi->memory)->magic);
 	if (MZ_HEADER(fi->memory)->magic == IMAGE_DOS_SIGNATURE) {
 		DOSImageHeader *mz_header = MZ_HEADER(fi->memory);
 
-		RETURN_IF_BAD_POINTER(fi, false, mz_header->lfanew);
-		if (mz_header->lfanew < sizeof (DOSImageHeader)) {
-			warn(_("%s: not a PE or NE library"), fi->name);
-			return false;
-		}
+		RETURN_IF_BAD_POINTER(fi, WRES_ERROR_WRONGFORMAT, mz_header->lfanew);
+		if (mz_header->lfanew < sizeof (DOSImageHeader))
+			return WRES_ERROR_WRONGFORMAT;
 
 		/* falls through */
 	}
 
 	/* check for OS2/Win16 header signature `NE' */
-	RETURN_IF_BAD_POINTER(fi, false, NE_HEADER(fi->memory)->magic);
+	RETURN_IF_BAD_POINTER(fi, WRES_ERROR_WRONGFORMAT, NE_HEADER(fi->memory)->magic);
 	if (NE_HEADER(fi->memory)->magic == IMAGE_OS2_SIGNATURE) {
 		return load_ne_library(fi);
 	}
 
 	/* check for NT header signature `PE' */
-	RETURN_IF_BAD_POINTER(fi, false, PE_HEADER(fi->memory)->signature);
+	RETURN_IF_BAD_POINTER(fi, WRES_ERROR_WRONGFORMAT, PE_HEADER(fi->memory)->signature);
 	if (PE_HEADER(fi->memory)->signature == IMAGE_NT_SIGNATURE) {
 		return load_pe_library(fi);
 	}
 
 	/* other (unknown) header signature was found */
-	warn(_("%s: not a PE or NE library"), fi->name);
-	return false;
+	return WRES_ERROR_WRONGFORMAT;
 }
 
 
@@ -158,43 +146,40 @@ calc_vma_size (WinLibrary *fi)
 }
 
 
-static bool load_ne_library(WinLibrary *fi)
+static wres_error load_ne_library(WinLibrary *fi)
 {
 	OS2ImageHeader *header = NE_HEADER(fi->memory);
 	uint16_t *alignshift;
 
-	RETURN_IF_BAD_POINTER(fi, false, header->rsrctab);
-	RETURN_IF_BAD_POINTER(fi, false, header->restab);
-	if (header->rsrctab >= header->restab) {
-		warn(_("%s: no resource directory found"), fi->name);
-		return false;
-	}
-
+	RETURN_IF_BAD_POINTER(fi, WRES_ERROR_PREMATUREEND, header->rsrctab);
+	RETURN_IF_BAD_POINTER(fi, WRES_ERROR_PREMATUREEND, header->restab);
+	if (header->rsrctab >= header->restab)
+		return WRES_ERROR_NORESDIR;
+	
 	fi->binary_type = NE_BINARY;
 	alignshift = (uint16_t *) ((uint8_t *) NE_HEADER(fi->memory) + header->rsrctab);
 	fi->first_resource = ((uint8_t *) alignshift) + sizeof(uint16_t);
-	RETURN_IF_BAD_POINTER(fi, false, *(Win16NETypeInfo *) fi->first_resource);
+	RETURN_IF_BAD_POINTER(fi, WRES_ERROR_PREMATUREEND, *(Win16NETypeInfo *) fi->first_resource);
 
-	return true;
+	return WRES_ERROR_NONE;
 }
 
 
-static bool load_pe_library(WinLibrary *fi)
+static wres_error load_pe_library(WinLibrary *fi)
 {
 	WinLibrary fi_new = *fi;
 	
 	/* allocate new memory */
 	fi_new.total_size = calc_vma_size(fi);
-	if (fi_new.total_size == 0) {
-		/* calc_vma_size has reported error */
-		return false;
-	}
-	fi_new.memory = mmap(NULL, fi_new.total_size, PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0);
-	if (fi_new.memory == MAP_FAILED) {
-		warn("mmap failed; errno = %d, %s", errno, errstr);
-		return false;
-	}
+	if (fi_new.total_size == 0) /* calc_vma_size has reported error */
+		return WRES_ERROR_WRONGFORMAT;
 
+	fi_new.memory = mmap(NULL, fi_new.total_size, PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0);
+	if (fi_new.memory == MAP_FAILED)
+		return -errno;
+
+	wres_error err = WRES_ERROR_PREMATUREEND;
+	
 	/* relocate memory, start from last section */
 	Win32ImageNTHeaders *pe_header = PE_HEADER(fi->memory);
 	IF_BAD_POINTER(fi, pe_header->file_header.number_of_sections)
@@ -219,7 +204,7 @@ static bool load_pe_library(WinLibrary *fi)
 	}
 	
 	if (dir->size == 0) {
-		warn(_("%s: file contains no resources"), fi->name);
+		err = WRES_ERROR_NORESOURCES;
 		goto fail;
 	}
 	
@@ -261,11 +246,11 @@ static bool load_pe_library(WinLibrary *fi)
 	
 	munmap(fi->memory, fi->total_size);
 	*fi = fi_new;
-	return true;
+	return WRES_ERROR_NONE;
 	
 fail:
 	munmap(fi_new.memory, fi_new.total_size);
-	return false;
+	return err;
 }
 
 
