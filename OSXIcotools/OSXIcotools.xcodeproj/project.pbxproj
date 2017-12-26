@@ -25,6 +25,8 @@
 		014CD2D916E5168100185054 /* restypes.c in Sources */ = {isa = PBXBuildFile; fileRef = 014CD26816E5168100185054 /* restypes.c */; };
 		014CD2DA16E5168100185054 /* restypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 014CD26916E5168100185054 /* restypes.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		014CD2DB16E5168100185054 /* wrestool.h in Headers */ = {isa = PBXBuildFile; fileRef = 014CD26A16E5168100185054 /* wrestool.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		015561081FF2C34200FD3DAD /* log.h in Headers */ = {isa = PBXBuildFile; fileRef = 015561061FF2C34200FD3DAD /* log.h */; };
+		015561091FF2C34200FD3DAD /* log.c in Sources */ = {isa = PBXBuildFile; fileRef = 015561071FF2C34200FD3DAD /* log.c */; };
 		0197FD461BAF031000FCD44E /* dirname.h in Headers */ = {isa = PBXBuildFile; fileRef = 0197FD431BAF031000FCD44E /* dirname.h */; };
 		0197FD471BAF031000FCD44E /* basename.c in Sources */ = {isa = PBXBuildFile; fileRef = 0197FD441BAF031000FCD44E /* basename.c */; };
 		0197FD4A1BAF036B00FCD44E /* basename-lgpl.c in Sources */ = {isa = PBXBuildFile; fileRef = 0197FD491BAF036B00FCD44E /* basename-lgpl.c */; };
@@ -44,8 +46,6 @@
 		0197FD6E1BAF05BE00FCD44E /* xstrndup.c in Sources */ = {isa = PBXBuildFile; fileRef = 0197FD6C1BAF05BE00FCD44E /* xstrndup.c */; };
 		0197FD701BAF05DE00FCD44E /* minmax.h in Headers */ = {isa = PBXBuildFile; fileRef = 0197FD6F1BAF05DE00FCD44E /* minmax.h */; };
 		0197FD721BAF05F800FCD44E /* byteswap.h in Headers */ = {isa = PBXBuildFile; fileRef = 0197FD711BAF05F800FCD44E /* byteswap.h */; };
-		01B383601CE7B89200A2B383 /* error.c in Sources */ = {isa = PBXBuildFile; fileRef = 01B3835E1CE7B89200A2B383 /* error.c */; };
-		01B383611CE7B89200A2B383 /* error.h in Headers */ = {isa = PBXBuildFile; fileRef = 01B3835F1CE7B89200A2B383 /* error.h */; };
 		01C5D1401AD82F00009C800F /* config.h in Headers */ = {isa = PBXBuildFile; fileRef = 01C5D13F1AD82F00009C800F /* config.h */; };
 		01CAFF051FF145A1009B0632 /* dirname.c in Sources */ = {isa = PBXBuildFile; fileRef = 0197FD451BAF031000FCD44E /* dirname.c */; };
 		01CAFF061FF145BE009B0632 /* intutil.c in Sources */ = {isa = PBXBuildFile; fileRef = 014CD1FC16E5168000185054 /* intutil.c */; };
@@ -75,6 +75,8 @@
 		014CD26816E5168100185054 /* restypes.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = restypes.c; sourceTree = "<group>"; };
 		014CD26916E5168100185054 /* restypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = restypes.h; sourceTree = "<group>"; };
 		014CD26A16E5168100185054 /* wrestool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = wrestool.h; sourceTree = "<group>"; };
+		015561061FF2C34200FD3DAD /* log.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = log.h; sourceTree = "<group>"; };
+		015561071FF2C34200FD3DAD /* log.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = log.c; sourceTree = "<group>"; };
 		0197FD431BAF031000FCD44E /* dirname.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = dirname.h; sourceTree = "<group>"; };
 		0197FD441BAF031000FCD44E /* basename.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = basename.c; sourceTree = "<group>"; };
 		0197FD451BAF031000FCD44E /* dirname.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = dirname.c; sourceTree = "<group>"; };
@@ -95,8 +97,6 @@
 		0197FD6C1BAF05BE00FCD44E /* xstrndup.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = xstrndup.c; sourceTree = "<group>"; };
 		0197FD6F1BAF05DE00FCD44E /* minmax.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = minmax.h; sourceTree = "<group>"; };
 		0197FD711BAF05F800FCD44E /* byteswap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = byteswap.h; sourceTree = "<group>"; };
-		01B3835E1CE7B89200A2B383 /* error.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = error.c; sourceTree = "<group>"; };
-		01B3835F1CE7B89200A2B383 /* error.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = error.h; sourceTree = "<group>"; };
 		01C5D13F1AD82F00009C800F /* config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = config.h; sourceTree = "<group>"; };
 		01DAFFF91FEB040700AD532F /* extract.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = extract.h; sourceTree = "<group>"; };
 		01DAFFFB1FEB285B00AD532F /* wrestool.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = wrestool.c; sourceTree = "<group>"; };
@@ -147,8 +147,8 @@
 		014CD1F516E5168000185054 /* common */ = {
 			isa = PBXGroup;
 			children = (
-				01B3835E1CE7B89200A2B383 /* error.c */,
-				01B3835F1CE7B89200A2B383 /* error.h */,
+				015561071FF2C34200FD3DAD /* log.c */,
+				015561061FF2C34200FD3DAD /* log.h */,
 				014CD1FC16E5168000185054 /* intutil.c */,
 				014CD1FD16E5168000185054 /* intutil.h */,
 			);
@@ -235,7 +235,6 @@
 				0197FD721BAF05F800FCD44E /* byteswap.h in Headers */,
 				014CD1F116E5167400185054 /* EIExeFile.h in Headers */,
 				0197FD651BAF058800FCD44E /* xvasprintf.h in Headers */,
-				01B383611CE7B89200A2B383 /* error.h in Headers */,
 				014CD1F316E5167400185054 /* EIVersionInfo.h in Headers */,
 				0197FD621BAF057300FCD44E /* gettext.h in Headers */,
 				014CD27216E5168100185054 /* intutil.h in Headers */,
@@ -251,6 +250,7 @@
 				014CD2D516E5168100185054 /* osxwres.h in Headers */,
 				014CD2D816E5168100185054 /* restable.h in Headers */,
 				014CD2DA16E5168100185054 /* restypes.h in Headers */,
+				015561081FF2C34200FD3DAD /* log.h in Headers */,
 				0197FD591BAF053500FCD44E /* xalloc.h in Headers */,
 				014CD2DB16E5168100185054 /* wrestool.h in Headers */,
 			);
@@ -306,6 +306,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				015561091FF2C34200FD3DAD /* log.c in Sources */,
 				014CD1F216E5167400185054 /* EIExeFile.m in Sources */,
 				014CD1F416E5167400185054 /* EIVersionInfo.m in Sources */,
 				01CAFF051FF145A1009B0632 /* dirname.c in Sources */,
@@ -321,7 +322,6 @@
 				014CD2D316E5168100185054 /* fileread.c in Sources */,
 				0197FD6A1BAF05A700FCD44E /* xsize.c in Sources */,
 				0197FD5C1BAF053500FCD44E /* xmalloc.c in Sources */,
-				01B383601CE7B89200A2B383 /* error.c in Sources */,
 				014CD2D616E5168100185054 /* osxwres.m in Sources */,
 				01CAFF061FF145BE009B0632 /* intutil.c in Sources */,
 				014CD2D716E5168100185054 /* restable.c in Sources */,

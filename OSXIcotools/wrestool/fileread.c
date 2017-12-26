@@ -25,7 +25,6 @@
 #include "gettext.h"			/* Gnulib */
 #define _(s) gettext(s)
 #define N_(s) gettext_noop(s)
-#include "common/error.h"
 #include "fileread.h"
 #include "win32.h"
 #include "xalloc.h"		/* Gnulib */

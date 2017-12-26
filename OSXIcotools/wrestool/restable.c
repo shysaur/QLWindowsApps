@@ -25,7 +25,6 @@
 #include "common/intutil.h"
 #include "xalloc.h"		/* Gnulib */
 #include "minmax.h"		/* Gnulib */
-#include "common/error.h"
 #include "wrestool.h"
 #include "win32.h"
 #include "fileread.h"

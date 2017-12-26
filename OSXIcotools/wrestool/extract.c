@@ -22,7 +22,7 @@
 #define _(s) gettext(s)
 #define N_(s) gettext_noop(s)
 #include "xalloc.h"			/* Gnulib */
-#include "common/error.h"
+#include "common/log.h"
 #include "common/intutil.h"
 #include "win32.h"
 #include "win32-endian.h"
@@ -137,12 +137,12 @@ extract_group_icon_cursor_resource(WinLibrary *fi, WinResource *wr, char *lang,
 
 		if (get_resource_entry(fi, fwr, &iconsize, err) != NULL) {
 			if (iconsize == 0) {
-				warn(_("%s: icon resource `%s' is empty, skipping"), fi->name, name);
+				dbg_log(_("%s: icon resource `%s' is empty, skipping"), fi->name, name);
 				skipped++;
 				continue;
 			}
 			if (iconsize != icondir->entries[c].bytes_in_res) {
-				warn(_("%s: mismatch of size in icon resource `%s' and group (%d vs %d)"), fi->name, name, iconsize, icondir->entries[c].bytes_in_res);
+				dbg_log(_("%s: mismatch of size in icon resource `%s' and group (%d vs %d)"), fi->name, name, iconsize, icondir->entries[c].bytes_in_res);
 			}
 			size += iconsize < icondir->entries[c].bytes_in_res ? icondir->entries[c].bytes_in_res : iconsize;
 

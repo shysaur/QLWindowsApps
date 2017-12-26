@@ -1,6 +1,6 @@
-/* error.c - Error-management and messaging routines.
+/* log.c - Messaging routines.
  *
- * Copyright (C) 1998 Oskar Liljeblad
+ * Copyright (C) 2017 Daniele Cattaneo
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,19 +16,25 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef COMMON_ERROR_H
-#define COMMON_ERROR_H
+#include <stdio.h>
+#include <stdarg.h>
+#include "log.h"
 
-#include <stdarg.h>	/* Gnulib/C89 */
-#include <stddef.h>	/* C89 */
-#include <errno.h>	/* C89 */
 
-void internal_error(const char *msg, ...) __attribute__((noreturn, deprecated));
-void die(const char *msg, ...) __attribute__((noreturn, deprecated));
-void die_errno(const char *msg, ...) __attribute__((noreturn, deprecated));
-void warn(const char *msg, ...) __attribute((deprecated));
-void warn_errno(const char *msg, ...) __attribute((deprecated));
+void log_msg(int level, const char *msg, ...)
+{
+	va_list ap;
+	
+	#ifdef DEBUG
+	int minlev = LOG_LEVEL_DEBUG;
+	#else
+	int minlev = LOG_LEVEL_CRITICAL;
+	#endif
+	
+	if (level >= minlev) {
+		va_start(ap, msg);
+		vfprintf(stderr, msg, ap);
+		va_end(ap);
+	}
+}
 
-#define errstr strerror(errno)
-
-#endif
