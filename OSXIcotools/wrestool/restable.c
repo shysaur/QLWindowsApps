@@ -34,12 +34,12 @@
 
 static bool decode_pe_resource_id (WinLibrary *, WinResource *, uint32_t);
 static bool decode_ne_resource_id (WinLibrary *, WinResource *, uint16_t);
-static WinResource *list_ne_type_resources (WinLibrary *, int *);
-static WinResource *list_ne_name_resources (WinLibrary *, WinResource *, int *);
-static WinResource *list_pe_resources (WinLibrary *, Win32ImageResourceDirectory *, int, int *);
-static void do_resources_recurs (WinLibrary *, WinResource *, WinResource *, WinResource *, WinResource *, char *, char *, char *, DoResourceCallback);
+static WinResource *list_ne_type_resources (WinLibrary *, int *, wres_error *);
+static WinResource *list_ne_name_resources (WinLibrary *, WinResource *, int *, wres_error *);
+static WinResource *list_pe_resources (WinLibrary *, Win32ImageResourceDirectory *, int, int *, wres_error *);
+static wres_error do_resources_recurs (WinLibrary *, WinResource *, WinResource *, WinResource *, WinResource *, char *, char *, char *, DoResourceCallback);
 static char *get_resource_id_quoted (WinResource *);
-static WinResource *find_with_resource_array(WinLibrary *, WinResource *, char *);
+static WinResource *find_with_resource_array(WinLibrary *, WinResource *, char *, wres_error *);
 
 #define NE_TYPEINFO_NEXT(x) ((Win16NETypeInfo *)((uint8_t *)(x) + sizeof(Win16NETypeInfo) + \
 						    ((Win16NETypeInfo *)x)->count * sizeof(Win16NENameInfo)))
@@ -58,35 +58,37 @@ bool compare_resource_id (WinResource *, char *);
  *   Do something for each resource matching type, name and lang.
  */
 
-void
+wres_error
 do_resources (WinLibrary *fi, char *type, char *name, char *lang, DoResourceCallback cb)
 {
+	wres_error err;
 	WinResource *type_wr;
 	WinResource *name_wr;
 	WinResource *lang_wr;
 
-	type_wr = malloc(sizeof(WinResource)*3);
+	type_wr = calloc(sizeof(WinResource), 3);
 	name_wr = type_wr + 1;
 	lang_wr = type_wr + 2;
-	memset(type_wr, 0, sizeof(WinResource)*3);
 
-	do_resources_recurs(fi, NULL, type_wr, name_wr, lang_wr, type, name, lang, cb);
+	err = do_resources_recurs(fi, NULL, type_wr, name_wr, lang_wr, type, name, lang, cb);
 
 	free(type_wr);
+	return err;
 }
 
-static void
+static wres_error
 do_resources_recurs (WinLibrary *fi, WinResource *base, WinResource *type_wr,
                           WinResource *name_wr, WinResource *lang_wr,
 						  char *type, char *name, char *lang, DoResourceCallback cb)
 {
+	wres_error err;
 	int c, rescnt;
 	WinResource *wr;
 
 	/* get a list of all resources at this level */
-	wr = list_resources (fi, base, &rescnt);
+	wr = list_resources (fi, base, &rescnt, &err);
 	if (wr == NULL)
-		return;
+		return err;
 
 	/* process each resource listed */
 	for (c = 0 ; c < rescnt ; c++) {
@@ -95,9 +97,11 @@ do_resources_recurs (WinLibrary *fi, WinResource *base, WinResource *type_wr,
 
 		/* go deeper unless there is something that does NOT match */
 		if (LEVEL_MATCHES(type) && LEVEL_MATCHES(name) && LEVEL_MATCHES(lang)) {
-			if (wr->is_directory)
-				do_resources_recurs (fi, wr+c, type_wr, name_wr, lang_wr, type, name, lang, cb);
-			else
+			if (wr->is_directory) {
+				err = do_resources_recurs (fi, wr+c, type_wr, name_wr, lang_wr, type, name, lang, cb);
+				if (err != WRES_ERROR_NONE)
+					return err;
+			} else
 				cb(fi, wr+c, type_wr, name_wr, lang_wr);
 		}
 	}
@@ -105,6 +109,7 @@ do_resources_recurs (WinLibrary *fi, WinResource *base, WinResource *type_wr,
 	/* since we're moving back one level after this, unset the
 	 * WinResource holder used on this level */
 	memset(WINRESOURCE_BY_LEVEL(wr[0].level), 0, sizeof(WinResource));
+	return WRES_ERROR_NONE;
 }
 
 
@@ -253,7 +258,7 @@ decode_ne_resource_id (WinLibrary *fi, WinResource *wr, uint16_t value)
 }
 
 static WinResource *
-list_pe_resources (WinLibrary *fi, Win32ImageResourceDirectory *pe_res, int level, int *count)
+list_pe_resources (WinLibrary *fi, Win32ImageResourceDirectory *pe_res, int level, int *count, wres_error *err)
 {
 	WinResource *wr;
 	int c, rescnt;
@@ -261,7 +266,7 @@ list_pe_resources (WinLibrary *fi, Win32ImageResourceDirectory *pe_res, int leve
 	  = (Win32ImageResourceDirectoryEntry *) (pe_res + 1);
 
 	/* count number of `type' resources */
-	RETURN_IF_BAD_POINTER(fi, NULL, *dirent);
+	RET_NULL_AND_SET_ERR_IF_BAD_POINTER(fi, err, *dirent);
 	rescnt = pe_res->number_of_named_entries + pe_res->number_of_id_entries;
 	*count = rescnt;
 
@@ -270,22 +275,24 @@ list_pe_resources (WinLibrary *fi, Win32ImageResourceDirectory *pe_res, int leve
 
 	/* fill in the WinResource's */
 	for (c = 0 ; c < rescnt ; c++) {
-		RETURN_IF_BAD_POINTER(fi, NULL, dirent[c]);
+		RET_NULL_AND_SET_ERR_IF_BAD_POINTER(fi, err, dirent[c]);
 		wr[c].this = pe_res;
 		wr[c].level = level;
 		wr[c].is_directory = (dirent[c].u2.s.data_is_directory);
 		wr[c].children = fi->first_resource + dirent[c].u2.s.offset_to_directory;
 
 		/* fill in wr->id, wr->numeric_id */
-		if (!decode_pe_resource_id (fi, wr + c, dirent[c].u1.name))
+		if (!decode_pe_resource_id (fi, wr + c, dirent[c].u1.name)) {
+			if (err) *err = WRES_ERROR_PREMATUREEND;
 			return NULL;
+		}
 	}
 
 	return wr;
 }
 
 static WinResource *
-list_ne_name_resources (WinLibrary *fi, WinResource *typeres, int *count)
+list_ne_name_resources (WinLibrary *fi, WinResource *typeres, int *count, wres_error *err)
 {
 	int c, rescnt;
 	WinResource *wr;
@@ -293,7 +300,7 @@ list_ne_name_resources (WinLibrary *fi, WinResource *typeres, int *count)
 	Win16NENameInfo *nameinfo = (Win16NENameInfo *) typeres->children;
 
 	/* count number of `type' resources */
-	RETURN_IF_BAD_POINTER(fi, NULL, typeinfo->count);
+	RET_NULL_AND_SET_ERR_IF_BAD_POINTER(fi, err, typeinfo->count);
 	*count = rescnt = typeinfo->count;
 
 	/* allocate WinResource's */
@@ -301,22 +308,24 @@ list_ne_name_resources (WinLibrary *fi, WinResource *typeres, int *count)
 
 	/* fill in the WinResource's */
 	for (c = 0 ; c < rescnt ; c++) {
-		RETURN_IF_BAD_POINTER(fi, NULL, nameinfo[c]);
+		RET_NULL_AND_SET_ERR_IF_BAD_POINTER(fi, err, nameinfo[c]);
 		wr[c].this = nameinfo+c;
 		wr[c].is_directory = false;
 		wr[c].children = nameinfo+c;
 		wr[c].level = 1;
 
 		/* fill in wr->id, wr->numeric_id */
-		if (!decode_ne_resource_id (fi, wr + c, (nameinfo+c)->id))
+		if (!decode_ne_resource_id (fi, wr + c, (nameinfo+c)->id)) {
+			if (err) *err = WRES_ERROR_PREMATUREEND;
 			return NULL;
+		}
 	}
 
 	return wr;
 }
 
 static WinResource *
-list_ne_type_resources (WinLibrary *fi, int *count)
+list_ne_type_resources(WinLibrary *fi, int *count, wres_error *err)
 {
 	int c, rescnt;
 	WinResource *wr;
@@ -324,14 +333,16 @@ list_ne_type_resources (WinLibrary *fi, int *count)
 
 	/* count number of `type' resources */
 	typeinfo = (Win16NETypeInfo *) fi->first_resource;
-	RETURN_IF_BAD_POINTER(fi, NULL, *typeinfo);
+	RET_NULL_AND_SET_ERR_IF_BAD_POINTER(fi, err, *typeinfo);
+	
 	for (rescnt = 0 ; typeinfo->type_id != 0 ; rescnt++) {
 		if (((char *) NE_TYPEINFO_NEXT(typeinfo))+sizeof(uint16_t) > fi->memory + fi->total_size) {
-		    warn(_("%s: resource table invalid, ignoring remaining entries"), fi->name);
-		    break;
+			if (err) *err = WRES_ERROR_INVALIDRESTABLE;
+		    return NULL;
 		}
+		
 		typeinfo = NE_TYPEINFO_NEXT(typeinfo);
-		RETURN_IF_BAD_POINTER(fi, NULL, *typeinfo);
+		RET_NULL_AND_SET_ERR_IF_BAD_POINTER(fi, err, *typeinfo);
 	}
 	*count = rescnt;
 
@@ -347,8 +358,10 @@ list_ne_type_resources (WinLibrary *fi, int *count)
 		wr[c].level = 0;
 
 		/* fill in wr->id, wr->numeric_id */
-		if (!decode_ne_resource_id (fi, wr + c, typeinfo->type_id))
+		if (!decode_ne_resource_id(fi, wr + c, typeinfo->type_id)) {
+			if (err) *err = WRES_ERROR_PREMATUREEND;
 			return NULL;
+		}
 
 		typeinfo = NE_TYPEINFO_NEXT(typeinfo);
 	}
@@ -361,7 +374,7 @@ list_ne_type_resources (WinLibrary *fi, int *count)
  *   resource level specified by res.
  */
 /*static*/ WinResource *
-list_resources (WinLibrary *fi, WinResource *res, int *count)
+list_resources(WinLibrary *fi, WinResource *res, int *count, wres_error *err)
 {
 	if (res != NULL && !res->is_directory)
 		return NULL;
@@ -370,22 +383,22 @@ list_resources (WinLibrary *fi, WinResource *res, int *count)
 		return list_pe_resources(fi, (Win32ImageResourceDirectory *)
 				 (res == NULL ? fi->first_resource : res->children),
 				 (res == NULL ? 0 : res->level+1),
-				 count);
+				 count, err);
 	} else {
 		return (res == NULL
-				? list_ne_type_resources(fi, count)
-				: list_ne_name_resources(fi, res, count));
+				? list_ne_type_resources(fi, count, err)
+				: list_ne_name_resources(fi, res, count, err));
 	}
 }
 
 
 static WinResource *
-find_with_resource_array(WinLibrary *fi, WinResource *wr, char *id)
+find_with_resource_array(WinLibrary *fi, WinResource *wr, char *id, wres_error *err)
 {
 	int c, rescnt;
 	WinResource *return_wr;
 
-	wr = list_resources(fi, wr, &rescnt);
+	wr = list_resources(fi, wr, &rescnt, err);
 	if (wr == NULL)
 		return NULL;
 
@@ -401,18 +414,21 @@ find_with_resource_array(WinLibrary *fi, WinResource *wr, char *id)
 		}
 	}
 
+	if (err) *err = WRES_ERROR_RESNOTFOUND;
 	return NULL;
 }
 
 WinResource *
-find_resource (WinLibrary *fi, char *type, char *name, char *language, int *level)
+find_resource (WinLibrary *fi, char *type, char *name, char *language, int *level, wres_error *err)
 {
 	WinResource *wr, *old_wr;
 
 	*level = 0;
-	if (type == NULL)
+	if (type == NULL) {
+		if (err) *err = WRES_ERROR_INVALIDPARAM;
 		return NULL;
-	wr = find_with_resource_array(fi, NULL, type);
+	}
+	wr = find_with_resource_array(fi, NULL, type, err);
 	if (wr == NULL || !wr->is_directory)
 		return wr;
 
@@ -420,7 +436,7 @@ find_resource (WinLibrary *fi, char *type, char *name, char *language, int *leve
 	if (name == NULL)
 		return wr;
 	old_wr = wr;
-	wr = find_with_resource_array(fi, old_wr, name);
+	wr = find_with_resource_array(fi, old_wr, name, err);
 	free(old_wr);
 	if (wr == NULL || !wr->is_directory)
 		return wr;
@@ -429,7 +445,7 @@ find_resource (WinLibrary *fi, char *type, char *name, char *language, int *leve
 	if (language == NULL)
 		return wr;
 	old_wr = wr;
-	wr = find_with_resource_array(fi, old_wr, language);
+	wr = find_with_resource_array(fi, old_wr, language, err);
 	free(old_wr);
 	return wr;
 }

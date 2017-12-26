@@ -39,8 +39,8 @@
 #define STRIP_RES_ID_FORMAT(x) (x != NULL && (x[0] == '-' || x[0] == '+') ? ++x : x)
 
 
-static void *extract_group_icon_cursor_resource(WinLibrary *, WinResource *, char *, int *, bool);
-static void *extract_bitmap_resource(WinLibrary *, WinResource *, int *);
+static void *extract_group_icon_cursor_resource(WinLibrary *, WinResource *, char *, int *, bool, wres_error *);
+static void *extract_bitmap_resource(WinLibrary *, WinResource *, int *, wres_error *);
 
 
 /* extract_resource:
@@ -48,7 +48,7 @@ static void *extract_bitmap_resource(WinLibrary *, WinResource *, int *);
  */
 void *
 extract_resource (WinLibrary *fi, WinResource *wr, int *size,
-                  bool *free_it, char *type, char *lang, bool raw)
+                  bool *free_it, char *type, char *lang, bool raw, wres_error *err)
 {
 	char *str;
 	int32_t intval;
@@ -56,8 +56,10 @@ extract_resource (WinLibrary *fi, WinResource *wr, int *size,
 	/* just return pointer to data if raw */
 	if (raw) {
 		*free_it = false;
-		/* get_resource_entry will print possible error */
-		return get_resource_entry(fi, wr, size);
+		void *res = get_resource_entry(fi, wr, size);
+		if (!res)
+			if (err) *err = WRES_ERROR_PREMATUREEND;
+		return res;
 	}
 
 	/* find out how to extract */
@@ -65,23 +67,26 @@ extract_resource (WinLibrary *fi, WinResource *wr, int *size,
 	if (str != NULL && parse_int32(STRIP_RES_ID_FORMAT(str), &intval)) {
 		if (intval == (int) RT_BITMAP) {
 			*free_it = true;
-			return extract_bitmap_resource(fi, wr, size);
+			return extract_bitmap_resource(fi, wr, size, err);
 		}
 		if (intval == (int) RT_GROUP_ICON) {
 			*free_it = true;
-			return extract_group_icon_cursor_resource(fi, wr, lang, size, true);
+			return extract_group_icon_cursor_resource(fi, wr, lang, size, true, err);
 		}
 		if (intval == (int) RT_GROUP_CURSOR) {
 			*free_it = true;
-			return extract_group_icon_cursor_resource(fi, wr, lang, size, false);
+			return extract_group_icon_cursor_resource(fi, wr, lang, size, false, err);
 		}
 		if (intval == (int) RT_VERSION) {
 			*free_it = false;
-			return get_resource_entry(fi, wr, size); //no conversion for versioninfo
+			void *res =  get_resource_entry(fi, wr, size); //no conversion for versioninfo
+			if (!res)
+				if (err) *err = WRES_ERROR_PREMATUREEND;
+			return res;
 		}
 	}
 
-	warn(_("%s: don't know how to extract resource, try `--raw'"), fi->name);
+	if (err) *err = WRES_ERROR_UNSUPPRESTYPE;
 	return NULL;
 }
 
@@ -99,7 +104,7 @@ extract_resource (WinLibrary *fi, WinResource *wr, int *size,
  */
 static void *
 extract_group_icon_cursor_resource(WinLibrary *fi, WinResource *wr, char *lang,
-                                   int *ressize, bool is_icon)
+                                   int *ressize, bool is_icon, wres_error *err)
 {
 	Win32CursorIconDir *icondir;
 	Win32CursorIconFileDir *fileicondir;
@@ -109,12 +114,12 @@ extract_group_icon_cursor_resource(WinLibrary *fi, WinResource *wr, char *lang,
 	/* get resource data and size */
 	icondir = (Win32CursorIconDir *) get_resource_entry(fi, wr, &size);
 	if (icondir == NULL) {
-		/* get_resource_entry will print error */
+		if (err) *err = WRES_ERROR_PREMATUREEND;
 		return NULL;
 	}
 
 	/* calculate total size of output file */
-	RETURN_IF_BAD_POINTER(fi, NULL, icondir->count);
+	RET_NULL_AND_SET_ERR_IF_BAD_POINTER(fi, err, icondir->count);
 	skipped = 0;
 	for (c = 0 ; c < icondir->count ; c++) {
 		int level;
@@ -122,7 +127,7 @@ extract_group_icon_cursor_resource(WinLibrary *fi, WinResource *wr, char *lang,
 		char name[14];
 		WinResource *fwr;
 
-		RETURN_IF_BAD_POINTER(fi, NULL, icondir->entries[c]);
+		RET_NULL_AND_SET_ERR_IF_BAD_POINTER(fi, err, icondir->entries[c]);
 		/*printf("%d. bytes_in_res=%d width=%d height=%d planes=%d bit_count=%d\n", c,
 			icondir->entries[c].bytes_in_res,
 			(is_icon ? icondir->entries[c].res_info.icon.width : icondir->entries[c].res_info.cursor.width),
@@ -132,14 +137,11 @@ extract_group_icon_cursor_resource(WinLibrary *fi, WinResource *wr, char *lang,
       
 		/* find the corresponding icon resource */
 		snprintf(name, sizeof(name)/sizeof(char), "-%d", icondir->entries[c].res_id);
-		fwr = find_resource(fi, (is_icon ? "-3" : "-1"), name, "", &level);
+		fwr = find_resource(fi, (is_icon ? "-3" : "-1"), name, "", &level, err);
 		//The empty string tells find_resource to ignore the value of the language id. Some EXEs have GROUP_ICONS
 		//with a different language ID than the ICONs themselves.
-		if (fwr == NULL) {
-			warn(_("%s: could not find `%s' in `%s' resource."),
-			 	fi->name, &name[1], (is_icon ? "group_icon" : "group_cursor"));
+		if (fwr == NULL)
 			return NULL;
-		}
 
 		if (get_resource_entry(fi, fwr, &iconsize) != NULL) {
 			if (iconsize == 0) {
@@ -183,17 +185,14 @@ extract_group_icon_cursor_resource(WinLibrary *fi, WinResource *wr, char *lang,
   
 		/* find the corresponding icon resource */
 		snprintf(name, sizeof(name)/sizeof(char), "-%d", icondir->entries[c].res_id);
-		fwr = find_resource(fi, (is_icon ? "-3" : "-1"), name, "", &level);
-		if (fwr == NULL) {
-			warn(_("%s: could not find `%s' in `%s' resource."),
-			 	fi->name, &name[1], (is_icon ? "group_icon" : "group_cursor"));
+		fwr = find_resource(fi, (is_icon ? "-3" : "-1"), name, "", &level, err);
+		if (fwr == NULL)
 			return NULL;
-		}
 
 		/* get data and size of that resource */
 		data = get_resource_entry(fi, fwr, &size);
 		if (data == NULL) {
-			/* get_resource_entry has printed error */
+			if (err) *err = WRES_ERROR_PREMATUREEND;
 			return NULL;
 		}
 		if (size == 0) {
@@ -254,7 +253,7 @@ extract_group_icon_cursor_resource(WinLibrary *fi, WinResource *wr, char *lang,
  *   the returned memory block will be placed.
  */
 static void *
-extract_bitmap_resource(WinLibrary *fi, WinResource *wr, int *ressize)
+extract_bitmap_resource(WinLibrary *fi, WinResource *wr, int *ressize, wres_error *err)
 {
     Win32BitmapInfoHeader info;
     uint8_t *result;
@@ -263,6 +262,10 @@ extract_bitmap_resource(WinLibrary *fi, WinResource *wr, int *ressize)
     int size;
 
     resentry=(uint8_t *)(get_resource_entry(fi,wr,&size));
+    if (!resentry) {
+		if (err) *err = WRES_ERROR_PREMATUREEND;
+		return NULL;
+    }
 
     /* Bitmap file consists of:
      * 1) File header (14 bytes)

@@ -80,6 +80,9 @@ const char *wres_strerr(wres_error err)
 		"no resource directory found", /* WRES_ERROR_NORESDIR */
 		"corrupt file, premature end", /* WRES_ERROR_PREMATUREEND */
 		"no resources found", /* WRES_ERROR_NORESOURCES */
+		"invalid resource table", /* WRES_ERROR_INVALIDRESTABLE */
+		"invalid function argument", /* WRES_ERROR_INVALIDPARAM */
+		"unsupported resource type", /* WRES_ERROR_UNSUPPRESTYPE */
 	};
 	return errors[err];
 }

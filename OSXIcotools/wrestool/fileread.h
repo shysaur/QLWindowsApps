@@ -38,6 +38,19 @@
 		return (r); \
 	}
 
+#define RET_NULL_AND_SET_ERR_IF_BAD_POINTER(fi, err, x) \
+	IF_BAD_POINTER(fi, x) { \
+		/*printf("bad_pointer in %s:%d\n", __FILE__, __LINE__);*/ \
+		if (err) *(err) = WRES_ERROR_PREMATUREEND; \
+		return NULL; \
+	}
+#define RET_NULL_AND_SET_ERR_IF_BAD_OFFSET(fi, err, x, s) \
+	IF_BAD_OFFSET(fi, x, s) { \
+		/*printf("bad_offset in %s:%d\n", __FILE__, __LINE__);*/ \
+		if (err) *(err) = WRES_ERROR_PREMATUREEND; \
+		return NULL; \
+	}
+
 wres_error load_library(WinLibrary *);
 void unload_library(WinLibrary *);
 bool check_offset(char *, off_t, char *, void *, off_t);

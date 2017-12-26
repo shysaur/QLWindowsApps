@@ -23,7 +23,7 @@
 #include "wrestool.h"
 
 
-void *extract_resource(WinLibrary *, WinResource *, int *, bool *, char *, char *, bool);
+void *extract_resource(WinLibrary *, WinResource *, int *, bool *, char *, char *, bool, wres_error *);
 
 
 #endif /* extract_h */

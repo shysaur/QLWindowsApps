@@ -38,17 +38,13 @@ get_resource_data (WinLibrary *fi, char *type, char *name, char *lang, wres_erro
   if (name == NULL) name = "";
   if (lang == NULL) lang = "";
   
-  wr = find_resource(fi, type, name, lang, &level);
-  if (wr == NULL) {
-    if (err) *err = WRES_ERROR_UNKNOWN;
+  wr = find_resource(fi, type, name, lang, &level, err);
+  if (!wr)
     return NULL;
-  }
   
-  memory = extract_resource(fi, wr, &size, &free_it, type, lang, false);
-  if (memory == NULL) {
-    if (err) *err = WRES_ERROR_RESNOTFOUND;
+  memory = extract_resource(fi, wr, &size, &free_it, type, lang, false, err);
+  if (!memory)
     return NULL;
-  }
   
   if (free_it) {
     icoData = [[NSData alloc] initWithBytesNoCopy:memory length:size freeWhenDone:YES];
