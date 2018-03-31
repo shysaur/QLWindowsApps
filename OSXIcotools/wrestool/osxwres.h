@@ -24,6 +24,11 @@
 #include "restable.h"
 #include "fileread.h"
 
+
+extern NSString const *EIIcotoolsErrorDomain;
+
+
 NSData *get_resource_data (WinLibrary *, char *, char *, char *, wres_error *);
+NSError *nserror_from_wreserror(wres_error err);
 
 #endif

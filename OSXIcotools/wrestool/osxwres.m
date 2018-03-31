@@ -24,8 +24,10 @@
 #include "extract.h"
 
 
-NSData *
-get_resource_data (WinLibrary *fi, char *type, char *name, char *lang, wres_error *err)
+NSString *EIIcotoolsErrorDomain = @"EIErrorDomain";
+
+
+NSData *get_resource_data(WinLibrary *fi, char *type, char *name, char *lang, wres_error *err)
 {
   int level;
   int size;
@@ -54,5 +56,14 @@ get_resource_data (WinLibrary *fi, char *type, char *name, char *lang, wres_erro
   return icoData;
 }
 
+
+NSError *nserror_from_wreserror(wres_error err)
+{
+  if (err >= WRES_ERROR_ERRNO_FIRST && WRES_ERROR_ERRNO_LAST >= err) {
+    return [NSError errorWithDomain:NSPOSIXErrorDomain code:-err userInfo:nil];
+  }
+  NSString *desc = [NSString stringWithUTF8String:wres_strerr(err)];
+  return [NSError errorWithDomain:EIIcotoolsErrorDomain code:err userInfo:@{NSDebugDescriptionErrorKey: desc}];
+}
 
 

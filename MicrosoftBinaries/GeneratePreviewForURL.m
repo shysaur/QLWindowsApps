@@ -157,7 +157,7 @@ void QWAGeneratePreviewForURL(QLPreviewRequestRef preview, NSURL *url, CFStringR
   NSMutableDictionary *elem;
   NSString *icon;
   
-  exeFile = [[EIExeFile alloc] initWithExeFileURL:url];
+  exeFile = [[EIExeFile alloc] initWithExeFileURL:url error:nil];
   if (!exeFile) return;
   if (QLPreviewRequestIsCancelled(preview)) return;
   

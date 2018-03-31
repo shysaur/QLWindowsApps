@@ -30,7 +30,7 @@
   NSURL *url;
 }
 
-- (instancetype)initWithExeFileURL:(NSURL *)exeFile;
+- (instancetype)initWithExeFileURL:(NSURL *)exeFile error:(NSError **)err;
 - (void)dealloc;
 
 - (NSImage *)icon;

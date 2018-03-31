@@ -33,14 +33,16 @@
 @implementation EIExeFile
 
 
-- (instancetype)initWithExeFileURL:(NSURL *)exeFile {
+- (instancetype)initWithExeFileURL:(NSURL *)exeFile  error:(NSError **)oerr
+{
   self = [super init];
   if (!self) return nil;
   
   wres_error err;
   fl = new_winlibrary_from_file([exeFile fileSystemRepresentation], &err);
   if (!fl) {
-    [self logError:err];
+    if (oerr)
+      *oerr = nserror_from_wreserror(err);
     return nil;
   }
   

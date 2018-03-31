@@ -27,12 +27,15 @@
 
 - (void)setImageFromExe:(NSURL *)exefile {
   NSImage *icoImage;
+  NSError *err;
   
-  exf = [[EIExeFile alloc] initWithExeFileURL:exefile];
+  exf = [[EIExeFile alloc] initWithExeFileURL:exefile error:&err];
   
   if (exf) {
     icoImage = [exf icon];
     [self setImage:icoImage];
+  } else {
+    [[self window] presentError:err];
   }
   
   [self sendAction:[self action] to:[self target]];

@@ -67,7 +67,7 @@ void QWAGenerateThumbnailForURL(QLThumbnailRequestRef thumbnail,
     }
   }
   
-  exeFile = [[EIExeFile alloc] initWithExeFileURL:url];
+  exeFile = [[EIExeFile alloc] initWithExeFileURL:url error:nil];
   if (!exeFile) return;
   if (QLThumbnailRequestIsCancelled(thumbnail)) return;
   

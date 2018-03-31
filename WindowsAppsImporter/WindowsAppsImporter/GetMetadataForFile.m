@@ -31,7 +31,7 @@ BOOL EIMetadataForFile(NSURL *url, NSMutableDictionary *attr)
       @"com_danielecattaneo_windowsappsimporter_productname"]];
   });
 
-  EIExeFile *f = [[EIExeFile alloc] initWithExeFileURL:url];
+  EIExeFile *f = [[EIExeFile alloc] initWithExeFileURL:url error:nil];
   if (!f)
     return NO;
   EIVersionInfo *vir = [f versionInfo];
