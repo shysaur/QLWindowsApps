@@ -19,7 +19,27 @@
 #import <Foundation/Foundation.h>
 
 
+/* Undocumented thumbnail properties
+ * Credit to @Marginal */
+extern const CFStringRef kQLThumbnailPropertyIconFlavorKey;
+typedef NS_ENUM(NSInteger, QLThumbnailIconFlavor)
+{
+    kQLThumbnailIconPlainFlavor     = 0,
+    kQLThumbnailIconShadowFlavor    = 1,
+    kQLThumbnailIconBookFlavor      = 2,
+    kQLThumbnailIconMovieFlavor     = 3,
+    kQLThumbnailIconAddressFlavor   = 4,
+    kQLThumbnailIconImageFlavor     = 5,
+    kQLThumbnailIconGlossFlavor     = 6,
+    kQLThumbnailIconSlideFlavor     = 7,
+    kQLThumbnailIconSquareFlavor    = 8,
+    kQLThumbnailIconBorderFlavor    = 9,
+    // = 10,
+    kQLThumbnailIconCalendarFlavor  = 11,
+    kQLThumbnailIconPatternFlavor   = 12,
+};
+
+
 NSUserDefaults *QWAUserDefaults(void);
-void QWAChangeIcon(NSURL *url, NSImage *icon);
 
 

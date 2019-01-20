@@ -41,11 +41,6 @@ BOOL QWAIsFileOnNetworkDrive(NSURL *url) {
 }
 
 
-BOOL QWAIsIconChangeEnabled(void) {
-  return ![QWAUserDefaults() boolForKey:@"DisableIconChange"];
-}
-
-
 void QWAGenerateThumbnailForURL(QLThumbnailRequestRef thumbnail,
   NSURL *url, CFStringRef contentTypeUTI, CGSize maxSize) {
   NSNumber *fsize;
@@ -79,9 +74,10 @@ void QWAGenerateThumbnailForURL(QLThumbnailRequestRef thumbnail,
   rect.origin = NSZeroPoint;
   rect.size = NSSizeFromCGSize(maxSize);
   qlres = [icon CGImageForProposedRect:&rect context:nil hints:nil];
-  QLThumbnailRequestSetImage(thumbnail, qlres, NULL);
   
-  QWAChangeIcon(url, icon);
+  CFDictionaryRef properties = (__bridge CFDictionaryRef)@{
+    (__bridge NSString *)kQLThumbnailPropertyIconFlavorKey: @(kQLThumbnailIconPlainFlavor)};
+  QLThumbnailRequestSetImage(thumbnail, qlres, properties);
 }
 
 
