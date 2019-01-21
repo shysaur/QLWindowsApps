@@ -152,13 +152,16 @@ static wres_error load_ne_library(WinLibrary *fi)
 
 	RETURN_IF_BAD_POINTER(fi, WRES_ERROR_PREMATUREEND, header->rsrctab);
 	RETURN_IF_BAD_POINTER(fi, WRES_ERROR_PREMATUREEND, header->restab);
-	if (header->rsrctab >= header->restab)
-		return WRES_ERROR_NORESDIR;
-	
 	fi->binary_type = NE_BINARY;
-	alignshift = (uint16_t *) ((uint8_t *) NE_HEADER(fi->memory) + header->rsrctab);
-	fi->first_resource = ((uint8_t *) alignshift) + sizeof(uint16_t);
-	RETURN_IF_BAD_POINTER(fi, WRES_ERROR_PREMATUREEND, *(Win16NETypeInfo *) fi->first_resource);
+	
+	if (!(header->rsrctab >= header->restab)) {
+		alignshift = (uint16_t *) ((uint8_t *) NE_HEADER(fi->memory) + header->rsrctab);
+		fi->first_resource = ((uint8_t *) alignshift) + sizeof(uint16_t);
+		RETURN_IF_BAD_POINTER(fi, WRES_ERROR_PREMATUREEND, *(Win16NETypeInfo *) fi->first_resource);
+	} else {
+		/* no resources */
+		fi->first_resource = NULL;
+	}
 
 	return WRES_ERROR_NONE;
 }
@@ -202,46 +205,46 @@ static wres_error load_pe_library(WinLibrary *fi)
 		dir = pe_header->optional_header.data_directory + IMAGE_DIRECTORY_ENTRY_RESOURCE;
 	}
 	
-	if (dir->size == 0) {
-		err = WRES_ERROR_NORESOURCES;
-		goto fail;
-	}
-	
-	/* we don't need to do OFFSET checking for the sections.
-	 * calc_vma_size has already done that */
-	for (int d = pe_header->file_header.number_of_sections - 1; d >= 0 ; d--) {
-		Win32ImageSectionHeader *pe_sec = PE_SECTIONS(fi->memory) + d;
-		
-		if (pe_sec->characteristics & IMAGE_SCN_CNT_UNINITIALIZED_DATA)
-			continue;
-		
-		/* do not load sections we are not interested in */
-		if ((pe_sec->virtual_address < dir->virtual_address &&
-			pe_sec->virtual_address + pe_sec->size_of_raw_data <= dir->virtual_address) ||
-			(pe_sec->virtual_address >= dir->virtual_address + dir->size))
-			continue;
-		
-		void *dest = fi_new.memory + pe_sec->virtual_address;
-		off_t size = pe_sec->size_of_raw_data;
-		off_t offset = pe_sec->pointer_to_raw_data;
-		
-		IF_BAD_OFFSET(&fi_new, dest, size)
-			goto fail;
-		IF_BAD_OFFSET(fi, fi->memory + offset, size)
-			goto fail;
-		
-		void *res = mmap(dest, size,
-			PROT_READ, MAP_FILE | MAP_FIXED | MAP_PRIVATE,
-			fileno(fi_new.file), offset);
-		if (res == MAP_FAILED) {
-			/* As in PE files there is no requirement for sections in the file
-			 * to be aligned in the same way as they are required to be aligned
-			 * in memory, this code path will be hit very frequently */
-			memcpy(dest, fi->memory + offset, size);
+	if (dir->size > 0) {
+		/* we don't need to do OFFSET checking for the sections.
+		 * calc_vma_size has already done that */
+		for (int d = pe_header->file_header.number_of_sections - 1; d >= 0 ; d--) {
+			Win32ImageSectionHeader *pe_sec = PE_SECTIONS(fi->memory) + d;
+			
+			if (pe_sec->characteristics & IMAGE_SCN_CNT_UNINITIALIZED_DATA)
+				continue;
+			
+			/* do not load sections we are not interested in */
+			if ((pe_sec->virtual_address < dir->virtual_address &&
+				pe_sec->virtual_address + pe_sec->size_of_raw_data <= dir->virtual_address) ||
+				(pe_sec->virtual_address >= dir->virtual_address + dir->size))
+				continue;
+			
+			void *dest = fi_new.memory + pe_sec->virtual_address;
+			off_t size = pe_sec->size_of_raw_data;
+			off_t offset = pe_sec->pointer_to_raw_data;
+			
+			IF_BAD_OFFSET(&fi_new, dest, size)
+				goto fail;
+			IF_BAD_OFFSET(fi, fi->memory + offset, size)
+				goto fail;
+			
+			void *res = mmap(dest, size,
+				PROT_READ, MAP_FILE | MAP_FIXED | MAP_PRIVATE,
+				fileno(fi_new.file), offset);
+			if (res == MAP_FAILED) {
+				/* As in PE files there is no requirement for sections in the file
+				 * to be aligned in the same way as they are required to be aligned
+				 * in memory, this code path will be hit very frequently */
+				memcpy(dest, fi->memory + offset, size);
+			}
 		}
-	}
 
-	fi_new.first_resource = ((uint8_t *)fi_new.memory) + dir->virtual_address;
+		fi_new.first_resource = ((uint8_t *)fi_new.memory) + dir->virtual_address;
+	} else {
+		/* no resources */
+		fi_new.first_resource = NULL;
+	}
 	
 	munmap(fi->memory, fi->total_size);
 	*fi = fi_new;

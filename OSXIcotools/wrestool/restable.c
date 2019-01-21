@@ -210,6 +210,11 @@ decode_pe_resource_id (WinLibrary *fi, WinResource *wr, uint32_t value)
 void *
 get_resource_entry (WinLibrary *fi, WinResource *wr, int *size, wres_error *err)
 {
+	if (fi->first_resource == NULL) {
+		if (err) *err = WRES_ERROR_NORESOURCES;
+		return NULL;
+	}
+	
 	if (fi->binary_type == PE_BINARY || fi->binary_type == PEPLUS_BINARY) {
 		Win32ImageResourceDataEntry *dataent;
 
@@ -375,8 +380,14 @@ list_ne_type_resources(WinLibrary *fi, int *count, wres_error *err)
 /*static*/ WinResource *
 list_resources(WinLibrary *fi, WinResource *res, int *count, wres_error *err)
 {
-	if (res != NULL && !res->is_directory)
+	if (res != NULL && !res->is_directory) {
+		if (err) *err = WRES_ERROR_INVALIDPARAM;
 		return NULL;
+	}
+	if (fi->first_resource == NULL) {
+		if (err) *err = WRES_ERROR_NORESOURCES;
+		return NULL;
+	}
 
 	if (fi->binary_type == PE_BINARY || fi->binary_type == PEPLUS_BINARY) {
 		return list_pe_resources(fi, (Win32ImageResourceDirectory *)

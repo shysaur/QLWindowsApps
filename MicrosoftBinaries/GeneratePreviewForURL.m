@@ -72,7 +72,8 @@ NSString *QWAGetTemplate(void) {
 }
 
 
-NSString *QWAHTMLVersionInfoForExeFile(EIExeFile *exeFile) {
+NSString *QWAHTMLVersionInfoForExeFile(EIExeFile *exeFile)
+{
   NSMutableString *html;
   EIVersionInfo *vir;
   NSString* queryHeader;
@@ -83,6 +84,7 @@ NSString *QWAHTMLVersionInfoForExeFile(EIExeFile *exeFile) {
   mbundle = [NSBundle bundleWithIdentifier:@"com.danielecattaneo.qlgenerator.qlwindowsapps"];
   html = [@"<tbody>" mutableCopy];
   vir = [exeFile versionInfo];
+  if (!vir) return @"";
   
   queryHeader = @"\\StringFileInfo\\*";
   resSrch = [vir querySubNodesUnder:queryHeader error:NULL];
