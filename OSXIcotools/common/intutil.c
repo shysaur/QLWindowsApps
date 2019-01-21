@@ -186,8 +186,8 @@ parse_uint8(const char *instr, uint8_t *outint)
 	uint8_t value = 0;
 
 	for (; *instr != '\0'; instr++) {
-		int8_t c = *instr - '0';
-		if (c < 0 || c > 9)
+		uint8_t c = *instr - '0';
+		if (c > 9)
 			return false;
 		if (value > UINT8_MAX/10 || (value == UINT8_MAX/10 && c > UINT8_MAX%10))
 			return false;
@@ -204,8 +204,8 @@ parse_uint16(const char *instr, uint16_t *outint)
 	uint16_t value = 0;
 
 	for (; *instr != '\0'; instr++) {
-		int8_t c = *instr - '0';
-		if (c < 0 || c > 9)
+		uint8_t c = *instr - '0';
+		if (c > 9)
 			return false;
 		if (value > UINT16_MAX/10 || (value == UINT16_MAX/10 && c > UINT16_MAX%10))
 			return false;
@@ -222,8 +222,8 @@ parse_uint32(const char *instr, uint32_t *outint)
 	uint32_t value = 0;
 
 	for (; *instr != '\0'; instr++) {
-		int8_t c = *instr - '0';
-		if (c < 0 || c > 9)
+		uint8_t c = *instr - '0';
+		if (c > 9)
 			return false;
 		if (value > UINT32_MAX/10L || (value == UINT32_MAX/10L && c > UINT32_MAX%10))
 			return false;
@@ -240,8 +240,8 @@ parse_uint64(const char *instr, uint64_t *outint)
 	uint64_t value = 0;
 
 	for (; *instr != '\0'; instr++) {
-		int8_t c = *instr - '0';
-		if (c < 0 || c > 9)
+		uint8_t c = *instr - '0';
+		if (c > 9)
 			return false;
 		if (value > UINT64_MAX/10LL || (value == UINT64_MAX/10LL && c > UINT64_MAX%10LL))
 			return false;

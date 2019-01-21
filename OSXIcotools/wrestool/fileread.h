@@ -22,10 +22,15 @@
 #include <stdbool.h>		/* POSIX/Gnulib */
 #include "wrestool.h"
 
+#define BAD_POINTER(fi, x) \
+	(!check_offset((fi)->memory, (fi)->total_size, (fi)->name, &(x), sizeof(x)))
+#define BAD_OFFSET(fi, x, s) \
+	(!check_offset((fi)->memory, (fi)->total_size, (fi)->name, (x), (s)))
+
 #define IF_BAD_POINTER(fi, x) \
-	if (!check_offset((fi)->memory, (fi)->total_size, (fi)->name, &(x), sizeof(x)))
+	if (BAD_POINTER(fi, x))
 #define IF_BAD_OFFSET(fi, x, s) \
-	if (!check_offset((fi)->memory, (fi)->total_size, (fi)->name, x, s))
+	if (BAD_OFFSET(fi, x, s))
 
 #define RETURN_IF_BAD_POINTER(fi, r, x) \
 	IF_BAD_POINTER(fi, x) { \
@@ -53,6 +58,6 @@
 
 wres_error load_library(WinLibrary *);
 void unload_library(WinLibrary *);
-bool check_offset(char *, off_t, char *, void *, off_t);
+bool check_offset(const char *, size_t, const char *, const void *, size_t);
 
 #endif

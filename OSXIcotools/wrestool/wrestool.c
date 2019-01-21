@@ -83,6 +83,7 @@ const char *wres_strerr(wres_error err)
 		"invalid resource table", /* WRES_ERROR_INVALIDRESTABLE */
 		"invalid function argument", /* WRES_ERROR_INVALIDPARAM */
 		"unsupported resource type", /* WRES_ERROR_UNSUPPRESTYPE */
+		"invalid section layout", /* WRES_ERROR_INVALIDSECLAYOUT */
 	};
 	return errors[err];
 }

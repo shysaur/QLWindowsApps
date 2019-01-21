@@ -36,24 +36,42 @@ static wres_error load_ne_library(WinLibrary *);
 static wres_error load_pe_library(WinLibrary *);
 
 
+/* Check whether access to a PE_SECTIONS is allowed */
+#define BAD_PE_SECTIONS(fi, module) ( 											 \
+    BAD_POINTER(fi, PE_HEADER(module)->optional_header) || 						 \
+    BAD_POINTER(fi, PE_HEADER(module)->file_header.number_of_sections) || 		 \
+	BAD_OFFSET(fi, ((void*)PE_SECTIONS(module)), sizeof(Win32ImageSectionHeader) \
+            * PE_HEADER(module)->file_header.number_of_sections))
+
+#define RETURN_IF_BAD_PE_SECTIONS(fi, ret, module) do { \
+    	if (BAD_PE_SECTIONS(fi, module)) { 			    \
+    		return (ret); 								\
+		} 												\
+	} while(0)
+
+
 /* check_offset:
  *   Check if a chunk of data (determined by offset and size)
  *   is within the bounds of the WinLibrary file.
  *   Usually not called directly.
  */
 bool
-check_offset(char *memory, off_t total_size, char *name, void *offset, off_t size)
+check_offset(const char *memory, size_t total_size, const char *name, const void *offset, size_t size)
 {
-	off_t need_size = (off_t) ((char *) offset - memory + size);
+	const char* memory_end = memory + total_size;
+	const char* block = (const char*) offset;
+	const char* block_end = block + size;
 
 	/*debug("check_offset: size=%x vs %x offset=%x size=%x\n",
 		need_size, total_size, (char *) offset - memory, size);*/
 
-	if (need_size < 0 || need_size > total_size)
+	if (((memory > memory_end) || (block > block_end))
+		|| (block < memory) || (block >= memory_end) || (block_end > memory_end))
 		return false;
 
 	return true;
 }
+
 
 
 /* load_library:
@@ -88,6 +106,7 @@ wres_error load_library(WinLibrary *fi)
 		/* falls through */
 	}
 
+	RETURN_IF_BAD_OFFSET(fi, WRES_ERROR_WRONGFORMAT, MZ_HEADER(fi->memory), sizeof(Win32ImageNTHeaders));
 	/* check for OS2/Win16 header signature `NE' */
 	RETURN_IF_BAD_POINTER(fi, WRES_ERROR_WRONGFORMAT, NE_HEADER(fi->memory)->magic);
 	if (NE_HEADER(fi->memory)->magic == IMAGE_OS2_SIGNATURE) {
@@ -113,7 +132,7 @@ static off_t
 calc_vma_size (WinLibrary *fi)
 {
     Win32ImageSectionHeader *seg;
-    int c, segcount, size;
+    size_t c, segcount, size;
 
     size = 0;
     RETURN_IF_BAD_POINTER(fi, -1, PE_HEADER(fi->memory)->file_header.number_of_sections);
@@ -126,6 +145,7 @@ calc_vma_size (WinLibrary *fi)
     if (segcount == 0)
     	return fi->total_size;
 
+	RETURN_IF_BAD_PE_SECTIONS(fi, -1, fi->memory);
     seg = PE_SECTIONS(fi->memory);
     RETURN_IF_BAD_POINTER(fi, -1, *seg);
 	
@@ -173,7 +193,7 @@ static wres_error load_pe_library(WinLibrary *fi)
 	
 	/* allocate new memory */
 	fi_new.total_size = calc_vma_size(fi);
-	if (fi_new.total_size == 0) /* calc_vma_size has reported error */
+	if (fi_new.total_size <= 0) /* calc_vma_size has reported error */
 		return WRES_ERROR_WRONGFORMAT;
 
 	fi_new.memory = mmap(NULL, fi_new.total_size, PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0);
@@ -184,45 +204,58 @@ static wres_error load_pe_library(WinLibrary *fi)
 	
 	/* relocate memory, start from last section */
 	Win32ImageNTHeaders *pe_header = PE_HEADER(fi->memory);
-	IF_BAD_POINTER(fi, pe_header->file_header.number_of_sections)
+	if (BAD_PE_SECTIONS(fi, fi->memory))
 		goto fail;
 	PE32plusImageNTHeaders *peplus_header = (PE32plusImageNTHeaders*)pe_header;
+	IF_BAD_POINTER(fi, pe_header->optional_header.magic)
+		goto fail;
 	
 	Win32ImageDataDirectory *dir;
-	if (pe_header->optional_header.magic == 0x20B) {  /* PE32+ */
+	if (pe_header->optional_header.magic == OPTIONAL_MAGIC_PE32_64) {  /* PE32+ */
 		/* find resource directory */
 		fi_new.binary_type = PEPLUS_BINARY;
 		IF_BAD_POINTER(fi, peplus_header->optional_header.data_directory[IMAGE_DIRECTORY_ENTRY_RESOURCE])
 			goto fail;
 		
 		dir = peplus_header->optional_header.data_directory + IMAGE_DIRECTORY_ENTRY_RESOURCE;
-	} else {  /* PE32 */
+	} else if (pe_header->optional_header.magic == OPTIONAL_MAGIC_PE32) {  /* PE32 */
 		/* find resource directory */
 		fi_new.binary_type = PE_BINARY;
 		IF_BAD_POINTER(fi, pe_header->optional_header.data_directory[IMAGE_DIRECTORY_ENTRY_RESOURCE])
 			goto fail;
 		
 		dir = pe_header->optional_header.data_directory + IMAGE_DIRECTORY_ENTRY_RESOURCE;
+	} else {
+		err = WRES_ERROR_WRONGFORMAT;
+		goto fail;
 	}
 	
 	if (dir->size > 0) {
+		Win32ImageSectionHeader *pe_sections = PE_SECTIONS(fi->memory);
 		/* we don't need to do OFFSET checking for the sections.
 		 * calc_vma_size has already done that */
 		for (int d = pe_header->file_header.number_of_sections - 1; d >= 0 ; d--) {
-			Win32ImageSectionHeader *pe_sec = PE_SECTIONS(fi->memory) + d;
+			Win32ImageSectionHeader *pe_sec = pe_sections + d;
+			
+			void *dest = fi_new.memory + pe_sec->virtual_address;
+			off_t size = pe_sec->size_of_raw_data;
+			off_t offset = pe_sec->pointer_to_raw_data;
 			
 			if (pe_sec->characteristics & IMAGE_SCN_CNT_UNINITIALIZED_DATA)
 				continue;
+			
+			/* Protect against memory moves overwriting the section table */
+            if ((uint8_t*)(fi->memory + pe_sec->virtual_address) <
+            	(uint8_t*)(pe_sections + pe_header->file_header.number_of_sections)) {
+                err = WRES_ERROR_INVALIDSECLAYOUT;
+                goto fail;
+            }
 			
 			/* do not load sections we are not interested in */
 			if ((pe_sec->virtual_address < dir->virtual_address &&
 				pe_sec->virtual_address + pe_sec->size_of_raw_data <= dir->virtual_address) ||
 				(pe_sec->virtual_address >= dir->virtual_address + dir->size))
 				continue;
-			
-			void *dest = fi_new.memory + pe_sec->virtual_address;
-			off_t size = pe_sec->size_of_raw_data;
-			off_t offset = pe_sec->pointer_to_raw_data;
 			
 			IF_BAD_OFFSET(&fi_new, dest, size)
 				goto fail;
