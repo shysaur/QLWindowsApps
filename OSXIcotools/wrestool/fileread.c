@@ -97,6 +97,7 @@ wres_error load_library(WinLibrary *fi)
 	/* check for DOS header signature `MZ' */
 	RETURN_IF_BAD_POINTER(fi, WRES_ERROR_WRONGFORMAT, MZ_HEADER(fi->memory)->magic);
 	if (MZ_HEADER(fi->memory)->magic == IMAGE_DOS_SIGNATURE) {
+		RETURN_IF_BAD_POINTER(fi, WRES_ERROR_WRONGFORMAT, *MZ_HEADER(fi->memory));
 		DOSImageHeader *mz_header = MZ_HEADER(fi->memory);
 
 		RETURN_IF_BAD_POINTER(fi, WRES_ERROR_WRONGFORMAT, mz_header->lfanew);
@@ -106,16 +107,17 @@ wres_error load_library(WinLibrary *fi)
 		/* falls through */
 	}
 
-	RETURN_IF_BAD_OFFSET(fi, WRES_ERROR_WRONGFORMAT, MZ_HEADER(fi->memory), sizeof(Win32ImageNTHeaders));
 	/* check for OS2/Win16 header signature `NE' */
 	RETURN_IF_BAD_POINTER(fi, WRES_ERROR_WRONGFORMAT, NE_HEADER(fi->memory)->magic);
 	if (NE_HEADER(fi->memory)->magic == IMAGE_OS2_SIGNATURE) {
+		RETURN_IF_BAD_POINTER(fi, WRES_ERROR_WRONGFORMAT, *NE_HEADER(fi->memory));
 		return load_ne_library(fi);
 	}
 
 	/* check for NT header signature `PE' */
 	RETURN_IF_BAD_POINTER(fi, WRES_ERROR_WRONGFORMAT, PE_HEADER(fi->memory)->signature);
 	if (PE_HEADER(fi->memory)->signature == IMAGE_NT_SIGNATURE) {
+		RETURN_IF_BAD_POINTER(fi, WRES_ERROR_WRONGFORMAT, *PE_HEADER(fi->memory));
 		return load_pe_library(fi);
 	}
 
