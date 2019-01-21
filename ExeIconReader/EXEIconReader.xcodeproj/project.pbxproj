@@ -22,6 +22,7 @@
 		0111E4FB165A6A5900EFA65D /* EIVersionInfoTableDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EIVersionInfoTableDataSource.h; sourceTree = "<group>"; };
 		0111E4FC165A6A5900EFA65D /* EIVersionInfoTableDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EIVersionInfoTableDataSource.m; sourceTree = "<group>"; };
 		012E612319F417CC008ED670 /* libOSXIcotools.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libOSXIcotools.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		0142162421F63DEA0084579E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		0148B4E916594B25006ADF02 /* EIMainWindowDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EIMainWindowDelegate.h; sourceTree = "<group>"; };
 		0148B4EA16594B25006ADF02 /* EIMainWindowDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EIMainWindowDelegate.m; sourceTree = "<group>"; };
 		01ACDCF51642AA8500AFC8C2 /* EIExeIconView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EIExeIconView.h; sourceTree = "<group>"; };
@@ -29,7 +30,6 @@
 		089C165DFE840E0CC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		13E42FB307B3F0F600E4EEF1 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
-		1DDD58150DA1D0A300B32029 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		256AC3D80F4B6AC300CF3369 /* EXEIconReaderAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXEIconReaderAppDelegate.h; sourceTree = "<group>"; };
 		256AC3D90F4B6AC300CF3369 /* EXEIconReaderAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EXEIconReaderAppDelegate.m; sourceTree = "<group>"; };
 		256AC3F00F4B6AF500CF3369 /* EXEIconReader_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXEIconReader_Prefix.pch; sourceTree = "<group>"; };
@@ -174,6 +174,7 @@
 				Japanese,
 				French,
 				German,
+				Base,
 			);
 			mainGroup = 29B97314FDCFA39411CA2CEA /* EXEIconReader */;
 			projectDirPath = "";
@@ -240,7 +241,7 @@
 		1DDD58140DA1D0A300B32029 /* MainMenu.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				1DDD58150DA1D0A300B32029 /* English */,
+				0142162421F63DEA0084579E /* Base */,
 			);
 			name = MainMenu.xib;
 			sourceTree = "<group>";

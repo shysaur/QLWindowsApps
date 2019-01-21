@@ -21,12 +21,12 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		0142162121F63DA40084579E /* schema.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0142162321F63DA40084579E /* schema.strings */; };
 		017A014F1FE915F300F7E866 /* WindowsAppsImporter.mdimporter in CopyFiles */ = {isa = PBXBuildFile; fileRef = 019DD1D61FE5BCE400C9E07B /* WindowsAppsImporter.mdimporter */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		019DD1DB1FE5BCE500C9E07B /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 019DD1DA1FE5BCE500C9E07B /* main.c */; };
 		019DD1DD1FE5BCE500C9E07B /* GetMetadataForFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 019DD1DC1FE5BCE500C9E07B /* GetMetadataForFile.m */; };
 		019DD1EA1FE5C75D00C9E07B /* libOSXIcotools.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 019DD1EB1FE5C75D00C9E07B /* libOSXIcotools.a */; };
 		019DD1ED1FE5D74C00C9E07B /* schema.xml in Resources */ = {isa = PBXBuildFile; fileRef = 019DD1EC1FE5D74C00C9E07B /* schema.xml */; };
-		01D7169E1FE813A4003D90DF /* schema.strings in Resources */ = {isa = PBXBuildFile; fileRef = 01D7169D1FE813A4003D90DF /* schema.strings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -43,13 +43,13 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0142162221F63DA40084579E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/schema.strings; sourceTree = "<group>"; };
 		019DD1D61FE5BCE400C9E07B /* WindowsAppsImporter.mdimporter */ = {isa = PBXFileReference; explicitFileType = "wrapper.spotlight-importer"; includeInIndex = 0; path = WindowsAppsImporter.mdimporter; sourceTree = BUILT_PRODUCTS_DIR; };
 		019DD1DA1FE5BCE500C9E07B /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		019DD1DC1FE5BCE500C9E07B /* GetMetadataForFile.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GetMetadataForFile.m; sourceTree = "<group>"; };
 		019DD1E21FE5BCE500C9E07B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		019DD1EB1FE5C75D00C9E07B /* libOSXIcotools.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libOSXIcotools.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		019DD1EC1FE5D74C00C9E07B /* schema.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = schema.xml; sourceTree = "<group>"; };
-		01D7169D1FE813A4003D90DF /* schema.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = schema.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,7 +98,7 @@
 			isa = PBXGroup;
 			children = (
 				019DD1EC1FE5D74C00C9E07B /* schema.xml */,
-				01D7169D1FE813A4003D90DF /* schema.strings */,
+				0142162321F63DA40084579E /* schema.strings */,
 				019DD1DA1FE5BCE500C9E07B /* main.c */,
 			);
 			name = "Supporting Files";
@@ -176,7 +176,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				019DD1ED1FE5D74C00C9E07B /* schema.xml in Resources */,
-				01D7169E1FE813A4003D90DF /* schema.strings in Resources */,
+				0142162121F63DA40084579E /* schema.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -209,6 +209,17 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		0142162321F63DA40084579E /* schema.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				0142162221F63DA40084579E /* en */,
+			);
+			name = schema.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		017A01491FE915CB00F7E866 /* Debug */ = {
