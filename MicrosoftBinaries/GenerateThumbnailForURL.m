@@ -42,12 +42,10 @@ BOOL QWAIsFileOnNetworkDrive(NSURL *url) {
 
 
 void QWAGenerateThumbnailForURL(QLThumbnailRequestRef thumbnail,
-  NSURL *url, CFStringRef contentTypeUTI, CGSize maxSize) {
+  NSURL *url, CFStringRef contentTypeUTI, CGSize maxSize)
+{
   NSNumber *fsize;
   EIExeFile *exeFile;
-  NSImage *icon;
-  NSRect rect;
-  CGImageRef qlres;
   
   //No icon for DLLs
   if (!UTTypeEqual(contentTypeUTI, (CFStringRef)@"com.microsoft.windows-executable"))
@@ -66,18 +64,13 @@ void QWAGenerateThumbnailForURL(QLThumbnailRequestRef thumbnail,
   if (!exeFile) return;
   if (QLThumbnailRequestIsCancelled(thumbnail)) return;
   
-  icon = [exeFile icon];
-  if (!icon) return;
-  if (![icon isValid]) return;
+  NSData *iconData = [exeFile iconData];
+  if (!iconData) return;
   if (QLThumbnailRequestIsCancelled(thumbnail)) return;
-  
-  rect.origin = NSZeroPoint;
-  rect.size = NSSizeFromCGSize(maxSize);
-  qlres = [icon CGImageForProposedRect:&rect context:nil hints:nil];
   
   CFDictionaryRef properties = (__bridge CFDictionaryRef)@{
     (__bridge NSString *)kQLThumbnailPropertyIconFlavorKey: @(kQLThumbnailIconPlainFlavor)};
-  QLThumbnailRequestSetImage(thumbnail, qlres, properties);
+  QLThumbnailRequestSetImageWithData(thumbnail, (__bridge CFDataRef)iconData, properties);
 }
 
 

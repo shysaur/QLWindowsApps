@@ -61,14 +61,25 @@
 }
 
 
-- (NSImage*)icon {
+- (NSData *)iconData
+{
   wres_error err;
   NSData *icodata = get_resource_data(fl, "14", NULL, NULL, &err);
-    
+  
   if (!icodata) {
     [self logError:err];
     return nil;
   }
+  return icodata;
+}
+
+
+- (NSImage*)icon
+{
+  NSData *icodata = [self iconData];
+  if (!icodata)
+    return nil;
+  
   return [[NSImage alloc] initWithData:icodata];
 }
 

@@ -34,6 +34,7 @@
 - (void)dealloc;
 
 - (NSImage *)icon;
+- (NSData *)iconData;
 - (EIVersionInfo *)versionInfo;
 - (NSURL *)url;
 - (int)bitness;
