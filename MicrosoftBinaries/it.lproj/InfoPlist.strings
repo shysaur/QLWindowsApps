@@ -1,4 +1,0 @@
-﻿/* Localized versions of Info.plist keys */
-
-CFBundleGetInfoString = "QLWindowsApps version 0.9.0, Copyright © 2012 Daniele Cattaneo.";
-NSHumanReadableCopyright = "Copyright © 2012 Daniele Cattaneo.";
