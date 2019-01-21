@@ -23,24 +23,28 @@
 @implementation EIVersionInfoTableDataSource
 
 
-- init {
+- init
+{
   self = [super init];
   list = nil;
   return self;
 }
 
 
-- (NSInteger)numberOfRowsInTableView:(NSTableView *)aTableView {
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)aTableView
+{
   return [list count];
 }
 
 
-- (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex {
+- (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex
+{
   return [list objectAtIndex:rowIndex];
 }
 
 
-- (void)loadFromVersionInfo:(EIVersionInfo*)vir {
+- (void)loadFromVersionInfo:(EIVersionInfo*)vir
+{
   NSArray *resSrch;
   NSString *node, *keyPath, *value;
   
@@ -57,7 +61,8 @@
 }
 
 
-- (void)loadFromEIExeFile:(EIExeFile*)exfile {
+- (void)loadFromEIExeFile:(EIExeFile*)exfile
+{
   [self loadFromVersionInfo:[exfile versionInfo]];
 }
 

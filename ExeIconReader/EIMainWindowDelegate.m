@@ -25,13 +25,15 @@
 @implementation EIMainWindowDelegate
 
 
-- (BOOL)windowShouldClose:(id)sender {
+- (BOOL)windowShouldClose:(id)sender
+{
   [app terminate:self];
   return YES;
 }
 
 
-- (void)takeExeFileValueFrom:(id)sender {
+- (void)takeExeFileValueFrom:(id)sender
+{
   EIVersionInfoTableDataSource *ds;
   EIExeFile *exf;
   NSWorkspace *ws;

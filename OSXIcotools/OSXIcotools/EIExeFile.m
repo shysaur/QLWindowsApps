@@ -84,7 +84,8 @@
 }
 
 
-- (EIVersionInfo *)versionInfo {
+- (EIVersionInfo *)versionInfo
+{
   wres_error err;
   uint32_t sysLocale;
   NSString *localeIdent;
@@ -113,18 +114,21 @@
 }
 
 
-- (NSURL *)url {
+- (NSURL *)url
+{
   return url;
 }
 
 
-- (int)bitness {
+- (int)bitness
+{
   static const int bitnesses[] = {16, 32, 64};
   return bitnesses[fl->binary_type];
 }
 
 
-- (void)dealloc {
+- (void)dealloc
+{
   if (fl)
     free_winlibrary(fl);
 }

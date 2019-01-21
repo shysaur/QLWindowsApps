@@ -48,7 +48,8 @@ NSString *QWAEscapeStringForHtml(NSString *str)
 }
 
 
-NSString *QWAGetTemplate(void) {
+NSString *QWAGetTemplate(void)
+{
   NSBundle *mbundle;
   NSString *csspath;
   
@@ -151,7 +152,8 @@ void QWAReplaceHtmlPlaceholders(NSMutableString *html, NSDictionary *ph)
 }
 
 
-void QWAGeneratePreviewForURL(QLPreviewRequestRef preview, NSURL *url, CFStringRef contentTypeUTI) {
+void QWAGeneratePreviewForURL(QLPreviewRequestRef preview, NSURL *url, CFStringRef contentTypeUTI)
+{
   EIExeFile *exeFile;
   NSMutableString *html;
   NSDictionary *props;
@@ -197,8 +199,8 @@ void QWAGeneratePreviewForURL(QLPreviewRequestRef preview, NSURL *url, CFStringR
    ----------------------------------------------------------------------------- */
 
 OSStatus GeneratePreviewForURL(void *thisInterface, QLPreviewRequestRef preview, 
-  CFURLRef url, CFStringRef contentTypeUTI, CFDictionaryRef options) {
-
+  CFURLRef url, CFStringRef contentTypeUTI, CFDictionaryRef options)
+{
   @autoreleasepool {
     QWAGeneratePreviewForURL(preview, (__bridge NSURL*)url, contentTypeUTI);
   }
@@ -206,7 +208,8 @@ OSStatus GeneratePreviewForURL(void *thisInterface, QLPreviewRequestRef preview,
 }
 
 
-void CancelPreviewGeneration(void* thisInterface, QLPreviewRequestRef preview) {
+void CancelPreviewGeneration(void* thisInterface, QLPreviewRequestRef preview)
+{
   // implement only if supported
 }
 

@@ -22,7 +22,8 @@
 @implementation EXEIconReaderAppDelegate
 
 
-- (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
+- (void)applicationDidFinishLaunching:(NSNotification *)aNotification
+{
 
 }
 

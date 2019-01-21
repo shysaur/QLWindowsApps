@@ -27,7 +27,8 @@
 #define MAX_NETWORK_PREVIEW ((1024*1024*5))
 
 
-BOOL QWAIsFileOnNetworkDrive(NSURL *url) {
+BOOL QWAIsFileOnNetworkDrive(NSURL *url)
+{
   NSURL *volume;
   NSNumber *local;
   
@@ -81,7 +82,8 @@ void QWAGenerateThumbnailForURL(QLThumbnailRequestRef thumbnail,
  ----------------------------------------------------------------------------- */
 
 OSStatus GenerateThumbnailForURL(void *thisInterface, QLThumbnailRequestRef thumbnail,
-  CFURLRef url, CFStringRef contentTypeUTI, CFDictionaryRef options, CGSize maxSize) {
+  CFURLRef url, CFStringRef contentTypeUTI, CFDictionaryRef options, CGSize maxSize)
+{
   
   @autoreleasepool {
     QWAGenerateThumbnailForURL(thumbnail, (__bridge NSURL*)url, contentTypeUTI, maxSize);
@@ -90,6 +92,7 @@ OSStatus GenerateThumbnailForURL(void *thisInterface, QLThumbnailRequestRef thum
 }
 
 
-void CancelThumbnailGeneration(void* thisInterface, QLThumbnailRequestRef thumbnail) {
+void CancelThumbnailGeneration(void* thisInterface, QLThumbnailRequestRef thumbnail)
+{
     // implement only if supported
 }

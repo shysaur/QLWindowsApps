@@ -25,7 +25,8 @@
 @implementation EIExeIconView
 
 
-- (void)setImageFromExe:(NSURL *)exefile {
+- (void)setImageFromExe:(NSURL *)exefile
+{
   NSImage *icoImage;
   NSError *err;
   
@@ -42,12 +43,14 @@
 }
 
 
-- (EIExeFile *)exeFile {
+- (EIExeFile *)exeFile
+{
   return exf;
 }
 
 
-- (NSDragOperation)draggingEntered:(id <NSDraggingInfo>)sender {
+- (NSDragOperation)draggingEntered:(id <NSDraggingInfo>)sender
+{
   if ((NSDragOperationGeneric & [sender draggingSourceOperationMask]) == NSDragOperationGeneric)
     return NSDragOperationCopy;
   else
@@ -55,7 +58,8 @@
 }
 
 
-- (BOOL)performDragOperation:(id <NSDraggingInfo>)sender {
+- (BOOL)performDragOperation:(id <NSDraggingInfo>)sender
+{
   NSPasteboard *pboard;
   NSURL* finderUrl;
 

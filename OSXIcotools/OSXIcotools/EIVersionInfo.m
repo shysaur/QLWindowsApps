@@ -49,7 +49,8 @@ typedef struct {
 
 
 /* Returns a number of code points */
-int EIUTF16CheckedStringLen(const unichar* string, const unichar *maxptr, BOOL expectTerm) {
+int EIUTF16CheckedStringLen(const unichar* string, const unichar *maxptr, BOOL expectTerm)
+{
   const unichar *initial;
   
   for (initial = string; ((void*)string) + 1 < (void*)maxptr; string++)
@@ -59,7 +60,8 @@ int EIUTF16CheckedStringLen(const unichar* string, const unichar *maxptr, BOOL e
 }
 
 
-int EICheckedStringLen(const char *str, const char *maxptr, BOOL expectTerm) {
+int EICheckedStringLen(const char *str, const char *maxptr, BOOL expectTerm)
+{
   const char *initial;
   
   for (initial = str; str < maxptr; str++)
@@ -69,7 +71,8 @@ int EICheckedStringLen(const char *str, const char *maxptr, BOOL expectTerm) {
 }
 
 
-NSArray *EIRequestFromString(NSString *subBlock) {
+NSArray *EIRequestFromString(NSString *subBlock)
+{
   NSArray *request;
   NSString *tmp;
   
@@ -84,7 +87,8 @@ NSArray *EIRequestFromString(NSString *subBlock) {
 
 
 const VERSIONNODE_HEADER *EIResTreeIterateChildren32(NSData *block, EIVERSION_ERR *err,
-                          void (^callb)(BOOL *stop, NSString *name, const void *dataptr)) {
+  void (^callb)(BOOL *stop, NSString *name, const void *dataptr))
+{
   BOOL found;
   const void *bb, *be;
   const VERSIONNODE_HEADER *vnh;
@@ -120,7 +124,8 @@ const VERSIONNODE_HEADER *EIResTreeIterateChildren32(NSData *block, EIVERSION_ER
 
 
 NSData *EIResTreeRead32(NSArray *path, int level, NSData *block,
-                        EIVERSION_ERR *err, BOOL getChildren) {
+  EIVERSION_ERR *err, BOOL getChildren)
+{
   const VERSIONNODE_HEADER *vnh;
   ssize_t subtreeLen;
   const void __block *dataptr;
@@ -166,7 +171,8 @@ NSData *EIResTreeRead32(NSArray *path, int level, NSData *block,
 
 
 const VERSIONNODE16_HEADER *EIResTreeIterateChildren16(NSData *block, EIVERSION_ERR *err,
-                            void (^callb)(BOOL *stop, NSString *name, const void *dataptr)) {
+  void (^callb)(BOOL *stop, NSString *name, const void *dataptr))
+{
   BOOL found;
   const void *bb, *be;
   const VERSIONNODE16_HEADER *vnh;
@@ -202,7 +208,8 @@ const VERSIONNODE16_HEADER *EIResTreeIterateChildren16(NSData *block, EIVERSION_
 
 
 NSData *EIResTreeRead16(NSArray *path, int level, NSData* block,
-                        EIVERSION_ERR *err, BOOL getChildren) {
+  EIVERSION_ERR *err, BOOL getChildren)
+{
   const VERSIONNODE16_HEADER *vnh;
   ssize_t subtreeLen;
   const void __block *dataptr;
@@ -243,24 +250,28 @@ NSData *EIResTreeRead16(NSArray *path, int level, NSData* block,
 @implementation EIVersionInfo
 
 
-- (instancetype)initWithData:(NSData *)myBlock is16Bit:(BOOL)win16 {
+- (instancetype)initWithData:(NSData *)myBlock is16Bit:(BOOL)win16
+{
   gBlock = myBlock;
   win16Block = win16;
   return [super init];
 }
 
 
-- (BOOL)is16bit {
+- (BOOL)is16bit
+{
   return win16Block;
 }
 
 
-- (NSData *)data {
+- (NSData *)data
+{
   return gBlock;
 }
 
 
-- (NSString *)queryStringValue:(NSString *)subBlock error:(EIVERSION_ERR *)err {
+- (NSString *)queryStringValue:(NSString *)subBlock error:(EIVERSION_ERR *)err
+{
   NSData *raw;
   const void *bytes;
   int l;
@@ -282,7 +293,8 @@ NSData *EIResTreeRead16(NSArray *path, int level, NSData* block,
 
 
 // Like VerQueryValue(pBlock, lpSubBlock, lplpBuffer, puLen);
-- (NSData *)queryValue:(NSString *)subBlock error:(EIVERSION_ERR *)err {
+- (NSData *)queryValue:(NSString *)subBlock error:(EIVERSION_ERR *)err
+{
   NSData *res;
   EIVERSION_ERR rerr = EIV_NOERR;
   
@@ -296,7 +308,8 @@ NSData *EIResTreeRead16(NSArray *path, int level, NSData* block,
 }
 
 
-- (NSArray *)querySubNodesUnder:(NSString *)subBlock error:(EIVERSION_ERR *)err {
+- (NSArray *)querySubNodesUnder:(NSString *)subBlock error:(EIVERSION_ERR *)err
+{
   NSArray *res;
   EIVERSION_ERR rerr = EIV_NOERR;
   
@@ -310,7 +323,8 @@ NSData *EIResTreeRead16(NSArray *path, int level, NSData* block,
 }
 
 
-- (NSArray *)_query16BitSubNodesUnder:(NSString *)subBlock error:(EIVERSION_ERR *)err {
+- (NSArray *)_query16BitSubNodesUnder:(NSString *)subBlock error:(EIVERSION_ERR *)err
+{
   NSData *queryNode;
   NSMutableArray *nodeArray;
   
@@ -329,7 +343,8 @@ NSData *EIResTreeRead16(NSArray *path, int level, NSData* block,
 }
 
 
-- (NSArray *)_query32BitSubNodesUnder:(NSString *)subBlock error:(EIVERSION_ERR *)err {
+- (NSArray *)_query32BitSubNodesUnder:(NSString *)subBlock error:(EIVERSION_ERR *)err
+{
   NSData *queryNode;
   NSMutableArray *nodeArray;
   
