@@ -6,6 +6,7 @@
   Copyright © 2017 danielecattaneo. All rights reserved.
 */
 
+"com_danielecattaneo_windowsappsimporter_binaryformat" = "Binary Format";
 "com_danielecattaneo_windowsappsimporter_companyname" = "Company Name";
 "com_danielecattaneo_windowsappsimporter_filedescription" = "File Description";
 "com_danielecattaneo_windowsappsimporter_fileversion" = "File Version";

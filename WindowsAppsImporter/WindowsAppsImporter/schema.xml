@@ -5,6 +5,7 @@
   xsi:schemaLocation="http://www.apple.com/metadata
 file:///System/Library/Frameworks/CoreServices.framework/Frameworks/Metadata.framework/Resources/MetadataSchema.xsd">
   <attributes>
+    <attribute name="com_danielecattaneo_windowsappsimporter_binaryformat" type="CFString"/>
     <attribute name="com_danielecattaneo_windowsappsimporter_companyname" type="CFString"/>
     <attribute name="com_danielecattaneo_windowsappsimporter_filedescription" type="CFString"/>
     <attribute name="com_danielecattaneo_windowsappsimporter_fileversion" type="CFString"/>
@@ -22,6 +23,7 @@ file:///System/Library/Frameworks/CoreServices.framework/Frameworks/Metadata.fra
       <allattrs>
         kMDItemCopyright
         kMDItemComment
+        com_danielecattaneo_windowsappsimporter_binaryformat
         com_danielecattaneo_windowsappsimporter_companyname
         com_danielecattaneo_windowsappsimporter_filedescription
         com_danielecattaneo_windowsappsimporter_fileversion
@@ -35,6 +37,7 @@ file:///System/Library/Frameworks/CoreServices.framework/Frameworks/Metadata.fra
       <displayattrs>
         kMDItemCopyright
         kMDItemComment
+        com_danielecattaneo_windowsappsimporter_binaryformat
         com_danielecattaneo_windowsappsimporter_companyname
         com_danielecattaneo_windowsappsimporter_filedescription
         com_danielecattaneo_windowsappsimporter_fileversion
@@ -50,6 +53,7 @@ file:///System/Library/Frameworks/CoreServices.framework/Frameworks/Metadata.fra
       <allattrs>
         kMDItemCopyright
         kMDItemComment
+        com_danielecattaneo_windowsappsimporter_binaryformat
         com_danielecattaneo_windowsappsimporter_companyname
         com_danielecattaneo_windowsappsimporter_filedescription
         com_danielecattaneo_windowsappsimporter_fileversion
@@ -62,6 +66,7 @@ file:///System/Library/Frameworks/CoreServices.framework/Frameworks/Metadata.fra
       <displayattrs>
         kMDItemCopyright
         kMDItemComment
+        com_danielecattaneo_windowsappsimporter_binaryformat
         com_danielecattaneo_windowsappsimporter_companyname
         com_danielecattaneo_windowsappsimporter_filedescription
         com_danielecattaneo_windowsappsimporter_fileversion

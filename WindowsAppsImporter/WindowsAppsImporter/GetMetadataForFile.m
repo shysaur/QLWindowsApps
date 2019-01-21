@@ -34,34 +34,37 @@ BOOL EIMetadataForFile(NSURL *url, NSMutableDictionary *attr)
   EIExeFile *f = [[EIExeFile alloc] initWithExeFileURL:url error:nil];
   if (!f)
     return NO;
+  
+  NSString *fmt = [NSString stringWithFormat:@"%d bit", [f bitness]];
+  [attr setObject:fmt forKey:@"com_danielecattaneo_windowsappsimporter_binaryformat"];
+  
   EIVersionInfo *vir = [f versionInfo];
-  if (!vir)
-    return NO;
-  
-  NSString *queryHeader = @"\\StringFileInfo\\*";
-  NSArray *resSrch = [vir querySubNodesUnder:queryHeader error:NULL];
-  if (!resSrch)
-    return NO;
-  
-  for (NSString *node in resSrch) {
-    NSString *vpath = [NSString stringWithFormat:@"%@\\%@", queryHeader, node];
-    NSString *value = [vir queryStringValue:vpath error:NULL];
-    if (!value || [@"" isEqual:value])
-      continue;
+  if (vir) {
+    NSString *queryHeader = @"\\StringFileInfo\\*";
+    NSArray *resSrch = [vir querySubNodesUnder:queryHeader error:NULL];
     
-    NSString *destkey;
-    if ([node isEqual:@"Comments"])
-      destkey = (NSString *)kMDItemComment;
-    else if ([node isEqual:@"LegalCopyright"])
-      destkey = (NSString *)kMDItemCopyright;
-    else {
-      NSString *test = [@"com_danielecattaneo_windowsappsimporter_" stringByAppendingString:[node lowercaseString]];
-      if ([recognizedTags containsObject:test])
-        destkey = test;
+    if (resSrch) {
+      for (NSString *node in resSrch) {
+        NSString *vpath = [NSString stringWithFormat:@"%@\\%@", queryHeader, node];
+        NSString *value = [vir queryStringValue:vpath error:NULL];
+        if (!value || [@"" isEqual:value])
+          continue;
+        
+        NSString *destkey;
+        if ([node isEqual:@"Comments"])
+          destkey = (NSString *)kMDItemComment;
+        else if ([node isEqual:@"LegalCopyright"])
+          destkey = (NSString *)kMDItemCopyright;
+        else {
+          NSString *test = [@"com_danielecattaneo_windowsappsimporter_" stringByAppendingString:[node lowercaseString]];
+          if ([recognizedTags containsObject:test])
+            destkey = test;
+        }
+        
+        if (destkey)
+          [attr setObject:value forKey:destkey];
+      }
     }
-    
-    if (destkey)
-      [attr setObject:value forKey:destkey];
   }
   
   return YES;
