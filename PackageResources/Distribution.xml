@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<installer-gui-script minSpecVersion="1">
+    <title>QLWindowsApps</title> 
+
+    <pkg-ref id="com.danielecattaneo.qlgenerator.qlwindowsapps"/>
+    <welcome file="welcome.html" uti="public.html"/>
+    <license file="gpl-3.0-standalone.html" uti="public.html"/>
+    <options customize="allow" require-scripts="false"/>
+    <domains enable_anywhere="false" enable_currentUserHome="true" enable_localSystem="true"/>
+    <choices-outline>
+        <line choice="com.danielecattaneo.qlgenerator.qlwindowsapps"/>
+        <line choice="com.danielecattaneo.WindowsAppsImporter"/>
+    </choices-outline>
+    <choice id="com.danielecattaneo.qlgenerator.qlwindowsapps" visible="true" title="QuickLook Plugin">
+        <pkg-ref id="com.danielecattaneo.qlgenerator.qlwindowsapps"/>
+    </choice>
+    <choice id="com.danielecattaneo.WindowsAppsImporter" visible="true" title="Spotlight Importer">
+        <pkg-ref id="com.danielecattaneo.WindowsAppsImporter"/>
+    </choice>
+    <pkg-ref id="com.danielecattaneo.qlgenerator.qlwindowsapps" version="" onConclusion="none">QLWindowsApps.pkg</pkg-ref>
+    <pkg-ref id="com.danielecattaneo.WindowsAppsImporter" version="" onConclusion="none">WindowsAppsImporter.pkg</pkg-ref>
+</installer-gui-script>
