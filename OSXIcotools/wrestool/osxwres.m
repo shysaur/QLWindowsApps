@@ -30,7 +30,7 @@ NSString *EIIcotoolsErrorDomain = @"EIErrorDomain";
 NSData *get_resource_data(WinLibrary *fi, char *type, char *name, char *lang, wres_error *err)
 {
   int level;
-  int size;
+  size_t size;
   bool free_it;
   void *memory;
   WinResource* wr;
