@@ -1,56 +1,38 @@
 QLWindowsApps
 =============
 
-**QLWindowsApps** is a QuickLook Plugin for Microsoft Windows DLL and EXE 
-files, intended as a companion to Wine on Mac OS X. It is based on a modified
-version of [icoutils](http://www.nongnu.org/icoutils/) by Oskar Liljeblad and
-Frank Richter.
+**QLWindowsApps** includes a QuickLook Plugin and a Spotlight importer
+for Microsoft Windows DLL and EXE files, intended as companions to Wine on
+macOS. It is based on a modified version of
+[icoutils](http://www.nongnu.org/icoutils/) by Oskar Liljeblad and Frank Richter.
 
 
 Features
 --------
 
-- EXEs and DLLs can be Quick-Looked in the Finder. Plus, EXEs will have an icon
-  just like native apps.
+- EXEs and DLLs can be Quick-Looked in the Finder and their properties
+  (version info and bitness)  will be visible to Spotlight.
+- EXEs will have an icon just like native apps.
 - Supports 16-bit, 32-bit and 64-bit EXEs and DLLs.
 - Shows all the embedded version info, localized in the current language if
   localizations are available.
 - It refuses to read big executables (>32 MB) over a network share (yes, this
   is a feature).
-  
+
 ### Supported OS X versions
 
-QLWindowsApps 1.2.0 was tested on OS X Mavericks and later, up to OS X Sierra.
+QLWindowsApps 1.3.0 was tested on OS X Mavericks and later, up to macOS Mojave.
 
-If you are using an older OS X version, you can download QLWindowsApps 1.0.2, 
-which works on OS X Leopard and later.
+If you are using an older macOS version, you can download QLWindowsApps 1.0.2, 
+which works on Mac OS X Leopard and later.
   
 
 Known Issues
 ------------
 
-### QuickLook thumbnail frames
+### 16-bit binary support
 
-QuickLook by default adds a frame to thumbnails, and there's no API available
-for disabling this frame. To work around this, the plugin simply sets the
-file's custom icon (the one you can change in the Get Info window in the
-Finder).
-
-Because of this, filesystems that do not support Finder metadata writing
-(like native NTFS) are stuck in QL-framed land, and I can't do anything about
-it.
-
-A side effect of this is that the file's modification date changes. If you
-don't mind about the thumbnail frame, you can disable setting the custom
-icon by executing this command in Terminal.app:
-
-```Shell
-defaults write com.danielecattaneo.qlgenerator.qlwindowsapps DisableIconChange 1
-```
-
-### 16-bit binary trouble
-
-Like it's said in the icoutils webpage, "There is no relocation support for
+The icoutils webpage states: "There is no relocation support for
 16-bit (NE) binaries." Fortunately, relocatable 16-bit binaries seem to be
 quite uncommon.
 
@@ -58,11 +40,27 @@ For some reason, even when the binary is non-relocatable, icoutils chokes a bit
 on 16 bit resources, even when it extracts them fine.
 
 
+Warning for releases before 1.3.0
+---------------------------------
+
+In versions before 1.3.0, QLWindowsApps used to modify the custom icon of EXE
+files in order to hide the frame added to the icon by QuickLook. But from version
+1.3.0, QLWindowsApps uses a recently discovered private QuickLook API to
+hide the icon frame without the need to modify the file.
+
+It is possible to disable changing the icon of files in older versions QLWindowsApps
+by executing the following command in Terminal.app:
+
+```Shell
+defaults write com.danielecattaneo.qlgenerator.qlwindowsapps DisableIconChange 1
+```
+
+
 Copyright & License
 -------------------
 
 The icoutils are copyright (c) 1998 Oskar Liljeblad.
-QLWindowsApps is copyright (c) 2012-2016 Daniele Cattaneo.
+QLWindowsApps is copyright (c) 2012-2019 Daniele Cattaneo.
 
 This program is free software: you can redistribute it and/or modify it under
 the terms of the GNU General Public License as published by the Free Software
