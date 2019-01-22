@@ -67,7 +67,7 @@ NSString *QWAGetTemplate(void)
     } else if (floor(NSAppKitVersionNumber) <= NSAppKitVersionNumber10_13_4) {
       csspath = [mbundle pathForResource:@"PreviewTemplateElCapitan" ofType:@"html"];
     } else {
-      csspath = [mbundle pathForResource:@"PreviewTemplateSierra" ofType:@"html"];
+      csspath = [mbundle pathForResource:@"PreviewTemplateMojave" ofType:@"html"];
     }
   }
   
@@ -111,18 +111,22 @@ NSString *QWAHTMLVersionInfoForExeFile(EIExeFile *exeFile)
 }
 
 
-NSString *QWAGetBase64EncodedImageForExeFile(EIExeFile *exeFile, CFStringRef contentTypeUTI, NSURL *url)
+NSString *QWAGetImageSrcForExeFile(EIExeFile *exeFile, CFStringRef contentTypeUTI, NSURL *url)
 {
-  NSImage *icon;
   NSData *image;
+  NSString *mimetype;
   
-  if (UTTypeEqual(contentTypeUTI, (CFStringRef)@"com.microsoft.windows-executable"))
-    icon = [exeFile icon];
-  
-  if (!icon || ![icon isValid])
-    icon = [[NSWorkspace sharedWorkspace] iconForFile:[url path]];
-  image = [icon TIFFRepresentation];
-  return [image base64EncodedStringWithOptions:0];
+  if (UTTypeEqual(contentTypeUTI, (CFStringRef)@"com.microsoft.windows-executable")) {
+    image = [exeFile iconData];
+    mimetype = @"image/x-icon";
+  }
+  if (!image) {
+    NSImage *icon = [[NSWorkspace sharedWorkspace] iconForFile:[url path]];
+    image = [icon TIFFRepresentation];
+    mimetype = @"image/tiff";
+  }
+  NSString *base64 = [image base64EncodedStringWithOptions:0];
+  return [NSString stringWithFormat:@"data:%@;base64,%@", mimetype, base64];
 }
 
 
@@ -171,7 +175,7 @@ void QWAGeneratePreviewForURL(QLPreviewRequestRef preview, NSURL *url, CFStringR
   if (QLPreviewRequestIsCancelled(preview)) return;
   
   /* Icon */
-  icon = QWAGetBase64EncodedImageForExeFile(exeFile, contentTypeUTI, url);
+  icon = QWAGetImageSrcForExeFile(exeFile, contentTypeUTI, url);
   [elem setObject:icon forKey:@"ICON"];
   if (QLPreviewRequestIsCancelled(preview)) return;
   
