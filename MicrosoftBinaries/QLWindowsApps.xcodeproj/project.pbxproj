@@ -28,6 +28,7 @@
 		011D85F11643F5B7008A2601 /* MicrosoftBinaries_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 011D85F01643F5B7008A2601 /* MicrosoftBinaries_Prefix.pch */; };
 		012A7D36171C8F880019A298 /* VersioninfoNames.strings in Resources */ = {isa = PBXBuildFile; fileRef = 012A7D38171C8F880019A298 /* VersioninfoNames.strings */; };
 		012E612819F419AB008ED670 /* libOSXIcotools.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 012E612719F419AB008ED670 /* libOSXIcotools.a */; };
+		016DC86221F7542E00E5C2CE /* PreviewTemplateMojave.html in Resources */ = {isa = PBXBuildFile; fileRef = 016DC86121F7542E00E5C2CE /* PreviewTemplateMojave.html */; };
 		0189E2B11DE0961F00B86B3B /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 0189E2B01DE0961F00B86B3B /* Utils.m */; };
 		01979BC81AD073D100C8DE20 /* QLWindowsApps.qlgenerator in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8D576316048677EA00EA77CD /* QLWindowsApps.qlgenerator */; };
 		2C05A19C06CAA52B00D84F6F /* GeneratePreviewForURL.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C05A19B06CAA52B00D84F6F /* GeneratePreviewForURL.m */; };
@@ -59,6 +60,7 @@
 		012A7D37171C8F880019A298 /* en */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/VersioninfoNames.strings; sourceTree = "<group>"; };
 		012A7D3A171C91260019A298 /* it */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/VersioninfoNames.strings; sourceTree = "<group>"; };
 		012E612719F419AB008ED670 /* libOSXIcotools.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libOSXIcotools.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		016DC86121F7542E00E5C2CE /* PreviewTemplateMojave.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = PreviewTemplateMojave.html; sourceTree = "<group>"; };
 		0189E2B01DE0961F00B86B3B /* Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Utils.m; sourceTree = "<group>"; };
 		0189E2B21DE0964100B86B3B /* Utils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Utils.h; sourceTree = "<group>"; };
 		08FB77B6FE84183AC02AAC07 /* main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
@@ -116,6 +118,7 @@
 				011116901DDFB5F2008BF5CA /* PreviewTemplateElCapitan.html */,
 				011116911DDFB5F2008BF5CA /* PreviewTemplateLion.html */,
 				011116921DDFB5F2008BF5CA /* PreviewTemplateYosemite.html */,
+				016DC86121F7542E00E5C2CE /* PreviewTemplateMojave.html */,
 				8D576317048677EA00EA77CD /* Info.plist */,
 				012A7D38171C8F880019A298 /* VersioninfoNames.strings */,
 			);
@@ -219,6 +222,7 @@
 			files = (
 				012A7D36171C8F880019A298 /* VersioninfoNames.strings in Resources */,
 				011116951DDFB5F2008BF5CA /* PreviewTemplateYosemite.html in Resources */,
+				016DC86221F7542E00E5C2CE /* PreviewTemplateMojave.html in Resources */,
 				011116931DDFB5F2008BF5CA /* PreviewTemplateElCapitan.html in Resources */,
 				011116941DDFB5F2008BF5CA /* PreviewTemplateLion.html in Resources */,
 			);

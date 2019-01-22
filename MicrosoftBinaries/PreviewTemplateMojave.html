@@ -1,0 +1,117 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <style type="text/css">
+      body {
+        font-family: -apple-system;
+        background-color: #F6F5F6;
+        color: #222;
+        margin: 0px;
+        min-width: 640px;
+      }
+      .vercenteredcontainer {
+        display: table;
+        height: 100%;
+        width: 100%
+      }
+      .vercentered {
+        display: table-cell;
+        vertical-align: middle;
+      }
+      #iconcont {
+        top: 0; 
+        left: 0; 
+        position: fixed;
+      }
+      #icon {
+        position: relative;
+        width: 251px;
+      }
+      #icon_img {
+        position: relative;
+        width: 219px;
+        height: 219px;
+        left: 8px;
+      }
+      #data {
+        position: relative; 
+        padding-left: 251px;
+      }
+      #exename {
+        position: relative;
+        overflow: auto;
+        padding: 0px 10px 0px 0px;
+      }
+      .badge {
+        font-size: 12px;
+        padding: 2px 7px 2px 6px;
+        -webkit-border-radius: 4px;
+        position: relative;
+        float: right;
+        margin: 0px 10px 0px 3px;
+        top: 18px;
+        color: #888;
+        border: 1px solid #888;
+      }
+      h1 {
+        font-size: 19px;
+        line-height: 28px;
+        text-indent: 15px;
+        border-bottom: 1px solid #CCC;
+        height: 34px;
+        font-weight: 600;
+      }
+      #info {
+        overflow: auto;
+        position: relative;
+        min-height: 165px;
+        padding-left: 12px;
+        padding-right: 24px;
+        padding-bottom: 12px;
+      }
+      #vertable {
+        font-size: 10pt;
+        height: 162px;
+      }
+      td {
+        border-style: none;
+        padding-right: 15px;
+      }
+      tr td:first-child {
+        width: 1px;
+        white-space: nowrap;
+      }
+      @media (prefers-color-scheme: dark), (prefers-dark-interface) {
+        body {
+          background-color: #373737;
+          color: #fff;
+        }
+        .badge {
+          color: #b3b3b3;
+          border: 1px solid #b3b3b3;
+        }
+        h1 {
+          border-bottom: 1px solid #5b5b5b;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="vercenteredcontainer">
+      <div id="data" class="vercentered">
+        <div id="exename">
+          <div class="badge"><!---@BADGE@--></div>
+          <h1><!---@NAME@--></h1>
+        </div>
+        <div id="info">
+          <table id="vertable"><!---@TABLEBODY@--></table>
+        </div>
+      </div>
+    </div>
+    <div class="vercenteredcontainer" id="iconcont">
+      <div id="icon" class="vercentered">
+        <!---<img id="icon_img" src="data:image/tiff;base64,@ICON@">-->
+      </div>
+    </div>
+  </body>
+</html>

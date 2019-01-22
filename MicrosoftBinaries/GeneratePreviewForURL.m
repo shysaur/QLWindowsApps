@@ -64,8 +64,10 @@ NSString *QWAGetTemplate(void)
       csspath = [mbundle pathForResource:@"PreviewTemplateLion" ofType:@"html"];
     } else if (floor(NSAppKitVersionNumber) <= NSAppKitVersionNumber10_10_Max) {
       csspath = [mbundle pathForResource:@"PreviewTemplateYosemite" ofType:@"html"];
-    } else {
+    } else if (floor(NSAppKitVersionNumber) <= NSAppKitVersionNumber10_13_4) {
       csspath = [mbundle pathForResource:@"PreviewTemplateElCapitan" ofType:@"html"];
+    } else {
+      csspath = [mbundle pathForResource:@"PreviewTemplateSierra" ofType:@"html"];
     }
   }
   
