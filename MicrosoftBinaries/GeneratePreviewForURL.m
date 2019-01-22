@@ -122,8 +122,11 @@ NSString *QWAGetImageSrcForExeFile(EIExeFile *exeFile, CFStringRef contentTypeUT
   }
   if (!image) {
     NSImage *icon = [[NSWorkspace sharedWorkspace] iconForFile:[url path]];
-    image = [icon TIFFRepresentation];
-    mimetype = @"image/tiff";
+    NSRect proposedRect = NSMakeRect(0, 0, 512, 512);
+    CGImageRef cgimg = [icon CGImageForProposedRect:&proposedRect context:NULL hints:nil];
+    NSBitmapImageRep *imgrep = [[NSBitmapImageRep alloc] initWithCGImage:cgimg];
+    image = [imgrep representationUsingType:NSBitmapImageFileTypePNG properties:@{}];
+    mimetype = @"image/png";
   }
   NSString *base64 = [image base64EncodedStringWithOptions:0];
   return [NSString stringWithFormat:@"data:%@;base64,%@", mimetype, base64];
