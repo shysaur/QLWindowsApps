@@ -199,14 +199,21 @@ extract_group_icon_cursor_resource(WinLibrary *fi, WinResource *wr, char *lang,
 		memcpy(&fileicondir->entries[c-skipped], &icondir->entries[c],
 			sizeof(Win32CursorIconFileDirEntry)-sizeof(uint32_t));
 
-		/* don't trust the size specified in ICONDIRENTRY because there are
-		 * some people who manage to get it wrong, believe it or not */
 		if (size >= sizeof(Win32BitmapInfoHeader)) {
 			const uint8_t pngh[8] = {137, 80, 78, 71, 13, 10, 26, 10};
 			if (memcmp(data, pngh, 8) != 0) {
+				/* don't trust the size specified in ICONDIRENTRY because there are
+				 * some people who manage to get it wrong, believe it or not */
 				Win32BitmapInfoHeader *bim = (Win32BitmapInfoHeader *)data;
 				fileicondir->entries[c-skipped].width = bim->width;
 				fileicondir->entries[c-skipped].height = bim->height / 2;
+			} else {
+				/* do not trust ICONDIRENTRY for PNG icons
+				 * fixes cases in which big PNG icons were not prioritized
+				 * over small DIB icons */
+				fileicondir->entries[c-skipped].color_count = 0;
+				fileicondir->entries[c-skipped].hotspot_y = 1;
+				fileicondir->entries[c-skipped].hotspot_y = 32;
 			}
 		}
 		
