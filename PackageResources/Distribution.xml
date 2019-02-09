@@ -3,7 +3,7 @@
     <title>QLWindowsApps</title> 
 
     <pkg-ref id="com.danielecattaneo.qlgenerator.qlwindowsapps"/>
-    <welcome file="welcome.html" uti="public.html"/>
+    <welcome file="welcome.rtf" uti="public.rtf"/>
     <license file="gpl-3.0-standalone.html" uti="public.html"/>
     <options customize="allow" require-scripts="false"/>
     <domains enable_anywhere="false" enable_currentUserHome="true" enable_localSystem="true"/>
