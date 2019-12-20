@@ -233,10 +233,11 @@ static wres_error load_pe_library(WinLibrary *fi)
 	}
 	
 	if (dir->size > 0) {
+		int d;
 		Win32ImageSectionHeader *pe_sections = PE_SECTIONS(fi->memory);
 		/* we don't need to do OFFSET checking for the sections.
 		 * calc_vma_size has already done that */
-		for (int d = pe_header->file_header.number_of_sections - 1; d >= 0 ; d--) {
+		for (d = pe_header->file_header.number_of_sections - 1; d >= 0 ; d--) {
 			Win32ImageSectionHeader *pe_sec = pe_sections + d;
 			
 			void *dest = fi_new.memory + pe_sec->virtual_address;
