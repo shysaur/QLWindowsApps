@@ -84,6 +84,33 @@ extract_resource (WinLibrary *fi, WinResource *wr, size_t *size,
 	return NULL;
 }
 
+static wres_error fix_dib_without_alpha(Win32BitmapInfoHeader *dib, size_t size)
+{
+	/* set alpha channel to 255 iff it's all zeroes
+	 * https://devblogs.microsoft.com/oldnewthing/20101021-00/?p=12483 */
+	 
+	if (dib->planes != 1 || dib->bit_count != 32)
+		return WRES_ERROR_NONE;
+	if (dib->compression != BI_RGB)
+		return WRES_ERROR_NONE;
+	if (size < dib->size + dib->width * (dib->height / 2) * 4)
+		return WRES_ERROR_INVALIDDIB;
+	
+	uint32_t *rgb_start = (uint32_t *)(((void *)dib) + dib->size);
+	uint32_t *rgb_end = rgb_start + dib->width * (dib->height / 2);
+	
+	uint32_t sum = 0;
+	uint32_t *rgb;
+	for (rgb = rgb_start; rgb < rgb_end; rgb++)
+		sum |= *rgb;
+	if ((sum & 0xFF000000) != 0)
+		return WRES_ERROR_NONE;
+		
+	for (rgb = rgb_start; rgb < rgb_end; rgb++)
+		*rgb |= 0xFF000000;
+	return WRES_ERROR_NONE;
+}
+
 /* extract_group_icon_resource:
  *   Create a complete RT_GROUP_ICON resource, that can be written to
  *   an `.ico' file without modifications. Returns an allocated
@@ -207,6 +234,14 @@ extract_group_icon_cursor_resource(WinLibrary *fi, WinResource *wr, char *lang,
 				Win32BitmapInfoHeader *bim = (Win32BitmapInfoHeader *)data;
 				fileicondir->entries[c-skipped].width = bim->width;
 				fileicondir->entries[c-skipped].height = bim->height / 2;
+				/* fix icons without transparency */
+				wres_error tmp = fix_dib_without_alpha(bim, size);
+				if (tmp) {
+					if (err) *err = tmp;
+					free(fwr);
+					free(memory);
+					return NULL;
+				}
 			} else {
 				/* do not trust ICONDIRENTRY for PNG icons
 				 * fixes cases in which big PNG icons were not prioritized

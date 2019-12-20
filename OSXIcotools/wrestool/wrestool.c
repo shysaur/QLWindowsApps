@@ -84,6 +84,7 @@ const char *wres_strerr(wres_error err)
 		"invalid function argument", /* WRES_ERROR_INVALIDPARAM */
 		"unsupported resource type", /* WRES_ERROR_UNSUPPRESTYPE */
 		"invalid section layout", /* WRES_ERROR_INVALIDSECLAYOUT */
+		"invalid bitmap data", /* WRES_ERROR_INVALIDDIB */
 	};
 	return errors[err];
 }
