@@ -1,3 +1,4 @@
 #!/bin/sh
 /usr/bin/qlmanage -r
+/usr/bin/qlmanage -r cache
 exit 0
