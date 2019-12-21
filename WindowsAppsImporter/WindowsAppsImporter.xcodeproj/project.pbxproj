@@ -355,6 +355,7 @@
 				INFOPLIST_FILE = WindowsAppsImporter/Info.plist;
 				INSTALL_PATH = /Library/Spotlight;
 				LIBRARY_STYLE = BUNDLE;
+				MARKETING_VERSION = 1.3.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.danielecattaneo.WindowsAppsImporter;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = NO;
@@ -371,6 +372,7 @@
 				INFOPLIST_FILE = WindowsAppsImporter/Info.plist;
 				INSTALL_PATH = /Library/Spotlight;
 				LIBRARY_STYLE = BUNDLE;
+				MARKETING_VERSION = 1.3.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.danielecattaneo.WindowsAppsImporter;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = NO;
