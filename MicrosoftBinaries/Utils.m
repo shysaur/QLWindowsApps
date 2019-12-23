@@ -19,7 +19,8 @@
 #import "Utils.h"
 
 
-const CFStringRef kQLThumbnailPropertyIconFlavorKey = CFSTR("IconFlavor");
+const CFStringRef kQLThumbnailPropertyIconFlavorKey_10_5 = CFSTR("IconFlavor");
+const CFStringRef kQLThumbnailPropertyIconFlavorKey_10_15 = CFSTR("icon");
 
 
 NSUserDefaults *QWAUserDefaults()

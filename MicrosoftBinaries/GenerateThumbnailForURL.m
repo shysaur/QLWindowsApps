@@ -69,8 +69,15 @@ void QWAGenerateThumbnailForURL(QLThumbnailRequestRef thumbnail,
   if (!iconData) return;
   if (QLThumbnailRequestIsCancelled(thumbnail)) return;
   
+  NSString *flavorKey;
+  if (@available(macOS 10.15, *)) {
+    flavorKey = (__bridge NSString *)kQLThumbnailPropertyIconFlavorKey_10_15;
+  } else {
+    flavorKey = (__bridge NSString *)kQLThumbnailPropertyIconFlavorKey_10_5;
+  }
+  
   CFDictionaryRef properties = (__bridge CFDictionaryRef)@{
-    (__bridge NSString *)kQLThumbnailPropertyIconFlavorKey: @(kQLThumbnailIconPlainFlavor)};
+    flavorKey: @(kQLThumbnailIconPlainFlavor)};
   QLThumbnailRequestSetImageWithData(thumbnail, (__bridge CFDataRef)iconData, properties);
 }
 

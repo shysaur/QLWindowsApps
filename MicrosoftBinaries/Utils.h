@@ -21,7 +21,10 @@
 
 /* Undocumented thumbnail properties
  * Credit to @Marginal */
-extern const CFStringRef kQLThumbnailPropertyIconFlavorKey;
+
+extern const CFStringRef kQLThumbnailPropertyIconFlavorKey_10_5;
+extern const CFStringRef kQLThumbnailPropertyIconFlavorKey_10_15;
+
 typedef NS_ENUM(NSInteger, QLThumbnailIconFlavor)
 {
     kQLThumbnailIconPlainFlavor     = 0,
