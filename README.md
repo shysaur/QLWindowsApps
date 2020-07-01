@@ -21,7 +21,7 @@ Features
 
 ### Supported OS X versions
 
-QLWindowsApps 1.3.2 was tested on OS X Mavericks and later, up to macOS Catalina.
+QLWindowsApps 1.3.2 was tested on OS X Mavericks and later, up to macOS Big Sur.
 
 If you are using an older macOS version, you can download QLWindowsApps 1.0.2, 
 which works on Mac OS X Leopard and later.
