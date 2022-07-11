@@ -90,7 +90,7 @@ wres_error load_library(WinLibrary *fi)
 		return WRES_ERROR_WRONGFORMAT;
 	
 	/* read all of file */
-	fi->memory = mmap(NULL, fi->total_size, PROT_READ, MAP_FILE | MAP_PRIVATE, fileno(fi->file), 0);
+	fi->memory = mmap(NULL, fi->total_size, PROT_READ | PROT_WRITE, MAP_FILE | MAP_PRIVATE, fileno(fi->file), 0);
 	if (fi->memory == MAP_FAILED)
 		return -errno;
 	
@@ -266,7 +266,7 @@ static wres_error load_pe_library(WinLibrary *fi)
 				goto fail;
 			
 			void *res = mmap(dest, size,
-				PROT_READ, MAP_FILE | MAP_FIXED | MAP_PRIVATE,
+				PROT_READ | PROT_WRITE, MAP_FILE | MAP_FIXED | MAP_PRIVATE,
 				fileno(fi_new.file), offset);
 			if (res == MAP_FAILED) {
 				/* As in PE files there is no requirement for sections in the file
