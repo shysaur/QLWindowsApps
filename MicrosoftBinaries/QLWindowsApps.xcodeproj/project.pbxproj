@@ -21,9 +21,6 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		011116931DDFB5F2008BF5CA /* PreviewTemplateElCapitan.html in Resources */ = {isa = PBXBuildFile; fileRef = 011116901DDFB5F2008BF5CA /* PreviewTemplateElCapitan.html */; };
-		011116941DDFB5F2008BF5CA /* PreviewTemplateLion.html in Resources */ = {isa = PBXBuildFile; fileRef = 011116911DDFB5F2008BF5CA /* PreviewTemplateLion.html */; };
-		011116951DDFB5F2008BF5CA /* PreviewTemplateYosemite.html in Resources */ = {isa = PBXBuildFile; fileRef = 011116921DDFB5F2008BF5CA /* PreviewTemplateYosemite.html */; };
 		011D85CA1643EBAE008A2601 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 011D85C91643EBAE008A2601 /* Cocoa.framework */; };
 		011D85F11643F5B7008A2601 /* MicrosoftBinaries_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 011D85F01643F5B7008A2601 /* MicrosoftBinaries_Prefix.pch */; };
 		012A7D36171C8F880019A298 /* VersioninfoNames.strings in Resources */ = {isa = PBXBuildFile; fileRef = 012A7D38171C8F880019A298 /* VersioninfoNames.strings */; };
@@ -52,9 +49,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		011116901DDFB5F2008BF5CA /* PreviewTemplateElCapitan.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = PreviewTemplateElCapitan.html; sourceTree = "<group>"; };
-		011116911DDFB5F2008BF5CA /* PreviewTemplateLion.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = PreviewTemplateLion.html; sourceTree = "<group>"; };
-		011116921DDFB5F2008BF5CA /* PreviewTemplateYosemite.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = PreviewTemplateYosemite.html; sourceTree = "<group>"; };
 		011D85C91643EBAE008A2601 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		011D85F01643F5B7008A2601 /* MicrosoftBinaries_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MicrosoftBinaries_Prefix.pch; sourceTree = "<group>"; };
 		012A7D37171C8F880019A298 /* en */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/VersioninfoNames.strings; sourceTree = "<group>"; };
@@ -115,9 +109,6 @@
 		089C167CFE841241C02AAC07 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				011116901DDFB5F2008BF5CA /* PreviewTemplateElCapitan.html */,
-				011116911DDFB5F2008BF5CA /* PreviewTemplateLion.html */,
-				011116921DDFB5F2008BF5CA /* PreviewTemplateYosemite.html */,
 				016DC86121F7542E00E5C2CE /* PreviewTemplateMojave.html */,
 				8D576317048677EA00EA77CD /* Info.plist */,
 				012A7D38171C8F880019A298 /* VersioninfoNames.strings */,
@@ -218,10 +209,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				012A7D36171C8F880019A298 /* VersioninfoNames.strings in Resources */,
-				011116951DDFB5F2008BF5CA /* PreviewTemplateYosemite.html in Resources */,
 				016DC86221F7542E00E5C2CE /* PreviewTemplateMojave.html in Resources */,
-				011116931DDFB5F2008BF5CA /* PreviewTemplateElCapitan.html in Resources */,
-				011116941DDFB5F2008BF5CA /* PreviewTemplateLion.html in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

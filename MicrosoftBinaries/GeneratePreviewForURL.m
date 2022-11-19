@@ -60,15 +60,7 @@ NSString *QWAGetTemplate(void)
     csspath = [mbundle pathForResource:name ofType:@"html"];
   
   if (csspath == nil) {
-    if (floor(NSAppKitVersionNumber) < NSAppKitVersionNumber10_10) {
-      csspath = [mbundle pathForResource:@"PreviewTemplateLion" ofType:@"html"];
-    } else if (floor(NSAppKitVersionNumber) <= NSAppKitVersionNumber10_10_Max) {
-      csspath = [mbundle pathForResource:@"PreviewTemplateYosemite" ofType:@"html"];
-    } else if (floor(NSAppKitVersionNumber) <= NSAppKitVersionNumber10_13_4) {
-      csspath = [mbundle pathForResource:@"PreviewTemplateElCapitan" ofType:@"html"];
-    } else {
-      csspath = [mbundle pathForResource:@"PreviewTemplateMojave" ofType:@"html"];
-    }
+    csspath = [mbundle pathForResource:@"PreviewTemplateMojave" ofType:@"html"];
   }
   
   return [NSString stringWithContentsOfFile:csspath encoding:NSUTF8StringEncoding error:nil];
