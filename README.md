@@ -21,11 +21,12 @@ Features
 
 ### Supported OS X versions
 
-QLWindowsApps 1.3.2 was tested on OS X Mavericks and later, up to macOS
-Monterey.
+QLWindowsApps 1.3.3 works on macOS High Sierra and later,
+and was tested up to macOS Ventura.
 
-If you are using an older macOS version, you can download QLWindowsApps 1.0.2, 
-which works on Mac OS X Leopard and later.
+If you are using a macOS version older than High Sierra, you can download
+QLWindowsApps 1.3.2, which works on OS X Mavericks and later, or
+QLWindowsApps 1.0.2, which works on Mac OS X Leopard and later.
   
 
 Known Issues
@@ -49,8 +50,8 @@ files in order to hide the frame added to the icon by QuickLook. But from versio
 1.3.0, QLWindowsApps uses a recently discovered private QuickLook API to
 hide the icon frame without the need to modify the file.
 
-It is possible to disable changing the icon of files in older versions QLWindowsApps
-by executing the following command in Terminal.app:
+It is possible to disable changing the icon of files in older versions of
+QLWindowsApps by executing the following command in Terminal.app:
 
 ```Shell
 defaults write com.danielecattaneo.qlgenerator.qlwindowsapps DisableIconChange 1
