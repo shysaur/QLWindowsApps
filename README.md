@@ -46,9 +46,9 @@ Warning for releases before 1.3.0
 ---------------------------------
 
 In versions before 1.3.0, QLWindowsApps used to modify the custom icon of EXE
-files in order to hide the frame added to the icon by QuickLook. But from version
-1.3.0, QLWindowsApps uses a recently discovered private QuickLook API to
-hide the icon frame without the need to modify the file.
+files in order to hide the frame added to the icon by QuickLook. But from
+version 1.3.0, QLWindowsApps uses a private QuickLook API to hide the icon frame
+without the need to modify the file.
 
 It is possible to disable changing the icon of files in older versions of
 QLWindowsApps by executing the following command in Terminal.app:
